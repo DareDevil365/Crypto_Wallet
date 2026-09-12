@@ -9,7 +9,7 @@ import {
   formatLRS,
 } from "../hooks/useContracts";
 import UpiSuccessModal from "../components/UpiSuccessModal";
-import { UPI_CONTACTS, type UpiContact } from "../components/UpiQuickPay";
+import { LIQ_CONTACTS, type LiqContact } from "../components/UpiQuickPay";
 import { IconQrCode, IconCheck, IconArrowUpRight, IconZap } from "../components/Icons";
 
 const AMOUNT_PRESETS = ["100", "250", "500", "1000", "2000"];
@@ -17,7 +17,7 @@ const AMOUNT_PRESETS = ["100", "250", "500", "1000", "2000"];
 export default function Send() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [recipientInput, setRecipientInput] = useState("priya@liquidrs");
+  const [recipientInput, setRecipientInput] = useState("priya@liq");
   const [recipientName, setRecipientName] = useState("Priya Sharma");
   const [targetAddress, setTargetAddress] = useState<`0x${string}`>("0x70997970C51812dc3A010C7d01b50e0d17dc79C8");
   const [amount, setAmount] = useState("");
@@ -40,8 +40,8 @@ export default function Send() {
     if (addrParam) setTargetAddress(addrParam as `0x${string}`);
   }, [searchParams]);
 
-  const handleSelectContact = (contact: UpiContact) => {
-    setRecipientInput(contact.upiId);
+  const handleSelectContact = (contact: LiqContact) => {
+    setRecipientInput(contact.liqId);
     setRecipientName(contact.name);
     setTargetAddress(contact.address);
   };
@@ -93,14 +93,14 @@ export default function Send() {
                 borderRadius: 20,
               }}
             >
-              LIQUID RS · L₹S CRYPTO
+              LIQ EXCHANGE · L₹S PROTOCOL
             </span>
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em" }}>
             Send Liquid RS (L₹S)
           </h1>
           <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
-            Instant ₹-pegged crypto settlement to any UPI handle or EVM address
+            Instant ₹-pegged crypto settlement to any Liq ID or EVM address
           </p>
         </div>
         <button
@@ -116,7 +116,7 @@ export default function Send() {
           }}
         >
           <IconQrCode size={15} color="var(--upi-green)" />
-          <span>My QR</span>
+          <span>My Liq QR</span>
         </button>
       </div>
 
@@ -148,13 +148,13 @@ export default function Send() {
             letterSpacing: "0.5px",
           }}
         >
-          {recipientName ? recipientName.slice(0, 2).toUpperCase() : "UPI"}
+          {recipientName ? recipientName.slice(0, 2).toUpperCase() : "LIQ"}
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontSize: 15, fontWeight: 700, color: "#FFFFFF", letterSpacing: "-0.01em" }}>
-              {recipientName || "UPI Recipient"}
+              {recipientName || "Liq ID Recipient"}
             </span>
             <div
               style={{
@@ -177,7 +177,7 @@ export default function Send() {
               setRecipientInput(e.target.value);
               setRecipientName(e.target.value.split("@")[0]);
             }}
-            placeholder="Enter UPI ID (e.g. rahul@liquidrs)"
+            placeholder="Enter Liq ID (e.g. rahul@liq)"
             style={{
               background: "transparent",
               border: "none",
@@ -192,18 +192,18 @@ export default function Send() {
         </div>
 
         <span className="badge badge-success" style={{ fontSize: 10, padding: "3px 8px" }}>
-          VERIFIED
+          LIQ ID VERIFIED
         </span>
       </div>
 
       {/* ── Beneficiary Row (Initials Monograms, Zero Emojis) ─────────────────────────────── */}
       <div style={{ marginBottom: 18 }}>
         <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 9 }}>
-          Quick Select Beneficiary
+          Quick Select Liq Beneficiary
         </div>
         <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none" }}>
-          {UPI_CONTACTS.map((c) => {
-            const isSelected = recipientInput === c.upiId;
+          {LIQ_CONTACTS.map((c) => {
+            const isSelected = recipientInput === c.liqId;
             return (
               <button
                 key={c.id}
@@ -430,7 +430,7 @@ export default function Send() {
         onClose={handleModalClose}
         amount={amount}
         recipientName={recipientName}
-        recipientUpiId={recipientInput}
+        recipientLiqId={recipientInput}
         note={note}
         txHash={lastTxHash}
       />

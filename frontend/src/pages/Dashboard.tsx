@@ -8,7 +8,7 @@ import {
   formatLRS,
   formatUSDT,
 } from "../hooks/useContracts";
-import { UPI_CONTACTS, type UpiContact } from "../components/UpiQuickPay";
+import { LIQ_CONTACTS, type LiqContact } from "../components/UpiQuickPay";
 import {
   IconSearch,
   IconScan,
@@ -43,13 +43,13 @@ export default function Dashboard() {
     }
   };
 
-  const handleSelectContact = (contact: UpiContact) => {
-    navigate(`/send?to=${encodeURIComponent(contact.upiId)}&name=${encodeURIComponent(contact.name)}&addr=${contact.address}`);
+  const handleSelectContact = (contact: LiqContact) => {
+    navigate(`/send?to=${encodeURIComponent(contact.liqId)}&name=${encodeURIComponent(contact.name)}&addr=${contact.address}`);
   };
 
   return (
     <div className="page-container" style={{ maxWidth: 880, margin: "0 auto" }}>
-      {/* ── Search Bar (Apple iOS / super.money style) ───────────────────────── */}
+      {/* ── Search Bar (Apple iOS / Liq Exchange style) ───────────────────────── */}
       <form onSubmit={handleSearchSubmit} style={{ marginBottom: 20 }}>
         <div
           className="apple-glass-card"
@@ -66,7 +66,7 @@ export default function Dashboard() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Pay anyone by UPI ID, mobile number or name..."
+            placeholder="Pay anyone by Liq ID, name, or EVM address..."
             style={{
               flex: 1,
               background: "transparent",
@@ -183,7 +183,7 @@ export default function Dashboard() {
             style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
           >
             <IconPlus size={16} strokeWidth={2.2} />
-            <span>Add Money</span>
+            <span>Mint L₹S</span>
           </button>
 
           <button
@@ -192,7 +192,7 @@ export default function Dashboard() {
             style={{ padding: "10px 16px", fontSize: 13, borderRadius: 12 }}
           >
             <IconSend size={15} strokeWidth={2} />
-            <span>Send Money</span>
+            <span>Send L₹S</span>
           </button>
 
           <button
@@ -201,7 +201,7 @@ export default function Dashboard() {
             style={{ padding: "10px 16px", fontSize: 13, borderRadius: 12 }}
           >
             <IconBank size={15} strokeWidth={2} />
-            <span>Withdraw</span>
+            <span>Redeem</span>
           </button>
 
           <button
@@ -210,7 +210,7 @@ export default function Dashboard() {
             style={{ padding: "10px 16px", fontSize: 13, borderRadius: 12 }}
           >
             <IconPassbook size={15} strokeWidth={2} />
-            <span>Passbook</span>
+            <span>Liq Ledger</span>
           </button>
         </div>
       </motion.div>
@@ -233,7 +233,7 @@ export default function Dashboard() {
             marginBottom: 16,
           }}
         >
-          UPI Money Transfer
+          Liq Instant Transfer
         </div>
 
         <div
@@ -243,13 +243,13 @@ export default function Dashboard() {
             gap: 12,
           }}
         >
-          {/* Action 1: To Mobile / Contact */}
+          {/* Action 1: To Liq Contact */}
           <button
-            className="upi-action-btn"
+            className="liq-action-btn"
             onClick={() => navigate("/send")}
           >
             <div
-              className="upi-action-icon"
+              className="liq-action-icon"
               style={{
                 background: "linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(79, 70, 229, 0.12) 100%)",
                 color: "#818CF8",
@@ -257,16 +257,16 @@ export default function Dashboard() {
             >
               <IconPhone size={22} strokeWidth={1.9} />
             </div>
-            <span className="upi-action-label">To Mobile / Contact</span>
+            <span className="liq-action-label">To Liq Contact</span>
           </button>
 
-          {/* Action 2: To UPI ID */}
+          {/* Action 2: To Liq ID */}
           <button
-            className="upi-action-btn"
+            className="liq-action-btn"
             onClick={() => navigate("/send")}
           >
             <div
-              className="upi-action-icon"
+              className="liq-action-icon"
               style={{
                 background: "linear-gradient(135deg, rgba(0, 229, 117, 0.2) 0%, rgba(16, 185, 129, 0.12) 100%)",
                 color: "#00E575",
@@ -274,16 +274,16 @@ export default function Dashboard() {
             >
               <IconZap size={22} strokeWidth={2} />
             </div>
-            <span className="upi-action-label">To UPI ID / Bank</span>
+            <span className="liq-action-label">To Liq ID</span>
           </button>
 
           {/* Action 3: Scan QR */}
           <button
-            className="upi-action-btn"
+            className="liq-action-btn"
             onClick={() => navigate("/send")}
           >
             <div
-              className="upi-action-icon"
+              className="liq-action-icon"
               style={{
                 background: "linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(37, 99, 235, 0.12) 100%)",
                 color: "#38BDF8",
@@ -291,16 +291,16 @@ export default function Dashboard() {
             >
               <IconScan size={22} strokeWidth={1.9} />
             </div>
-            <span className="upi-action-label">Scan Any QR</span>
+            <span className="liq-action-label">Scan Any QR</span>
           </button>
 
-          {/* Action 4: Receive QR */}
+          {/* Action 4: My Liq QR */}
           <button
-            className="upi-action-btn"
+            className="liq-action-btn"
             onClick={() => navigate("/receive")}
           >
             <div
-              className="upi-action-icon"
+              className="liq-action-icon"
               style={{
                 background: "linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.12) 100%)",
                 color: "#FBBF24",
@@ -308,16 +308,16 @@ export default function Dashboard() {
             >
               <IconQrCode size={22} strokeWidth={1.9} />
             </div>
-            <span className="upi-action-label">Receive / My QR</span>
+            <span className="liq-action-label">My Liq QR</span>
           </button>
         </div>
       </div>
 
-      {/* ── People & Recent UPI Contacts Carousel ──────────────────────────── */}
+      {/* ── People & Recent Liq Contacts Carousel ──────────────────────────── */}
       <div className="apple-glass-card" style={{ padding: "20px 24px", marginBottom: 24 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
           <span style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            Recent Beneficiaries
+            Recent Liq IDs
           </span>
           <span style={{ fontSize: 11, color: "var(--upi-green)", fontWeight: 600 }}>
             Tap to Pay
@@ -358,7 +358,7 @@ export default function Dashboard() {
             </span>
           </button>
 
-          {UPI_CONTACTS.map((contact) => (
+          {LIQ_CONTACTS.map((contact) => (
             <motion.button
               key={contact.id}
               whileHover={{ scale: 1.05, y: -2 }}

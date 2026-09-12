@@ -117,10 +117,7 @@ export default function Landing() {
             color: "#FFFFFF",
           }}
         >
-          Liquid<span style={{ color: "#00E575" }}>RS</span>
-          <span style={{ fontSize: 20, color: "var(--text-muted)", marginLeft: 6, fontWeight: 700 }}>
-            (L₹S)
-          </span>
+          Liq<span style={{ color: "#00E575" }}>Exchange</span>
         </h1>
 
         <div
@@ -140,7 +137,7 @@ export default function Landing() {
           }}
         >
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00E575" }} />
-          <span>INR-PEGGED STABLE CRYPTOCURRENCY</span>
+          <span>LIQUID RS (L₹S) · INR-PEGGED PROTOCOL</span>
         </div>
 
         <p
@@ -153,7 +150,7 @@ export default function Landing() {
             margin: "0 auto 26px",
           }}
         >
-          Replacing legacy fiat with programmable, 100% reserve-backed Liquid Rupee <strong>(L₹S)</strong>. Sub-second finality over UPI rails with zero gas friction.
+          Replacing legacy physical fiat with programmable, 100% reserve-backed Liquid RS <strong>(L₹S)</strong>. Instant sub-second settlement on Liq Exchange with zero gas friction.
         </p>
 
         {/* Feature badges */}
@@ -161,7 +158,7 @@ export default function Landing() {
           {[
             { label: "1 L₹S = ₹1.00 Pegged" },
             { label: "150% Over-Collateralized" },
-            { label: "Sub-Second UPI Finality" },
+            { label: "Sub-Second Liq Settlement" },
           ].map((feat) => (
             <span
               key={feat.label}

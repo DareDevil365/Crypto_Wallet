@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 
-export interface UpiContact {
+export interface LiqContact {
   id: string;
   name: string;
-  upiId: string;
+  liqId: string;
+  upiId?: string;
   address: `0x${string}`;
   initials: string;
   color: string;
@@ -11,11 +12,14 @@ export interface UpiContact {
   isMerchant?: boolean;
 }
 
-export const UPI_CONTACTS: UpiContact[] = [
+export type UpiContact = LiqContact;
+
+export const LIQ_CONTACTS: LiqContact[] = [
   {
     id: "c1",
     name: "Priya Sharma",
-    upiId: "priya@liquidrs",
+    liqId: "priya@liq",
+    upiId: "priya@liq",
     address: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
     initials: "PS",
     color: "#6366F1",
@@ -24,7 +28,8 @@ export const UPI_CONTACTS: UpiContact[] = [
   {
     id: "c2",
     name: "Rahul Verma",
-    upiId: "rahul@liquidrs",
+    liqId: "rahul@liq",
+    upiId: "rahul@liq",
     address: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
     initials: "RV",
     color: "#00E575",
@@ -33,7 +38,8 @@ export const UPI_CONTACTS: UpiContact[] = [
   {
     id: "c3",
     name: "Chai Point",
-    upiId: "chaipoint@liquidrs",
+    liqId: "chaipoint@liq",
+    upiId: "chaipoint@liq",
     address: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
     initials: "CP",
     color: "#F59E0B",
@@ -43,7 +49,8 @@ export const UPI_CONTACTS: UpiContact[] = [
   {
     id: "c4",
     name: "Ananya Sen",
-    upiId: "ananya@liquidrs",
+    liqId: "ananya@liq",
+    upiId: "ananya@liq",
     address: "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
     initials: "AS",
     color: "#EC4899",
@@ -52,7 +59,8 @@ export const UPI_CONTACTS: UpiContact[] = [
   {
     id: "c5",
     name: "Rohit Mehra",
-    upiId: "rohit@liquidrs",
+    liqId: "rohit@liq",
+    upiId: "rohit@liq",
     address: "0x9965507D1a55bcC2695C58ba16FB37d819B0A4df",
     initials: "RM",
     color: "#38BDF8",
@@ -60,15 +68,19 @@ export const UPI_CONTACTS: UpiContact[] = [
   },
 ];
 
-interface UpiQuickPayProps {
-  onSelectContact: (contact: UpiContact) => void;
+export const UPI_CONTACTS = LIQ_CONTACTS;
+
+export interface LiqQuickPayProps {
+  onSelectContact: (contact: LiqContact) => void;
+  selectedLiqId?: string;
   selectedUpiId?: string;
 }
 
 export default function UpiQuickPay({
   onSelectContact,
+  selectedLiqId,
   selectedUpiId,
-}: UpiQuickPayProps) {
+}: LiqQuickPayProps) {
   return (
     <div style={{ marginBottom: 24 }}>
       <div
@@ -88,10 +100,10 @@ export default function UpiQuickPay({
             textTransform: "uppercase",
           }}
         >
-          Recent Transfers
+          Recent Liq Contacts
         </span>
         <span style={{ fontSize: 11, color: "var(--upi-green)", fontWeight: 600 }}>
-          Tap to Pay
+          Tap to Pay L₹S
         </span>
       </div>
 
@@ -104,8 +116,8 @@ export default function UpiQuickPay({
           scrollbarWidth: "none",
         }}
       >
-        {UPI_CONTACTS.map((contact) => {
-          const isSelected = selectedUpiId === contact.upiId;
+        {LIQ_CONTACTS.map((contact) => {
+          const isSelected = selectedLiqId ? selectedLiqId === contact.liqId : selectedUpiId === contact.liqId || selectedUpiId === contact.upiId;
           return (
             <motion.button
               key={contact.id}

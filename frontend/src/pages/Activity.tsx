@@ -10,11 +10,12 @@ interface PassbookItem {
   id: string;
   type: "DEBIT" | "CREDIT" | "DEPOSIT";
   title: string;
-  upiId: string;
+  liqId: string;
+  upiId?: string;
   amount: string;
   time: string;
   status: "SUCCESS" | "PENDING";
-  upiRef: string;
+  liqRef: string;
   txHash: string;
   avatar: string;
   avatarBg: string;
@@ -25,11 +26,11 @@ const SEED_PASSBOOK: PassbookItem[] = [
     id: "p1",
     type: "DEBIT",
     title: "Transfer to Priya Sharma",
-    upiId: "priya@liquidrs",
+    liqId: "priya@liq",
     amount: "-₹500.00 L₹S",
     time: "Today, 2:14 PM",
     status: "SUCCESS",
-    upiRef: "UPI/948201948201",
+    liqRef: "LIQ/948201948201",
     txHash: "0x7e8f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f",
     avatar: "PS",
     avatarBg: "#6366F1",
@@ -38,11 +39,11 @@ const SEED_PASSBOOK: PassbookItem[] = [
     id: "p2",
     type: "DEPOSIT",
     title: "Minted L₹S (USD Reserve Vault)",
-    upiId: "vault.reserve@liquidrs",
+    liqId: "vault.reserve@liq",
     amount: "+₹5,533.33 L₹S",
     time: "Today, 1:45 PM",
     status: "SUCCESS",
-    upiRef: "UPI/829104829104",
+    liqRef: "LIQ/829104829104",
     txHash: "0x3a4b5c6d7e8f1a2b3c4d5e6f7a8b9c0d1e2f3a4b",
     avatar: "L₹",
     avatarBg: "#00E575",
@@ -51,11 +52,11 @@ const SEED_PASSBOOK: PassbookItem[] = [
     id: "p3",
     type: "CREDIT",
     title: "Received from Rahul Verma",
-    upiId: "rahul@liquidrs",
+    liqId: "rahul@liq",
     amount: "+₹1,250.00 L₹S",
     time: "Yesterday, 6:30 PM",
     status: "SUCCESS",
-    upiRef: "UPI/719283719283",
+    liqRef: "LIQ/719283719283",
     txHash: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f1a2b",
     avatar: "RV",
     avatarBg: "#38BDF8",
@@ -64,11 +65,11 @@ const SEED_PASSBOOK: PassbookItem[] = [
     id: "p4",
     type: "DEBIT",
     title: "Merchant Payment — Chai Point",
-    upiId: "chaipoint@liquidrs",
+    liqId: "chaipoint@liq",
     amount: "-₹80.00 L₹S",
     time: "11 Sep 2026",
     status: "SUCCESS",
-    upiRef: "UPI/610293847561",
+    liqRef: "LIQ/610293847561",
     txHash: "0x9c0d1e2f3a4b5c6d7e8f1a2b3c4d5e6f7a8b9c0d",
     avatar: "CP",
     avatarBg: "#F59E0B",
@@ -113,11 +114,11 @@ export default function Activity() {
                 borderRadius: 20,
               }}
             >
-              LEDGER & ON-CHAIN PASSBOOK
+              LIQ LEDGER & ON-CHAIN STATEMENTS
             </span>
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em" }}>
-            Liquid RS Activity
+            Liq Exchange Activity
           </h1>
           <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
             Real-time transfers, mints, and EVM settlement receipts
@@ -249,15 +250,15 @@ export default function Activity() {
                     }}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span>UPI Reference UTR:</span>
+                      <span>Liq Reference ID:</span>
                       <span style={{ fontFamily: "monospace", color: "#FFFFFF" }}>
-                        {item.upiRef}
+                        {item.liqRef}
                       </span>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span>Beneficiary UPI ID:</span>
+                      <span>Beneficiary Liq ID:</span>
                       <span style={{ fontFamily: "monospace", color: "#00E575" }}>
-                        {item.upiId}
+                        {item.liqId}
                       </span>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>

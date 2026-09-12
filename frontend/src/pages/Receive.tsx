@@ -11,18 +11,18 @@ export default function Receive() {
   const [customAmount, setCustomAmount] = useState("");
   const [showAmountInput, setShowAmountInput] = useState(false);
 
-  const upiId = "yasharth@liquidrs";
+  const liqId = "yasharth@liq";
   const effectiveAddress = address ?? "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 
-  // Standard UPI URI format
-  const upiUri = customAmount
-    ? `upi://pay?pa=${upiId}&pn=Yasharth&am=${customAmount}&cu=INR&tr=${effectiveAddress}`
-    : `upi://pay?pa=${upiId}&pn=Yasharth&cu=INR&tr=${effectiveAddress}`;
+  // Liq Exchange URI format (standard protocol payload)
+  const liqUri = customAmount
+    ? `liq://pay?pa=${liqId}&pn=Yasharth&am=${customAmount}&cu=INR&tr=${effectiveAddress}`
+    : `liq://pay?pa=${liqId}&pn=Yasharth&cu=INR&tr=${effectiveAddress}`;
 
-  const handleCopyUpiId = () => {
-    navigator.clipboard.writeText(upiId);
+  const handleCopyLiqId = () => {
+    navigator.clipboard.writeText(liqId);
     setCopied(true);
-    toast.success("UPI ID copied: " + upiId);
+    toast.success("Liq ID copied: " + liqId);
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -47,14 +47,14 @@ export default function Receive() {
           }}
         >
           <span style={{ fontSize: 10, fontWeight: 800, color: "var(--upi-green)", letterSpacing: "0.06em" }}>
-            LIQUID RS · L₹S CRYPTO QR
+            LIQ EXCHANGE · L₹S CRYPTO QR
           </span>
         </div>
         <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em" }}>
           Receive Liquid RS (L₹S)
         </h1>
         <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
-          Accept ₹-pegged crypto instantly via any UPI app or EVM wallet
+          Accept ₹-pegged crypto instantly via Liq Exchange or EVM wallet
         </p>
       </div>
 
@@ -69,7 +69,7 @@ export default function Receive() {
           borderRadius: 24,
         }}
       >
-        {/* UPI Protocol Badge */}
+        {/* Liq Protocol Badge */}
         <div
           style={{
             display: "inline-flex",
@@ -92,7 +92,7 @@ export default function Receive() {
             }}
           />
           <span style={{ fontSize: 11, fontWeight: 800, color: "#00E575", letterSpacing: "0.06em" }}>
-            BHARAT UPI · 1 L₹S = ₹1.00
+            LIQ EXCHANGE · 1 L₹S = ₹1.00
           </span>
         </div>
 
@@ -108,7 +108,7 @@ export default function Receive() {
           }}
         >
           <QRCodeSVG
-            value={upiUri}
+            value={liqUri}
             size={210}
             bgColor="#FFFFFF"
             fgColor="#080A10"
@@ -117,13 +117,13 @@ export default function Receive() {
           />
         </div>
 
-        {/* Name & UPI ID badge */}
+        {/* Name & Liq ID badge */}
         <div style={{ marginBottom: 18 }}>
           <div style={{ fontSize: 18, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.01em" }}>
             Yasharth
           </div>
           <div
-            onClick={handleCopyUpiId}
+            onClick={handleCopyLiqId}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -138,7 +138,7 @@ export default function Receive() {
             }}
           >
             <span style={{ fontSize: 12, color: "var(--upi-green)", fontFamily: "monospace", fontWeight: 700 }}>
-              {upiId}
+              {liqId}
             </span>
             {copied ? (
               <span style={{ display: "inline-flex", alignItems: "center", gap: 3, fontSize: 11, color: "#00E575", fontWeight: 700 }}>
@@ -226,25 +226,25 @@ export default function Receive() {
         <div style={{ display: "flex", gap: 10 }}>
           <button
             className="btn-primary"
-            onClick={handleCopyUpiId}
+            onClick={handleCopyLiqId}
             style={{ flex: 1, padding: "12px", fontSize: 13, borderRadius: 14, gap: 6 }}
           >
             {copied ? <IconCheck size={14} strokeWidth={2.5} /> : <IconCopy size={14} />}
-            <span>{copied ? "Copied!" : "Copy UPI ID"}</span>
+            <span>{copied ? "Copied!" : "Copy Liq ID"}</span>
           </button>
           <button
             className="btn-secondary"
             onClick={() => {
               if (navigator.share) {
-                navigator.share({ title: "Pay via UPI", text: `Pay Yasharth on UPI: ${upiId}`, url: upiUri }).catch(() => {});
+                navigator.share({ title: "Pay via Liq Exchange", text: `Pay Yasharth on Liq Exchange: ${liqId}`, url: liqUri }).catch(() => {});
               } else {
-                handleCopyUpiId();
+                handleCopyLiqId();
               }
             }}
             style={{ flex: 1, padding: "12px", fontSize: 13, borderRadius: 14, gap: 6 }}
           >
             <IconShare size={14} />
-            <span>Share QR</span>
+            <span>Share Liq QR</span>
           </button>
         </div>
 

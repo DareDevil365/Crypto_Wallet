@@ -7,13 +7,14 @@ interface UpiSuccessModalProps {
   onClose: () => void;
   amount: string;
   recipientName: string;
-  recipientUpiId: string;
+  recipientLiqId?: string;
+  recipientUpiId?: string;
   note?: string;
   txHash?: string | null;
 }
 
-// Play pleasant UPI success chime using Web Audio API
-function playUpiChime() {
+// Play pleasant Liq Exchange success chime using Web Audio API
+function playLiqChime() {
   try {
     const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
     const now = ctx.currentTime;
@@ -51,19 +52,21 @@ export default function UpiSuccessModal({
   onClose,
   amount,
   recipientName,
+  recipientLiqId,
   recipientUpiId,
   note,
   txHash,
 }: UpiSuccessModalProps) {
   useEffect(() => {
     if (isOpen) {
-      playUpiChime();
+      playLiqChime();
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const upiRefNumber = `UPI/${Math.floor(100000000000 + Math.random() * 900000000000)}`;
+  const effectiveLiqId = recipientLiqId || recipientUpiId || "user@liq";
+  const liqRefNumber = `LIQ/${Math.floor(100000000000 + Math.random() * 900000000000)}`;
   const displayTime = new Date().toLocaleTimeString("en-IN", {
     hour: "2-digit",
     minute: "2-digit",
@@ -143,7 +146,7 @@ export default function UpiSuccessModal({
               letterSpacing: "0.2px",
             }}
           >
-            Liquid RS (L₹S) Settled on EVM
+            Liquid RS (L₹S) Settled on EVM via Liq Exchange
           </p>
 
           {/* Amount Paid */}
@@ -190,7 +193,7 @@ export default function UpiSuccessModal({
                 marginTop: 2,
               }}
             >
-              {recipientUpiId}
+              {effectiveLiqId}
             </div>
             {note && (
               <div
@@ -222,9 +225,9 @@ export default function UpiSuccessModal({
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>UPI Reference</span>
+              <span>Liq Reference</span>
               <span style={{ color: "var(--text-secondary)", fontFamily: "monospace" }}>
-                {upiRefNumber}
+                {liqRefNumber}
               </span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>

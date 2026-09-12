@@ -40,9 +40,9 @@ export default function Layout({ children }: LayoutProps) {
   const { address } = useDemoAccount();
   const { isDemo, disableDemo } = useDemoContext();
 
-  const handleCopyUpiId = () => {
-    navigator.clipboard.writeText("yasharth@liquidrs");
-    toast.success("UPI ID copied: yasharth@liquidrs");
+  const handleCopyLiqId = () => {
+    navigator.clipboard.writeText("yasharth@liq");
+    toast.success("Liq ID copied: yasharth@liq");
   };
 
   return (
@@ -103,11 +103,11 @@ export default function Layout({ children }: LayoutProps) {
                 Yasharth
               </span>
               <span className="badge badge-success" style={{ fontSize: 9, padding: "1px 6px" }}>
-                <IconCheck size={10} strokeWidth={2.5} /> VERIFIED
+                <IconCheck size={10} strokeWidth={2.5} /> LIQ VERIFIED
               </span>
             </div>
             <div
-              onClick={handleCopyUpiId}
+              onClick={handleCopyLiqId}
               style={{
                 fontSize: 11,
                 color: "var(--text-secondary)",
@@ -118,7 +118,7 @@ export default function Layout({ children }: LayoutProps) {
                 gap: 4,
               }}
             >
-              <span>yasharth@liquidrs</span>
+              <span>yasharth@liq</span>
               <IconCopy size={11} color="var(--text-muted)" />
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function Layout({ children }: LayoutProps) {
                   color: "#FFFFFF",
                 }}
               >
-                Liquid<span style={{ color: "#00E575" }}>RS</span>
+                Liq<span style={{ color: "#00E575" }}>Exchange</span>
               </div>
               <div
                 style={{
@@ -223,7 +223,7 @@ export default function Layout({ children }: LayoutProps) {
                   textTransform: "uppercase",
                 }}
               >
-                L₹S CRYPTO · UPI 2.0
+                Liquid RS (L₹S) · Liq ID
               </div>
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function Layout({ children }: LayoutProps) {
 
         {/* User Profile Card */}
         <div
-          onClick={handleCopyUpiId}
+          onClick={handleCopyLiqId}
           className="apple-glass-subtle"
           style={{
             margin: "0 16px 20px",
@@ -240,7 +240,7 @@ export default function Layout({ children }: LayoutProps) {
             cursor: "pointer",
             transition: "all 0.15s ease",
           }}
-          title="Click to copy your UPI ID"
+          title="Click to copy your Liq ID"
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
@@ -274,7 +274,7 @@ export default function Layout({ children }: LayoutProps) {
                   gap: 4,
                 }}
               >
-                <span>yasharth@liquidrs</span>
+                <span>yasharth@liq</span>
                 <IconCopy size={11} color="var(--text-muted)" />
               </div>
             </div>
@@ -351,7 +351,7 @@ export default function Layout({ children }: LayoutProps) {
                 <span style={{ fontSize: 10, color: "#00E575" }}>●</span>
                 <div>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "#FFFFFF" }}>
-                    UPI Demo Active
+                    Liq Demo Active
                   </div>
                   <div style={{ fontSize: 10, color: "var(--text-muted)", fontFamily: "monospace" }}>
                     {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x7099...79C8"}
@@ -421,7 +421,7 @@ export default function Layout({ children }: LayoutProps) {
         <NavLink
           to="/send"
           className="dock-scan-btn"
-          title="Scan & Pay UPI"
+          title="Scan & Pay Liq ID"
         >
           <IconScan size={24} color="#031408" strokeWidth={2.2} />
         </NavLink>
