@@ -58,7 +58,7 @@ export default function Dashboard() {
                 margin: 0,
               }}
             >
-              Namaste, Yash 🙏
+              Namaste, Yasharth 🙏
             </h1>
             <span
               style={{
@@ -84,7 +84,7 @@ export default function Dashboard() {
               gap: 8,
             }}
           >
-            <span>UPI ID: <strong style={{ color: "#C9A84C", fontFamily: "monospace" }}>yash@liquidrs</strong></span>
+            <span>UPI ID: <strong style={{ color: "#C9A84C", fontFamily: "monospace" }}>yasharth@liquidrs</strong></span>
             <span>·</span>
             <span>Zero transfer fees</span>
           </div>

@@ -27,8 +27,8 @@ export default function Layout({ children }: LayoutProps) {
   const { isDemo, disableDemo } = useDemoContext();
 
   const handleCopyUpiId = () => {
-    navigator.clipboard.writeText("yash@liquidrs");
-    toast.success("UPI ID copied: yash@liquidrs", { icon: "📋" });
+    navigator.clipboard.writeText("yasharth@liquidrs");
+    toast.success("UPI ID copied: yasharth@liquidrs", { icon: "📋" });
   };
 
   return (
@@ -122,16 +122,16 @@ export default function Layout({ children }: LayoutProps) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 14,
+                fontSize: 13,
                 color: "#ffffff",
                 fontWeight: 700,
               }}
             >
-              YS
+              YA
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>
-                Yash (You)
+                Yasharth (You)
               </div>
               <div
                 style={{
@@ -143,7 +143,7 @@ export default function Layout({ children }: LayoutProps) {
                   gap: 4,
                 }}
               >
-                <span>yash@liquidrs</span>
+                <span>yasharth@liquidrs</span>
                 <span style={{ fontSize: 10 }}>📋</span>
               </div>
             </div>

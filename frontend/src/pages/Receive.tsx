@@ -11,13 +11,13 @@ export default function Receive() {
   const [customAmount, setCustomAmount] = useState("");
   const [showAmountInput, setShowAmountInput] = useState(false);
 
-  const upiId = "yash@liquidrs";
+  const upiId = "yasharth@liquidrs";
   const effectiveAddress = address ?? "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 
   // Standard UPI URI format
   const upiUri = customAmount
-    ? `upi://pay?pa=${upiId}&pn=Yash&am=${customAmount}&cu=INR&tr=${effectiveAddress}`
-    : `upi://pay?pa=${upiId}&pn=Yash&cu=INR&tr=${effectiveAddress}`;
+    ? `upi://pay?pa=${upiId}&pn=Yasharth&am=${customAmount}&cu=INR&tr=${effectiveAddress}`
+    : `upi://pay?pa=${upiId}&pn=Yasharth&cu=INR&tr=${effectiveAddress}`;
 
   const handleCopyUpiId = () => {
     navigator.clipboard.writeText(upiId);
