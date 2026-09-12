@@ -1,0 +1,27 @@
+{
+  "name": "liquidrs-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "seed:local": "hardhat run scripts/seed.ts --network localhost",
+    "deploy:baseSepolia": "hardhat run scripts/deploy.ts --network baseSepolia",
+    "clean": "hardhat clean"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@openzeppelin/contracts": "^5.1.0",
+    "hardhat": "^2.22.17",
+    "typescript": "^5.7.2",
+    "ts-node": "^10.9.2",
+    "@types/node": "^22.10.1",
+    "dotenv": "^16.4.7",
+    "chai": "^4.4.1",
+    "@types/chai": "^4.3.14",
+    "ethers": "^6.13.4"
+  }
+}
