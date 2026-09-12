@@ -171,7 +171,7 @@ function RadialGauge({
               cx={p.x}
               cy={p.y}
               r={5}
-              fill="#C9A84C"
+              fill="#00E575"
               stroke="#060d1a"
               strokeWidth={2}
             />
@@ -185,7 +185,7 @@ function RadialGauge({
           fill="#f0f4ff"
           fontSize="20"
           fontWeight="800"
-          fontFamily="'Space Grotesk', sans-serif"
+          fontFamily="'Plus Jakarta Sans', sans-serif"
         >
           {value}%
         </text>
@@ -201,14 +201,14 @@ function RadialGauge({
         </text>
         <defs>
           <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#22c55e" />
-            <stop offset="60%" stopColor="#C9A84C" />
-            <stop offset="100%" stopColor="#ef4444" />
+            <stop offset="0%" stopColor="#00E575" />
+            <stop offset="60%" stopColor="#3B82F6" />
+            <stop offset="100%" stopColor="#F43F5E" />
           </linearGradient>
         </defs>
       </svg>
       <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: -8 }}>
-        <span style={{ color: "#C9A84C" }}>●</span> AI-recommended: {recommended}%
+        <span style={{ color: "#00E575" }}>●</span> AI-recommended: {recommended}%
         · Baseline: 150%
       </div>
     </div>
@@ -584,21 +584,21 @@ function MetricPill({
     <div
       style={{
         padding: "8px 14px",
-        borderRadius: 8,
-        background: accent ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.04)",
-        border: `1px solid ${accent ? "rgba(201,168,76,0.2)" : "rgba(255,255,255,0.06)"}`,
+        borderRadius: 12,
+        background: accent ? "rgba(0, 229, 117, 0.1)" : "var(--surface-2)",
+        border: `1px solid ${accent ? "rgba(0, 229, 117, 0.3)" : "var(--border-subtle)"}`,
       }}
     >
       <div
-        style={{ fontSize: 10, color: "var(--text-muted)", marginBottom: 2 }}
+        style={{ fontSize: 10, color: "var(--text-muted)", marginBottom: 2, fontWeight: 700, textTransform: "uppercase" }}
       >
         {label}
       </div>
       <div
         style={{
           fontSize: 16,
-          fontWeight: 700,
-          color: accent ? "#C9A84C" : "var(--text-primary)",
+          fontWeight: 800,
+          color: accent ? "#00E575" : "#FFFFFF",
         }}
       >
         {value}

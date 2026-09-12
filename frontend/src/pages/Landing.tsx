@@ -5,14 +5,13 @@ import { motion } from "framer-motion";
 import { useDemoAccount } from "../hooks/useContracts";
 import { useDemoContext } from "../context/DemoContext";
 
-const FLOAT_SYMBOLS = ["₹", "₹", "◈", "✦", "₹", "◉", "₹", "✦", "₹"];
+const FLOAT_SYMBOLS = ["₹", "₹", "⚡", "₹", "🛡️", "₹", "⚡", "₹"];
 
 export default function Landing() {
   const { isConnected } = useDemoAccount();
   const { enableDemo } = useDemoContext();
   const navigate = useNavigate();
 
-  // Auto-redirect after connect or demo activation
   useEffect(() => {
     if (isConnected) navigate("/dashboard");
   }, [isConnected, navigate]);
@@ -26,87 +25,73 @@ export default function Landing() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #020810 0%, #0B1F3A 50%, #020810 100%)",
+        background: "radial-gradient(ellipse at top, #111827 0%, #090C15 60%, #06080E 100%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
         overflow: "hidden",
+        padding: "24px",
       }}
     >
-      {/* Ambient floating rupee symbols */}
+      {/* Ambient floating symbols */}
       {FLOAT_SYMBOLS.map((sym, i) => (
         <motion.div
           key={i}
           initial={{ opacity: 0 }}
           animate={{
-            opacity: [0.02, 0.06, 0.02],
-            y: [0, -30, 0],
-            rotate: [0, i % 2 === 0 ? 10 : -10, 0],
+            opacity: [0.03, 0.08, 0.03],
+            y: [0, -25, 0],
+            rotate: [0, i % 2 === 0 ? 8 : -8, 0],
           }}
           transition={{
             duration: 4 + i * 0.7,
             repeat: Infinity,
-            delay: i * 0.4,
+            delay: i * 0.3,
             ease: "easeInOut",
           }}
           style={{
             position: "absolute",
-            left: `${8 + i * 11}%`,
-            top: `${10 + (i % 4) * 20}%`,
-            fontSize: 80 + (i % 3) * 40,
-            color: "#C9A84C",
+            left: `${10 + i * 11}%`,
+            top: `${12 + (i % 4) * 20}%`,
+            fontSize: 70 + (i % 3) * 35,
+            color: "#00E575",
             fontWeight: 900,
             userSelect: "none",
             pointerEvents: "none",
-            fontFamily: "'Space Grotesk', sans-serif",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
         >
           {sym}
         </motion.div>
       ))}
 
-      {/* Center glow */}
-      <div
-        style={{
-          position: "absolute",
-          top: "40%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 600,
-          height: 400,
-          background:
-            "radial-gradient(ellipse, rgba(201,168,76,0.12) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-
       {/* Main card */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        style={{ textAlign: "center", zIndex: 10, maxWidth: 560, padding: "0 24px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        style={{ textAlign: "center", zIndex: 10, maxWidth: 540, width: "100%" }}
       >
         {/* Logo mark */}
         <motion.div
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          transition={{ duration: 0.3 }}
           style={{
-            width: 80,
-            height: 80,
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)",
+            width: 76,
+            height: 76,
+            borderRadius: 24,
+            background: "linear-gradient(135deg, #00E575 0%, #00B359 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: 40,
             fontWeight: 900,
-            color: "#060d1a",
-            margin: "0 auto 24px",
-            boxShadow: "0 0 60px rgba(201,168,76,0.4)",
+            color: "#05140A",
+            margin: "0 auto 20px",
+            boxShadow: "0 10px 30px var(--upi-green-glow)",
           }}
         >
           ₹
@@ -115,70 +100,65 @@ export default function Landing() {
         {/* Wordmark */}
         <h1
           style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: 56,
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: 48,
             fontWeight: 900,
-            lineHeight: 1,
-            marginBottom: 12,
-            background: "linear-gradient(135deg, #C9A84C 0%, #e8d48e 40%, #C9A84C 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+            letterSpacing: "-1px",
+            marginBottom: 8,
+            color: "#FFFFFF",
           }}
         >
-          LiquidRS
+          Liquid<span style={{ color: "#00E575" }}>RS</span>
         </h1>
 
-        <p
-          style={{
-            fontSize: 13,
-            letterSpacing: "3px",
-            fontWeight: 700,
-            color: "#10b981",
-            marginBottom: 16,
-            textTransform: "uppercase",
-          }}
-        >
-          ● UPI 2.0 DIGITAL RUPEE PROTOCOL
-        </p>
-
-        <p
-          style={{
-            fontSize: 17,
-            color: "var(--text-secondary)",
-            marginBottom: 36,
-            lineHeight: 1.6,
-            maxWidth: 440,
-            margin: "0 auto 36px",
-          }}
-        >
-          Instant ₹ transfers to any UPI ID or phone number, 100% backed by
-          digital reserves on global rails.
-        </p>
-
-        {/* Feature pills */}
         <div
           style={{
-            display: "flex",
-            gap: 10,
-            justifyContent: "center",
-            marginBottom: 36,
-            flexWrap: "wrap",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "4px 12px",
+            borderRadius: 20,
+            background: "rgba(0, 229, 117, 0.12)",
+            border: "1px solid rgba(0, 229, 117, 0.3)",
+            fontSize: 11,
+            fontWeight: 800,
+            color: "#00E575",
+            letterSpacing: "0.8px",
+            marginBottom: 16,
           }}
         >
+          ● NEXT-GEN UPI 2.0 PROTOCOL
+        </div>
+
+        <p
+          style={{
+            fontSize: 16,
+            color: "var(--text-secondary)",
+            marginBottom: 28,
+            lineHeight: 1.6,
+            maxWidth: 420,
+            margin: "0 auto 28px",
+          }}
+        >
+          Instant ₹ UPI transfers with 100% digital USD reserves, sub-second finality, and zero gas friction.
+        </p>
+
+        {/* Feature badges */}
+        <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 32, flexWrap: "wrap" }}>
           {[
             "⚡ Instant UPI (<1s)",
-            "🛡️ 150% Reserve Backed",
-            "🤖 AI Peg Defense",
+            "🛡️ 150% Over-Collateralised",
+            "🇮🇳 1 LRS = ₹1.00 Pegged",
           ].map((feat) => (
             <span
               key={feat}
               style={{
-                padding: "7px 14px",
-                borderRadius: 100,
-                border: "1px solid rgba(201,168,76,0.25)",
-                background: "rgba(201,168,76,0.06)",
+                padding: "6px 14px",
+                borderRadius: 20,
+                background: "var(--surface-1)",
+                border: "1px solid var(--border-subtle)",
                 fontSize: 12,
-                color: "rgba(201,168,76,0.9)",
+                color: "var(--text-primary)",
                 fontWeight: 600,
               }}
             >
@@ -187,102 +167,35 @@ export default function Landing() {
           ))}
         </div>
 
-        {/* Action buttons */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 16,
-            width: "100%",
-          }}
-        >
-          {/* Primary Pitch Button: One-click demo launch */}
+        {/* Action button */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, width: "100%" }}>
           <motion.button
-            whileHover={{ scale: 1.03, boxShadow: "0 0 35px rgba(201,168,76,0.5)" }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleLaunchDemo}
+            className="btn-primary"
             style={{
               width: "100%",
               maxWidth: 380,
               padding: "16px 28px",
-              borderRadius: 14,
-              background: "linear-gradient(135deg, #C9A84C 0%, #f3e5ab 50%, #C9A84C 100%)",
-              color: "#060d1a",
-              fontWeight: 800,
               fontSize: 16,
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              boxShadow: "0 0 25px rgba(201,168,76,0.3)",
-              letterSpacing: "0.2px",
+              borderRadius: 16,
             }}
           >
-            <span style={{ fontSize: 18 }}>⚡</span>
-            <span>Launch Live Demo (No Wallet Needed)</span>
+            <span>⚡</span>
+            <span>Open UPI App (Instant Demo)</span>
           </motion.button>
 
-          {/* Divider */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              width: "100%",
-              maxWidth: 380,
-            }}
-          >
-            <div style={{ flex: 1, height: 1, background: "rgba(201,168,76,0.15)" }} />
-            <span
-              style={{
-                fontSize: 11,
-                color: "var(--text-muted)",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-              }}
-            >
-              or connect web3
+          <div style={{ display: "flex", alignItems: "center", gap: 12, width: "100%", maxWidth: 380 }}>
+            <div style={{ flex: 1, height: 1, background: "var(--border-subtle)" }} />
+            <span style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px" }}>
+              or connect wallet
             </span>
-            <div style={{ flex: 1, height: 1, background: "rgba(201,168,76,0.15)" }} />
+            <div style={{ flex: 1, height: 1, background: "var(--border-subtle)" }} />
           </div>
 
-          {/* Secondary: Standard Wallet Connect */}
-          <ConnectButton label="Connect MetaMask / Wallet" showBalance={false} />
+          <ConnectButton label="Connect Web3 Wallet" showBalance={false} />
         </div>
-
-        <p
-          style={{
-            marginTop: 24,
-            fontSize: 12,
-            color: "var(--text-muted)",
-          }}
-        >
-          Pre-seeded with 10,000 USDT for instant live presentation · Zero latency
-        </p>
-      </motion.div>
-
-      {/* Bottom bar */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        style={{
-          position: "absolute",
-          bottom: 24,
-          display: "flex",
-          gap: 32,
-          color: "var(--text-muted)",
-          fontSize: 12,
-        }}
-      >
-        <span>Built with Solidity + React</span>
-        <span>·</span>
-        <span>Hackathon Demo 2024</span>
-        <span>·</span>
-        <span>LRS = ₹1.00</span>
       </motion.div>
     </div>
   );

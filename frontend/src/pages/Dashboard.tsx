@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -9,7 +10,7 @@ import {
   formatLRS,
   formatUSDT,
 } from "../hooks/useContracts";
-import UpiQuickPay, { type UpiContact } from "../components/UpiQuickPay";
+import { UPI_CONTACTS, type UpiContact } from "../components/UpiQuickPay";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -19,441 +20,518 @@ export default function Dashboard() {
   const { collateralRatio, pegPrice, paused } = useVaultState();
   const { collateral, lrsMinted } = useUserPosition();
 
-  const formattedInr = formatLRS(lrsBalance);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const formattedInr = formatLRS(lrsBalance);
   const pegDisplay = pegPrice
     ? `₹${(Number(pegPrice) / 100).toFixed(2)}`
     : "₹83.00";
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/send?to=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const handleSelectContact = (contact: UpiContact) => {
     navigate(`/send?to=${encodeURIComponent(contact.upiId)}&name=${encodeURIComponent(contact.name)}&addr=${contact.address}`);
   };
 
   return (
-    <div className="page-container" style={{ maxWidth: 1080 }}>
-      {/* UPI Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          marginBottom: 28,
-        }}
-      >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <h1
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: 28,
-                fontWeight: 800,
-                color: "#ffffff",
-                letterSpacing: "-0.5px",
-                margin: 0,
-              }}
-            >
-              Namaste, Yasharth 🙏
-            </h1>
-            <span
-              style={{
-                fontSize: 11,
-                padding: "3px 8px",
-                borderRadius: 20,
-                background: "rgba(16, 185, 129, 0.15)",
-                color: "#10b981",
-                fontWeight: 700,
-                border: "1px solid rgba(16, 185, 129, 0.3)",
-              }}
-            >
-              ● UPI ACTIVE
-            </span>
-          </div>
-          <div
-            style={{
-              fontSize: 13,
-              color: "var(--text-secondary)",
-              marginTop: 4,
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <span>UPI ID: <strong style={{ color: "#C9A84C", fontFamily: "monospace" }}>yasharth@liquidrs</strong></span>
-            <span>·</span>
-            <span>Zero transfer fees</span>
-          </div>
-        </div>
-
-        {/* Security / Reserve Badge */}
+    <div className="page-container" style={{ maxWidth: 880, margin: "0 auto" }}>
+      {/* ── Search Bar (PhonePe / super.money style) ────────────────────────── */}
+      <form onSubmit={handleSearchSubmit} style={{ marginBottom: 20 }}>
         <div
-          onClick={() => navigate("/risk")}
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 8,
-            padding: "8px 14px",
-            borderRadius: 12,
-            background: "rgba(201, 168, 76, 0.08)",
-            border: "1px solid rgba(201, 168, 76, 0.25)",
-            cursor: "pointer",
-          }}
-          title="Click to view Reserve & Risk Monitor"
-        >
-          <span style={{ fontSize: 16 }}>🛡️</span>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "#C9A84C" }}>
-              150% RESERVE BACKED
-            </div>
-            <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
-              AI Peg Guard · 1 LRS = ₹1.00
-            </div>
-          </div>
-          <span style={{ fontSize: 12, color: "#C9A84C" }}>›</span>
-        </div>
-      </div>
-
-      {/* Hero Rupee Balance Card (GPay / PhonePe style) */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        style={{
-          background: "linear-gradient(135deg, #0B1F3A 0%, #071527 50%, #0B1F3A 100%)",
-          border: "1px solid rgba(201, 168, 76, 0.25)",
-          borderRadius: 24,
-          padding: "32px",
-          marginBottom: 28,
-          position: "relative",
-          overflow: "hidden",
-          boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(201, 168, 76, 0.08)",
-        }}
-      >
-        {/* Rupee watermark */}
-        <div
-          style={{
-            position: "absolute",
-            right: 24,
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontSize: 160,
-            fontWeight: 900,
-            color: "rgba(201, 168, 76, 0.04)",
-            userSelect: "none",
-            pointerEvents: "none",
-            fontFamily: "'Space Grotesk', sans-serif",
+            background: "var(--surface-1)",
+            border: "1px solid var(--border-subtle)",
+            borderRadius: 16,
+            padding: "10px 16px",
+            gap: 12,
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
           }}
         >
-          ₹
-        </div>
-
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <div
+          <span style={{ fontSize: 18, color: "var(--text-muted)" }}>🔍</span>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Pay anyone by UPI ID, mobile number or name..."
             style={{
-              fontSize: 13,
-              fontWeight: 600,
-              color: "rgba(201, 168, 76, 0.8)",
-              textTransform: "uppercase",
-              letterSpacing: "1px",
-              marginBottom: 8,
+              flex: 1,
+              background: "transparent",
+              border: "none",
+              color: "#FFFFFF",
+              fontSize: 14,
+              fontFamily: "inherit",
+              outline: "none",
             }}
-          >
-            Total Available Balance
-          </div>
-
-          <div
-            style={{
-              fontSize: 48,
-              fontWeight: 900,
-              color: "#ffffff",
-              fontFamily: "'Space Grotesk', sans-serif",
-              letterSpacing: "-1px",
-              lineHeight: 1,
-              marginBottom: 8,
-            }}
-          >
-            ₹{formattedInr}
-          </div>
-
-          <div
-            style={{
-              fontSize: 13,
-              color: "var(--text-muted)",
-              marginBottom: 24,
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <span>Digital Rupee (LRS)</span>
-            <span>·</span>
-            <span style={{ color: "#10b981" }}>● Live Peg: 1 LRS = ₹1.00</span>
-          </div>
-
-          {/* Quick Balance Actions */}
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => navigate("/mint")}
+          />
+          {searchQuery ? (
+            <button
+              type="submit"
               style={{
-                padding: "12px 24px",
-                borderRadius: 12,
-                background: "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)",
+                background: "var(--upi-green)",
+                color: "#05140A",
                 border: "none",
-                color: "#060d1a",
-                fontWeight: 700,
-                fontSize: 14,
+                borderRadius: 8,
+                padding: "6px 14px",
+                fontSize: 12,
+                fontWeight: 800,
                 cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                boxShadow: "0 0 20px rgba(201, 168, 76, 0.3)",
               }}
             >
-              <span>➕</span>
-              <span>Add Money</span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              Pay
+            </button>
+          ) : (
+            <button
+              type="button"
               onClick={() => navigate("/send")}
               style={{
-                padding: "12px 24px",
-                borderRadius: 12,
-                background: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                color: "#ffffff",
-                fontWeight: 600,
-                fontSize: 14,
+                background: "var(--surface-2)",
+                border: "1px solid var(--border-subtle)",
+                borderRadius: 8,
+                padding: "4px 8px",
+                fontSize: 11,
+                fontWeight: 700,
+                color: "var(--text-secondary)",
                 cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
               }}
             >
-              <span>⚡</span>
-              <span>Send UPI</span>
-            </motion.button>
+              SCAN 📷
+            </button>
+          )}
+        </div>
+      </form>
 
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => navigate("/redeem")}
+      {/* ── Hero Balance Card (super.money / Navi style) ────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="fintech-hero-card"
+        style={{ padding: "26px 28px", marginBottom: 24 }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <span style={{ fontSize: 11, fontWeight: 800, color: "var(--text-secondary)", letterSpacing: "1px", textTransform: "uppercase" }}>
+                Liquid Rupee Account
+              </span>
+              <span className="badge badge-success" style={{ fontSize: 10, padding: "2px 8px" }}>
+                ● 100% BACKED
+              </span>
+            </div>
+            <div
               style={{
-                padding: "12px 20px",
-                borderRadius: 12,
-                background: "transparent",
-                border: "1px solid rgba(201, 168, 76, 0.25)",
-                color: "#C9A84C",
-                fontWeight: 600,
-                fontSize: 14,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
+                fontSize: 42,
+                fontWeight: 800,
+                color: "#FFFFFF",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                letterSpacing: "-1px",
+                lineHeight: 1.1,
               }}
             >
-              <span>🏦</span>
-              <span>Withdraw</span>
-            </motion.button>
+              ₹{formattedInr}
+            </div>
           </div>
+
+          <div
+            onClick={() => navigate("/risk")}
+            style={{
+              textAlign: "right",
+              background: "rgba(0, 229, 117, 0.08)",
+              border: "1px solid rgba(0, 229, 117, 0.2)",
+              borderRadius: 12,
+              padding: "6px 12px",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
+              Peg Stability
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 800, color: "#00E575" }}>
+              1 LRS = ₹1.00
+            </div>
+          </div>
+        </div>
+
+        <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 20, display: "flex", alignItems: "center", gap: 6 }}>
+          <span>Reserve: <strong>${formatUSDT(collateral)} USDT</strong> locked</span>
+          <span>·</span>
+          <span style={{ color: "#00E575" }}>150% Collateral Protection</span>
+        </div>
+
+        {/* Action pills inside Hero Card */}
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <button
+            className="btn-primary"
+            onClick={() => navigate("/mint")}
+            style={{ padding: "10px 20px", fontSize: 13, borderRadius: 12 }}
+          >
+            <span>➕</span>
+            <span>Add Money</span>
+          </button>
+
+          <button
+            className="btn-secondary"
+            onClick={() => navigate("/send")}
+            style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
+          >
+            <span>⚡</span>
+            <span>Send Money</span>
+          </button>
+
+          <button
+            className="btn-secondary"
+            onClick={() => navigate("/redeem")}
+            style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
+          >
+            <span>🏦</span>
+            <span>Withdraw</span>
+          </button>
+
+          <button
+            className="btn-secondary"
+            onClick={() => navigate("/activity")}
+            style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
+          >
+            <span>📖</span>
+            <span>Passbook</span>
+          </button>
         </div>
       </motion.div>
 
-      {/* UPI 4-Way Quick Tiles */}
+      {/* ── Transfer Money 4-Way Quick Actions (PhonePe / Paytm Style) ─────── */}
       <div
+        className="fintech-card"
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: 16,
-          marginBottom: 28,
+          padding: "20px 24px",
+          marginBottom: 24,
+          background: "var(--surface-1)",
         }}
       >
-        {[
-          {
-            label: "Scan Any QR",
-            desc: "Camera / Gallery",
-            icon: "📷",
-            color: "#3b82f6",
-            onClick: () => navigate("/send"),
-          },
-          {
-            label: "To UPI ID / Phone",
-            desc: "Instant to any bank",
-            icon: "⚡",
-            color: "#10b981",
-            onClick: () => navigate("/send"),
-          },
-          {
-            label: "Receive Money",
-            desc: "My UPI QR Code",
-            icon: "📥",
-            color: "#C9A84C",
-            onClick: () => navigate("/receive"),
-          },
-          {
-            label: "Passbook",
-            desc: "View Statements",
-            icon: "📖",
-            color: "#a855f7",
-            onClick: () => navigate("/activity"),
-          },
-        ].map((tile, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -3, scale: 1.02 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={tile.onClick}
-            className="glass-card"
+        <div
+          style={{
+            fontSize: 12,
+            fontWeight: 800,
+            color: "var(--text-muted)",
+            letterSpacing: "0.8px",
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}
+        >
+          UPI Money Transfer
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 12,
+          }}
+        >
+          {/* Action 1: To Mobile / Contact */}
+          <button
+            className="upi-action-btn"
+            onClick={() => navigate("/send")}
+          >
+            <div
+              className="upi-action-icon"
+              style={{
+                background: "linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%)",
+                border: "1px solid rgba(124, 58, 237, 0.4)",
+                color: "#A78BFA",
+              }}
+            >
+              📱
+            </div>
+            <span className="upi-action-label">To Mobile / Contact</span>
+          </button>
+
+          {/* Action 2: To UPI ID */}
+          <button
+            className="upi-action-btn"
+            onClick={() => navigate("/send")}
+          >
+            <div
+              className="upi-action-icon"
+              style={{
+                background: "linear-gradient(135deg, rgba(0, 229, 117, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)",
+                border: "1px solid rgba(0, 229, 117, 0.4)",
+                color: "#00E575",
+              }}
+            >
+              ⚡
+            </div>
+            <span className="upi-action-label">To UPI ID / Bank</span>
+          </button>
+
+          {/* Action 3: Scan QR */}
+          <button
+            className="upi-action-btn"
+            onClick={() => navigate("/send")}
+          >
+            <div
+              className="upi-action-icon"
+              style={{
+                background: "linear-gradient(135deg, rgba(6, 182, 212, 0.22) 0%, rgba(59, 130, 246, 0.18) 100%)",
+                border: "1px solid rgba(6, 182, 212, 0.4)",
+                color: "#38BDF8",
+              }}
+            >
+              📷
+            </div>
+            <span className="upi-action-label">Scan Any QR</span>
+          </button>
+
+          {/* Action 4: Receive QR */}
+          <button
+            className="upi-action-btn"
+            onClick={() => navigate("/receive")}
+          >
+            <div
+              className="upi-action-icon"
+              style={{
+                background: "linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.18) 100%)",
+                border: "1px solid rgba(245, 158, 11, 0.4)",
+                color: "#FBBF24",
+              }}
+            >
+              📥
+            </div>
+            <span className="upi-action-label">Receive / My QR</span>
+          </button>
+        </div>
+      </div>
+
+      {/* ── People & Recent UPI Contacts Carousel ──────────────────────────── */}
+      <div className="fintech-card" style={{ padding: "20px 24px", marginBottom: 24 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+          <span style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", letterSpacing: "0.8px", textTransform: "uppercase" }}>
+            Recent People & Merchants
+          </span>
+          <span style={{ fontSize: 11, color: "#00E575", fontWeight: 700 }}>
+            Tap to Pay
+          </span>
+        </div>
+
+        <div style={{ display: "flex", gap: 14, overflowX: "auto", paddingBottom: 6, scrollbarWidth: "none" }}>
+          {/* Add New Contact Button */}
+          <button
+            onClick={() => navigate("/send")}
             style={{
-              padding: "20px 16px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 6,
+              background: "transparent",
+              border: "none",
               cursor: "pointer",
-              borderRadius: 18,
-              textAlign: "center",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
+              minWidth: 70,
             }}
           >
             <div
               style={{
                 width: 48,
                 height: 48,
-                borderRadius: 14,
-                background: `linear-gradient(135deg, ${tile.color}22, ${tile.color}44)`,
-                border: `1px solid ${tile.color}66`,
+                borderRadius: "50%",
+                background: "var(--surface-2)",
+                border: "1px dashed rgba(255, 255, 255, 0.2)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 22,
-                margin: "0 auto 12px",
+                fontSize: 18,
+                color: "var(--text-secondary)",
               }}
             >
-              {tile.icon}
+              ➕
             </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#ffffff", marginBottom: 4 }}>
-              {tile.label}
-            </div>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
-              {tile.desc}
-            </div>
-          </motion.div>
-        ))}
+            <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-secondary)" }}>
+              New Pay
+            </span>
+          </button>
+
+          {UPI_CONTACTS.map((contact) => (
+            <motion.button
+              key={contact.id}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() => handleSelectContact(contact)}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 6,
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                minWidth: 74,
+              }}
+            >
+              <div
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: "50%",
+                  background: `linear-gradient(135deg, ${contact.color}33, ${contact.color}99)`,
+                  border: `2px solid ${contact.color}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 18,
+                  boxShadow: `0 4px 12px ${contact.color}33`,
+                }}
+              >
+                {contact.avatar}
+              </div>
+              <span
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: 70,
+                }}
+              >
+                {contact.name.split(" ")[0]}
+              </span>
+              <span style={{ fontSize: 10, color: "var(--text-muted)" }}>
+                {contact.recentAmount}
+              </span>
+            </motion.button>
+          ))}
+        </div>
       </div>
 
-      {/* Recent Contacts Carousel */}
-      <UpiQuickPay onSelectContact={handleSelectContact} />
-
-      {/* Reserve & On-Chain Settler Card */}
+      {/* ── Security & Reserve Shield Banner ────────────────────────────────── */}
       <div
+        className="fintech-card fintech-card-interactive"
+        onClick={() => navigate("/risk")}
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 16,
+          padding: "18px 22px",
+          marginBottom: 24,
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background: "linear-gradient(135deg, #101626 0%, #151D33 100%)",
+          border: "1px solid rgba(0, 229, 117, 0.2)",
         }}
       >
-        {/* Reserve Health Card */}
-        <div
-          className="glass-card"
-          style={{
-            padding: "20px 24px",
-            border: "1px solid rgba(201, 168, 76, 0.15)",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div
             style={{
+              width: 44,
+              height: 44,
+              borderRadius: 14,
+              background: "rgba(0, 229, 117, 0.12)",
+              border: "1px solid rgba(0, 229, 117, 0.3)",
               display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 12,
+              justifyContent: "center",
+              fontSize: 22,
             }}
           >
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "var(--text-muted)",
-                textTransform: "uppercase",
-              }}
-            >
-              Digital Reserve Vault
-            </span>
-            <span style={{ fontSize: 11, color: "#10b981", fontWeight: 700 }}>
-              ● 100% SOLVENT
-            </span>
+            🛡️
           </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Vault USDT Collateral:</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>
-              ${formatUSDT(usdtBalance)} USDT
-            </span>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Collateral Ratio:</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#C9A84C" }}>
-              150% Over-Collateralised
-            </span>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Reserve Peg Rate:</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>
-              {pegDisplay} / USD
-            </span>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 14, fontWeight: 800, color: "#FFFFFF" }}>
+                Reserve Shield & AI Peg Guard
+              </span>
+              <span className="badge badge-success" style={{ fontSize: 10, padding: "1px 6px" }}>
+                ACTIVE
+              </span>
+            </div>
+            <div style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 2 }}>
+              150% Over-Collateralised · Continuous On-Chain FX Volatility Audit
+            </div>
           </div>
         </div>
 
-        {/* Instant Settlement Engine */}
-        <div
-          className="glass-card"
-          style={{
-            padding: "20px 24px",
-            border: "1px solid rgba(16, 185, 129, 0.15)",
-          }}
-        >
-          <div
+        <span style={{ color: "#00E575", fontSize: 18, fontWeight: 700 }}>›</span>
+      </div>
+
+      {/* ── Recent UPI Transactions Preview ─────────────────────────────────── */}
+      <div className="fintech-card" style={{ padding: "20px 24px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <span style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", letterSpacing: "0.8px", textTransform: "uppercase" }}>
+            Recent Passbook Activity
+          </span>
+          <button
+            onClick={() => navigate("/activity")}
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 12,
+              background: "transparent",
+              border: "none",
+              color: "#00E575",
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: "pointer",
             }}
           >
-            <span
+            View All Statements ›
+          </button>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {[
+            { name: "Priya Sharma", upi: "priya@liquidrs", amount: "₹500.00", type: "DEBIT", time: "Today, 2:14 PM", icon: "👩‍💼", color: "#EC4899" },
+            { name: "Added Money (USD Reserve)", upi: "vault@liquidrs", amount: "+₹5,533.33", type: "CREDIT", time: "Today, 1:45 PM", icon: "➕", color: "#00E575" },
+            { name: "Chai Point", upi: "chaipoint@liquidrs", amount: "₹80.00", type: "DEBIT", time: "11 Sep 2026", icon: "☕", color: "#F59E0B" },
+          ].map((tx, idx) => (
+            <div
+              key={idx}
+              onClick={() => navigate("/activity")}
               style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "var(--text-muted)",
-                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "10px 12px",
+                borderRadius: 14,
+                background: "var(--surface-2)",
+                cursor: "pointer",
               }}
             >
-              Settlement Engine
-            </span>
-            <span style={{ fontSize: 11, color: "#C9A84C", fontWeight: 700 }}>
-              ⚡ SUB-SECOND
-            </span>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Transfer Speed:</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#10b981" }}>
-              &lt; 1 Second Finality
-            </span>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Transaction Fee:</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#10b981" }}>
-              ₹0.00 (Gasless)
-            </span>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>Rails:</span>
-            <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-secondary)" }}>
-              EVM Smart Contract Rails
-            </span>
-          </div>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  background: `${tx.color}22`,
+                  border: `1px solid ${tx.color}55`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 16,
+                }}
+              >
+                {tx.icon}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF" }}>{tx.name}</div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{tx.time} · <span style={{ color: "#00E575" }}>● Successful</span></div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 800,
+                    color: tx.type === "CREDIT" ? "#00E575" : "#FFFFFF",
+                  }}
+                >
+                  {tx.amount}
+                </div>
+                <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
+                  {tx.type === "CREDIT" ? "Credited" : "Debited"}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

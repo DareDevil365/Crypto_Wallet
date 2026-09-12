@@ -8,13 +8,13 @@ import { useDemoContext } from "../context/DemoContext";
 
 const NAV_ITEMS = [
   { to: "/dashboard", label: "Home", icon: "🏠" },
-  { to: "/send", label: "Pay UPI / Scan", icon: "⚡" },
-  { to: "/receive", label: "Receive / QR", icon: "📥" },
+  { to: "/send", label: "Scan & Pay", icon: "⚡" },
+  { to: "/receive", label: "Receive QR", icon: "📥" },
   { to: "/mint", label: "Add Money", icon: "➕" },
   { to: "/redeem", label: "Withdraw", icon: "🏦" },
   { to: "/activity", label: "Passbook", icon: "📖" },
+  { to: "/risk", label: "Reserve Shield", icon: "🛡️", highlight: "AI 150%" },
   { to: "/faucet", label: "Reload Balance", icon: "💧" },
-  { to: "/risk", label: "Reserve Shield", icon: "🛡️", highlight: true, highlightText: "AI 150%" },
 ];
 
 interface LayoutProps {
@@ -32,14 +32,16 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="app-layout" style={{ display: "flex", minHeight: "100vh", background: "var(--navy-900)" }}>
-      {/* Mobile Top Header (<=768px only) */}
+    <div className="app-layout" style={{ display: "flex", minHeight: "100vh", background: "var(--bg-main)" }}>
+      {/* ── Mobile Top Header (PhonePe / super.money style) ────────────────── */}
       <header
         className="mobile-only"
         style={{
           padding: "12px 16px",
-          background: "linear-gradient(180deg, #060d1a 0%, #0B1F3A 100%)",
-          borderBottom: "1px solid rgba(201,168,76,0.15)",
+          background: "rgba(9, 12, 21, 0.95)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid var(--border-subtle)",
           alignItems: "center",
           justifyContent: "space-between",
           position: "sticky",
@@ -47,64 +49,114 @@ export default function Layout({ children }: LayoutProps) {
           zIndex: 100,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        {/* Left: Avatar with Yasharth details */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div
             style={{
-              width: 30,
-              height: 30,
+              position: "relative",
+              width: 38,
+              height: 38,
               borderRadius: "50%",
-              background: "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)",
+              background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 16,
-              fontWeight: 900,
-              color: "#060d1a",
-            }}
-          >
-            ₹
-          </div>
-          <span
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: 14,
               fontWeight: 800,
-              fontSize: 18,
-              color: "#C9A84C",
+              color: "#FFFFFF",
+              boxShadow: "0 4px 12px rgba(16, 185, 129, 0.3)",
             }}
           >
-            LiquidRS
-          </span>
+            YA
+            <span
+              style={{
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: "#00E575",
+                border: "2px solid #090C15",
+              }}
+            />
+          </div>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 14, fontWeight: 800, color: "#FFFFFF" }}>Yasharth</span>
+              <span style={{ fontSize: 10, color: "#00E575", fontWeight: 700 }}>✓ VERIFIED</span>
+            </div>
+            <div
+              onClick={handleCopyUpiId}
+              style={{
+                fontSize: 11,
+                color: "var(--text-secondary)",
+                fontFamily: "monospace",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              <span>yasharth@liquidrs</span>
+              <span style={{ fontSize: 9 }}>📋</span>
+            </div>
+          </div>
         </div>
 
-        <div
-          onClick={handleCopyUpiId}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "4px 10px",
-            borderRadius: 20,
-            background: "rgba(201, 168, 76, 0.12)",
-            border: "1px solid rgba(201, 168, 76, 0.25)",
-            cursor: "pointer",
-          }}
-        >
-          <span style={{ fontSize: 11, fontWeight: 700, color: "#ffffff" }}>Yasharth</span>
-          <span style={{ fontSize: 10, color: "#C9A84C", fontFamily: "monospace" }}>@liquidrs 📋</span>
+        {/* Right: Quick action buttons */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <button
+            onClick={() => navigate("/send")}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              background: "var(--surface-2)",
+              border: "1px solid var(--border-subtle)",
+              color: "#FFFFFF",
+              fontSize: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+            title="Scan QR"
+          >
+            📷
+          </button>
+          <button
+            onClick={() => navigate("/receive")}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              background: "var(--surface-2)",
+              border: "1px solid var(--border-subtle)",
+              color: "#FFFFFF",
+              fontSize: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+            title="My QR"
+          >
+            📥
+          </button>
         </div>
       </header>
 
-      {/* Sidebar (Desktop only) */}
+      {/* ── Desktop Sidebar (Modern Fintech) ────────────────────────────────── */}
       <aside
-        className="app-sidebar"
+        className="app-sidebar desktop-only"
         style={{
-          width: 250,
-          minWidth: 250,
-          background: "linear-gradient(180deg, #060d1a 0%, #0B1F3A 100%)",
-          borderRight: "1px solid rgba(201,168,76,0.12)",
-          display: "flex",
+          width: 260,
+          minWidth: 260,
+          background: "var(--surface-1)",
+          borderRight: "1px solid var(--border-subtle)",
           flexDirection: "column",
-          padding: "20px 0",
+          padding: "24px 0 16px",
           position: "sticky",
           top: 0,
           height: "100vh",
@@ -112,93 +164,90 @@ export default function Layout({ children }: LayoutProps) {
         }}
       >
         {/* Brand Header */}
-        <div style={{ padding: "0 20px 16px" }}>
+        <div style={{ padding: "0 24px 20px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 12,
+                background: "linear-gradient(135deg, #00E575 0%, #00B359 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 20,
+                fontWeight: 900,
+                color: "#05140A",
+                boxShadow: "0 4px 18px var(--upi-green-glow)",
+              }}
+            >
+              ₹
+            </div>
+            <div>
+              <div
+                style={{
+                  fontWeight: 800,
+                  fontSize: 20,
+                  letterSpacing: "-0.5px",
+                  color: "#FFFFFF",
+                }}
+              >
+                Liquid<span style={{ color: "#00E575" }}>RS</span>
+              </div>
+              <div
+                style={{
+                  fontSize: 10,
+                  color: "#00E575",
+                  fontWeight: 700,
+                  letterSpacing: "0.6px",
+                  textTransform: "uppercase",
+                }}
+              >
+                ● UPI 2.0 PROTOCOL
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* User Profile Card */}
+        <div
+          onClick={handleCopyUpiId}
+          style={{
+            margin: "0 16px 20px",
+            padding: "12px 14px",
+            borderRadius: 14,
+            background: "var(--surface-2)",
+            border: "1px solid var(--border-subtle)",
+            cursor: "pointer",
+            transition: "all 0.15s ease",
+          }}
+          title="Click to copy your UPI ID"
+        >
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
                 width: 36,
                 height: 36,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 19,
-                fontWeight: 900,
-                color: "#060d1a",
-                boxShadow: "0 0 15px rgba(201, 168, 76, 0.3)",
-              }}
-            >
-              ₹
-            </div>
-            <div>
-              <span
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontWeight: 800,
-                  fontSize: 20,
-                  background: "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  letterSpacing: "-0.5px",
-                }}
-              >
-                LiquidRS
-              </span>
-              <div
-                style={{
-                  fontSize: 10,
-                  color: "#10b981",
-                  fontWeight: 700,
-                  letterSpacing: "0.8px",
-                  textTransform: "uppercase",
-                }}
-              >
-                ● UPI 2.0 DIGITAL RUPEE
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* User UPI Card */}
-        <div
-          onClick={handleCopyUpiId}
-          style={{
-            margin: "0 14px 18px",
-            padding: "10px 12px",
-            borderRadius: 12,
-            background: "rgba(201, 168, 76, 0.06)",
-            border: "1px solid rgba(201, 168, 76, 0.2)",
-            cursor: "pointer",
-            transition: "all 0.2s",
-          }}
-          title="Click to copy your UPI ID"
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "50%",
-                background: "linear-gradient(135deg, #059669 0%, #10b981 100%)",
+                background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 13,
                 color: "#ffffff",
-                fontWeight: 700,
+                fontWeight: 800,
               }}
             >
               YA
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#ffffff" }}>
-                Yasharth (You)
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>
+                Yasharth
               </div>
               <div
                 style={{
                   fontSize: 11,
-                  color: "#C9A84C",
+                  color: "#00E575",
                   fontFamily: "monospace",
                   display: "flex",
                   alignItems: "center",
@@ -212,7 +261,7 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* Nav Links */}
+        {/* Navigation Items */}
         <nav style={{ flex: 1, padding: "0 12px" }}>
           {NAV_ITEMS.map((item) => (
             <NavLink
@@ -222,25 +271,19 @@ export default function Layout({ children }: LayoutProps) {
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                padding: "10px 14px",
-                borderRadius: 10,
+                padding: "11px 14px",
+                borderRadius: 12,
                 marginBottom: 4,
                 textDecoration: "none",
                 fontSize: 14,
-                fontWeight: isActive ? 600 : 400,
-                color: isActive
-                  ? "#C9A84C"
-                  : item.highlight
-                  ? "rgba(201,168,76,0.85)"
-                  : "var(--text-secondary)",
-                background: isActive ? "rgba(201,168,76,0.1)" : "transparent",
-                border: isActive
-                  ? "1px solid rgba(201,168,76,0.25)"
-                  : "1px solid transparent",
+                fontWeight: isActive ? 700 : 500,
+                color: isActive ? "#00E575" : "var(--text-secondary)",
+                background: isActive ? "rgba(0, 229, 117, 0.08)" : "transparent",
+                border: isActive ? "1px solid rgba(0, 229, 117, 0.2)" : "1px solid transparent",
                 transition: "all 0.15s ease",
               })}
             >
-              <span style={{ fontSize: 16, width: 22, textAlign: "center" }}>
+              <span style={{ fontSize: 17, width: 22, textAlign: "center" }}>
                 {item.icon}
               </span>
               <span>{item.label}</span>
@@ -249,60 +292,47 @@ export default function Layout({ children }: LayoutProps) {
                   style={{
                     marginLeft: "auto",
                     fontSize: 9,
-                    fontWeight: 700,
-                    background: "rgba(201,168,76,0.18)",
-                    color: "#C9A84C",
-                    padding: "2px 6px",
-                    borderRadius: 4,
+                    fontWeight: 800,
+                    background: "rgba(0, 229, 117, 0.15)",
+                    color: "#00E575",
+                    padding: "2px 7px",
+                    borderRadius: 6,
                     letterSpacing: "0.5px",
                   }}
                 >
-                  {item.highlightText}
+                  {item.highlight}
                 </span>
               )}
             </NavLink>
           ))}
         </nav>
 
-        {/* Bottom Status / Wallet Controls */}
+        {/* Bottom Wallet / Demo State */}
         <div
           style={{
-            padding: "14px 16px 8px",
-            borderTop: "1px solid rgba(201,168,76,0.08)",
+            padding: "16px",
+            borderTop: "1px solid var(--border-subtle)",
           }}
         >
           {isDemo ? (
             <div
               style={{
-                padding: "8px 10px",
-                borderRadius: 10,
-                background: "rgba(201,168,76,0.08)",
-                border: "1px solid rgba(201,168,76,0.2)",
+                padding: "10px 12px",
+                borderRadius: 12,
+                background: "var(--surface-2)",
+                border: "1px solid var(--border-subtle)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ fontSize: 12 }}>⚡</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 13, color: "#00E575" }}>●</span>
                 <div>
-                  <div
-                    style={{
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: "#C9A84C",
-                      letterSpacing: "0.5px",
-                    }}
-                  >
-                    UPI DEMO ACTIVE
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#FFFFFF" }}>
+                    UPI Demo Active
                   </div>
-                  <div
-                    style={{
-                      fontSize: 10,
-                      color: "var(--text-muted)",
-                      fontFamily: "monospace",
-                    }}
-                  >
+                  <div style={{ fontSize: 10, color: "var(--text-muted)", fontFamily: "monospace" }}>
                     {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "0x7099...79C8"}
                   </div>
                 </div>
@@ -314,30 +344,25 @@ export default function Layout({ children }: LayoutProps) {
                 }}
                 style={{
                   background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.12)",
+                  border: "1px solid var(--border-subtle)",
                   color: "var(--text-secondary)",
                   borderRadius: 6,
-                  padding: "3px 6px",
+                  padding: "4px 8px",
                   fontSize: 10,
                   cursor: "pointer",
-                  fontWeight: 500,
+                  fontWeight: 600,
                 }}
-                title="Exit Demo Mode"
               >
                 Exit
               </button>
             </div>
           ) : (
-            <ConnectButton
-              showBalance={false}
-              chainStatus="icon"
-              accountStatus="avatar"
-            />
+            <ConnectButton showBalance={false} chainStatus="icon" accountStatus="avatar" />
           )}
         </div>
       </aside>
 
-      {/* Main content */}
+      {/* ── Main App Content ────────────────────────────────────────────────── */}
       <main
         style={{
           flex: 1,
@@ -346,72 +371,61 @@ export default function Layout({ children }: LayoutProps) {
           minHeight: "100vh",
         }}
       >
-        {/* Ambient glow */}
-        <div
-          style={{
-            position: "fixed",
-            top: "15%",
-            right: "10%",
-            width: 450,
-            height: 450,
-            background: "radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%)",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.2 }}
           style={{ position: "relative", zIndex: 1, minHeight: "100%" }}
         >
           {children}
         </motion.div>
       </main>
 
-      {/* Mobile Bottom Navigation (<=768px only) */}
-      <nav
-        className="mobile-only"
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          background: "rgba(6, 13, 26, 0.95)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderTop: "1px solid rgba(201, 168, 76, 0.2)",
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-          padding: "6px 2px",
-          zIndex: 1500,
-        }}
-      >
-        {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            style={({ isActive }) => ({
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 2,
-              textDecoration: "none",
-              color: isActive ? "#C9A84C" : "var(--text-secondary)",
-              fontSize: 10,
-              fontWeight: isActive ? 700 : 500,
-              minWidth: 42,
-              padding: "4px 2px",
-            })}
-          >
-            <span style={{ fontSize: 18 }}>{item.icon}</span>
-            <span>{item.label.split(" ")[0]}</span>
-          </NavLink>
-        ))}
+      {/* ── PhonePe / super.money Mobile Bottom Dock (<=768px) ─────────────── */}
+      <nav className="fintech-bottom-dock mobile-only">
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
+        >
+          <span style={{ fontSize: 20 }}>🏠</span>
+          <span>Home</span>
+        </NavLink>
+
+        <NavLink
+          to="/activity"
+          className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
+        >
+          <span style={{ fontSize: 20 }}>📖</span>
+          <span>Passbook</span>
+        </NavLink>
+
+        {/* Center Prominent Glowing Scan & Pay Button */}
+        <NavLink
+          to="/send"
+          className="dock-scan-btn"
+          title="Scan & Pay UPI"
+        >
+          ⚡
+        </NavLink>
+
+        <NavLink
+          to="/mint"
+          className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
+        >
+          <span style={{ fontSize: 20 }}>➕</span>
+          <span>Add ₹</span>
+        </NavLink>
+
+        <NavLink
+          to="/risk"
+          className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
+        >
+          <span style={{ fontSize: 20 }}>🛡️</span>
+          <span>Shield</span>
+        </NavLink>
       </nav>
 
-      {/* Floating demo reset button */}
+      {/* Floating Demo Reset Button */}
       <DemoReset />
     </div>
   );

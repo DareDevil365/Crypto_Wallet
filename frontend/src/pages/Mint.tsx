@@ -10,13 +10,12 @@ import {
   formatLRS,
   formatUSDT,
 } from "../hooks/useContracts";
-import { PageHeader } from "../components/TxButton";
 import TxButton from "../components/TxButton";
 
 const USD_PRESETS = ["50", "100", "250", "500"];
 
 export default function Mint() {
-  const [collateralInput, setCollateralInput] = useState("");
+  const [collateralInput, setCollateralInput] = useState("100");
   const [approvedAmount, setApprovedAmount] = useState<bigint>(0n);
 
   const { data: lrsBalance, refetch: refetchLRS } = useLRSBalance();
@@ -52,178 +51,142 @@ export default function Mint() {
   };
 
   return (
-    <div className="page-container" style={{ maxWidth: 640 }}>
-      <PageHeader
-        title="Add Money"
-        subtitle="Top up your Liquid Rupee (₹) wallet backed 100% by digital reserves"
-      />
+    <div className="page-container" style={{ maxWidth: 580, margin: "0 auto" }}>
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
+      <div style={{ marginBottom: 20 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.5px" }}>
+          Add Money to Wallet
+        </h1>
+        <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
+          100% reserve-backed Liquid Rupee issuance
+        </p>
+      </div>
 
-      {/* Available reserve funds */}
+      {/* ── Available Balance Banner ────────────────────────────────────────── */}
       <div
-        className="glass-card"
+        className="fintech-card"
         style={{
           padding: "16px 20px",
+          marginBottom: 20,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 24,
-          border: "1px solid rgba(201, 168, 76, 0.2)",
+          background: "var(--surface-1)",
         }}
       >
         <div>
-          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase" }}>
+          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
             Available USD Reserves
           </div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#ffffff" }}>
+          <div style={{ fontSize: 16, fontWeight: 800, color: "#FFFFFF", marginTop: 2 }}>
             ${formatUSDT(usdtBalance)} USDT
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase" }}>
-            Exchange Peg
+          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
+            Guaranteed FX Peg
           </div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#10b981" }}>
+          <div style={{ fontSize: 16, fontWeight: 800, color: "#00E575", marginTop: 2 }}>
             1 USD = {pegDisplay}
           </div>
         </div>
       </div>
 
-      <div className="glass-card" style={{ padding: "28px 32px" }}>
-        {/* Input amount */}
-        <div style={{ marginBottom: 20 }}>
-          <label
-            style={{
-              display: "block",
-              fontSize: 12,
-              fontWeight: 700,
-              color: "var(--text-secondary)",
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-              marginBottom: 8,
-            }}
-          >
-            Amount to Deposit (USDT)
-          </label>
-          <div style={{ position: "relative" }}>
-            <span
-              style={{
-                position: "absolute",
-                left: 16,
-                top: "50%",
-                transform: "translateY(-50%)",
-                fontSize: 22,
-                fontWeight: 800,
-                color: "#C9A84C",
-              }}
-            >
-              $
-            </span>
-            <input
-              className="input-field"
-              type="number"
-              placeholder="100.00"
-              value={collateralInput}
-              onChange={(e) => setCollateralInput(e.target.value)}
-              style={{
-                paddingLeft: 40,
-                fontSize: 24,
-                fontWeight: 800,
-                fontFamily: "'Space Grotesk', sans-serif",
-              }}
-            />
-          </div>
-
-          {/* Quick USD presets */}
-          <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-            {USD_PRESETS.map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                onClick={() => setCollateralInput(preset)}
-                style={{
-                  padding: "4px 12px",
-                  borderRadius: 20,
-                  background:
-                    collateralInput === preset
-                      ? "rgba(201, 168, 76, 0.25)"
-                      : "rgba(255, 255, 255, 0.05)",
-                  border:
-                    collateralInput === preset
-                      ? "1px solid #C9A84C"
-                      : "1px solid rgba(255, 255, 255, 0.1)",
-                  color: collateralInput === preset ? "#C9A84C" : "var(--text-secondary)",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                ${preset}
-              </button>
-            ))}
-          </div>
+      {/* ── Deposit Amount Input Card ───────────────────────────────────────── */}
+      <div className="fintech-card" style={{ padding: "24px", marginBottom: 20 }}>
+        <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 12 }}>
+          Deposit Amount (USDT)
         </div>
 
-        {/* You receive preview */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+          <span style={{ fontSize: 32, fontWeight: 800, color: "#00E575" }}>$</span>
+          <input
+            type="number"
+            placeholder="0"
+            value={collateralInput}
+            onChange={(e) => setCollateralInput(e.target.value)}
+            style={{
+              fontSize: 36,
+              fontWeight: 800,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              background: "transparent",
+              border: "none",
+              color: "#FFFFFF",
+              outline: "none",
+              width: "100%",
+            }}
+          />
+        </div>
+
+        {/* Presets */}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
+          {USD_PRESETS.map((preset) => (
+            <button
+              key={preset}
+              type="button"
+              onClick={() => setCollateralInput(preset)}
+              style={{
+                padding: "6px 14px",
+                borderRadius: 20,
+                background: collateralInput === preset ? "rgba(0, 229, 117, 0.2)" : "var(--surface-2)",
+                border: collateralInput === preset ? "1px solid #00E575" : "1px solid var(--border-subtle)",
+                color: collateralInput === preset ? "#00E575" : "var(--text-secondary)",
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              ${preset}
+            </button>
+          ))}
+        </div>
+
+        {/* Instant Conversion Preview Box */}
         <div
           style={{
-            padding: "16px 20px",
-            background: "rgba(6, 13, 26, 0.6)",
-            borderRadius: 14,
-            border: "1px solid rgba(201, 168, 76, 0.15)",
-            marginBottom: 24,
+            padding: "16px 18px",
+            background: "var(--surface-2)",
+            borderRadius: 16,
+            border: "1px solid var(--border-subtle)",
+            marginBottom: 20,
           }}
         >
-          <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 4 }}>
-            You will receive in wallet:
+          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
+            You will receive in Liquid Rupee wallet:
           </div>
           <div
             style={{
-              fontSize: 28,
+              fontSize: 32,
               fontWeight: 900,
-              color: "#10b981",
-              fontFamily: "'Space Grotesk', sans-serif",
+              color: "#00E575",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              marginTop: 4,
             }}
           >
             ₹{formatLRS(previewAmount)}
           </div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
-            Backed at 150% collateral safety ratio · 1 LRS = ₹1.00
+            Backed at 150% reserve ratio · 1 LRS = ₹1.00
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Button */}
         <div style={{ display: "flex", gap: 12 }}>
           {!hasApproval ? (
             <TxButton
               label="Authorize Deposit"
               onClick={handleApprove}
               disabled={collateralBigInt === 0n}
-              style={{ flex: 1, padding: "14px" }}
+              style={{ width: "100%", padding: "14px", borderRadius: 14 }}
             />
           ) : (
             <TxButton
-              label="Complete ₹ Top-Up"
+              label="Add ₹ to Wallet"
               onClick={handleMint}
               disabled={collateralBigInt === 0n}
-              style={{ flex: 1, padding: "14px", background: "linear-gradient(135deg, #10b981 0%, #059669 100%)" }}
+              style={{ width: "100%", padding: "14px", borderRadius: 14 }}
             />
           )}
-        </div>
-
-        {/* Backing explanation */}
-        <div
-          style={{
-            marginTop: 20,
-            padding: "12px 14px",
-            borderRadius: 10,
-            background: "rgba(255, 255, 255, 0.02)",
-            border: "1px solid rgba(255, 255, 255, 0.06)",
-            fontSize: 11,
-            color: "var(--text-muted)",
-            lineHeight: 1.5,
-          }}
-        >
-          💡 <strong>How it works:</strong> Your USD is held safely in the LiquidRS smart reserve vault. For every $1 deposited at ₹83 peg, ₹55.33 is issued to ensure 150% over-collateralisation. You can withdraw your USD anytime.
         </div>
       </div>
     </div>

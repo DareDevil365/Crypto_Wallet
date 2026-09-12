@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PageHeader } from "../components/TxButton";
 import { DEMO_RESET_EVENT } from "../components/DemoReset";
+import { useLRSBalance, formatLRS } from "../hooks/useContracts";
 
 type FilterType = "ALL" | "PAID" | "RECEIVED" | "DEPOSIT";
 
@@ -25,13 +25,13 @@ const SEED_PASSBOOK: PassbookItem[] = [
     type: "DEBIT",
     title: "Paid to Priya Sharma",
     upiId: "priya@liquidrs",
-    amount: "₹500.00",
+    amount: "-₹500.00",
     time: "Today, 2:14 PM",
     status: "SUCCESS",
     upiRef: "UPI/948201948201",
     txHash: "0x7e8f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f",
     avatar: "PS",
-    avatarBg: "#ec4899",
+    avatarBg: "#EC4899",
   },
   {
     id: "p2",
@@ -44,7 +44,7 @@ const SEED_PASSBOOK: PassbookItem[] = [
     upiRef: "UPI/829104829104",
     txHash: "0x3a4b5c6d7e8f1a2b3c4d5e6f7a8b9c0d1e2f3a4b",
     avatar: "➕",
-    avatarBg: "#C9A84C",
+    avatarBg: "#00E575",
   },
   {
     id: "p3",
@@ -57,20 +57,20 @@ const SEED_PASSBOOK: PassbookItem[] = [
     upiRef: "UPI/719283719283",
     txHash: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f1a2b",
     avatar: "RV",
-    avatarBg: "#3b82f6",
+    avatarBg: "#3B82F6",
   },
   {
     id: "p4",
     type: "DEBIT",
     title: "Paid to Chai Point",
     upiId: "chaipoint@liquidrs",
-    amount: "₹80.00",
+    amount: "-₹80.00",
     time: "11 Sep 2026",
     status: "SUCCESS",
     upiRef: "UPI/610293847561",
     txHash: "0x9c0d1e2f3a4b5c6d7e8f1a2b3c4d5e6f7a8b9c0d",
     avatar: "☕",
-    avatarBg: "#f59e0b",
+    avatarBg: "#F59E0B",
   },
 ];
 
@@ -78,8 +78,8 @@ export default function Activity() {
   const [filter, setFilter] = useState<FilterType>("ALL");
   const [items, setItems] = useState<PassbookItem[]>(SEED_PASSBOOK);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const { data: lrsBalance } = useLRSBalance();
 
-  // Listen for demo reset
   useEffect(() => {
     const handler = () => setItems(SEED_PASSBOOK);
     window.addEventListener(DEMO_RESET_EVENT, handler);
@@ -95,24 +95,31 @@ export default function Activity() {
   });
 
   return (
-    <div className="page-container" style={{ maxWidth: 760 }}>
-      <PageHeader
-        title="Passbook & Statements"
-        subtitle="Complete record of your UPI transfers, payments, and deposits"
-      />
+    <div className="page-container" style={{ maxWidth: 680, margin: "0 auto" }}>
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 20 }}>
+        <div>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.5px" }}>
+            UPI Passbook
+          </h1>
+          <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
+            Statements, transfers & receipts
+          </p>
+        </div>
+        <div style={{ textAlign: "right" }}>
+          <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
+            Account Balance
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 800, color: "#00E575" }}>
+            ₹{formatLRS(lrsBalance)}
+          </div>
+        </div>
+      </div>
 
-      {/* Filter Tabs */}
-      <div
-        style={{
-          display: "flex",
-          gap: 10,
-          marginBottom: 24,
-          overflowX: "auto",
-          paddingBottom: 4,
-        }}
-      >
+      {/* ── Filter Tabs ─────────────────────────────────────────────────────── */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 20, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none" }}>
         {[
-          { id: "ALL", label: "All Transactions" },
+          { id: "ALL", label: "All Statements" },
           { id: "PAID", label: "Paid ↗" },
           { id: "RECEIVED", label: "Received ↙" },
           { id: "DEPOSIT", label: "Added Money ➕" },
@@ -120,22 +127,12 @@ export default function Activity() {
           <button
             key={tab.id}
             onClick={() => setFilter(tab.id as FilterType)}
+            className={`btn-pill ${filter === tab.id ? "active" : ""}`}
             style={{
-              padding: "8px 16px",
-              borderRadius: 20,
-              background:
-                filter === tab.id
-                  ? "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)"
-                  : "rgba(255, 255, 255, 0.04)",
-              border:
-                filter === tab.id
-                  ? "none"
-                  : "1px solid rgba(255, 255, 255, 0.08)",
-              color: filter === tab.id ? "#060d1a" : "var(--text-secondary)",
-              fontWeight: 700,
-              fontSize: 13,
-              cursor: "pointer",
-              transition: "all 0.15s",
+              background: filter === tab.id ? "var(--upi-green)" : "var(--surface-2)",
+              color: filter === tab.id ? "#05140A" : "var(--text-secondary)",
+              border: filter === tab.id ? "none" : "1px solid var(--border-subtle)",
+              fontWeight: 800,
             }}
           >
             {tab.label}
@@ -143,8 +140,8 @@ export default function Activity() {
         ))}
       </div>
 
-      {/* Passbook List */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* ── Transaction Feed ────────────────────────────────────────────────── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {filteredItems.map((item) => {
           const isCredit = item.type === "CREDIT" || item.type === "DEPOSIT";
           const isExpanded = expandedId === item.id;
@@ -153,16 +150,12 @@ export default function Activity() {
             <motion.div
               key={item.id}
               layout
-              className="glass-card"
+              className="fintech-card fintech-card-interactive"
               onClick={() => setExpandedId(isExpanded ? null : item.id)}
               style={{
-                padding: "18px 20px",
-                borderRadius: 16,
+                padding: "16px 18px",
                 cursor: "pointer",
-                border: isExpanded
-                  ? "1px solid #C9A84C"
-                  : "1px solid rgba(255, 255, 255, 0.06)",
-                transition: "border 0.2s",
+                border: isExpanded ? "1px solid var(--border-focus)" : "1px solid var(--border-subtle)",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -172,43 +165,28 @@ export default function Activity() {
                     width: 44,
                     height: 44,
                     borderRadius: "50%",
-                    background: item.avatarBg,
+                    background: `${item.avatarBg}22`,
+                    border: `1px solid ${item.avatarBg}66`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: 15,
                     fontWeight: 800,
-                    color: "#ffffff",
-                    boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+                    color: "#FFFFFF",
                   }}
                 >
                   {item.avatar}
                 </div>
 
-                {/* Details */}
+                {/* Info */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div
-                    style={{
-                      fontSize: 15,
-                      fontWeight: 700,
-                      color: "#ffffff",
-                      marginBottom: 2,
-                    }}
-                  >
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF", marginBottom: 2 }}>
                     {item.title}
                   </div>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: "var(--text-muted)",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                    }}
-                  >
+                  <div style={{ fontSize: 12, color: "var(--text-muted)", display: "flex", alignItems: "center", gap: 6 }}>
                     <span>{item.time}</span>
                     <span>·</span>
-                    <span style={{ color: "#10b981", fontWeight: 600 }}>● {item.status}</span>
+                    <span style={{ color: "#00E575", fontWeight: 700 }}>● {item.status}</span>
                   </div>
                 </div>
 
@@ -218,19 +196,18 @@ export default function Activity() {
                     style={{
                       fontSize: 16,
                       fontWeight: 800,
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      color: isCredit ? "#10b981" : "#ffffff",
+                      color: isCredit ? "#00E575" : "#FFFFFF",
                     }}
                   >
                     {item.amount}
                   </div>
                   <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
-                    {isCredit ? "Credited to Wallet" : "Debited from Wallet"}
+                    {isCredit ? "Credited" : "Debited"}
                   </div>
                 </div>
               </div>
 
-              {/* Expanded UPI & On-chain Receipt details */}
+              {/* Expanded Receipt Breakdown */}
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
@@ -238,43 +215,43 @@ export default function Activity() {
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     style={{
-                      marginTop: 16,
-                      paddingTop: 16,
-                      borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                      marginTop: 14,
+                      paddingTop: 14,
+                      borderTop: "1px solid var(--border-subtle)",
                       fontSize: 12,
                       color: "var(--text-secondary)",
                       lineHeight: 1.8,
                     }}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span>UPI Reference Number:</span>
-                      <span style={{ fontFamily: "monospace", color: "#ffffff" }}>
+                      <span>UPI Reference UTR:</span>
+                      <span style={{ fontFamily: "monospace", color: "#FFFFFF" }}>
                         {item.upiRef}
                       </span>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                       <span>Beneficiary UPI ID:</span>
-                      <span style={{ fontFamily: "monospace", color: "#C9A84C" }}>
+                      <span style={{ fontFamily: "monospace", color: "#00E575" }}>
                         {item.upiId}
                       </span>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                       <span>Payment Rails:</span>
-                      <span style={{ color: "#10b981" }}>EVM L2 Smart Contract Settlement</span>
+                      <span style={{ color: "#00E575" }}>EVM L2 Smart Contract Settlement</span>
                     </div>
                     <div
                       style={{
-                        marginTop: 10,
-                        padding: "8px 12px",
-                        background: "rgba(6, 13, 26, 0.8)",
+                        marginTop: 8,
+                        padding: "6px 10px",
+                        background: "var(--surface-2)",
                         borderRadius: 8,
-                        fontSize: 11,
+                        fontSize: 10,
                         wordBreak: "break-all",
                         fontFamily: "monospace",
                       }}
                     >
                       <span style={{ color: "var(--text-muted)" }}>On-Chain Hash: </span>
-                      <span style={{ color: "#60a5fa" }}>{item.txHash}</span>
+                      <span style={{ color: "#60A5FA" }}>{item.txHash}</span>
                     </div>
                   </motion.div>
                 )}
