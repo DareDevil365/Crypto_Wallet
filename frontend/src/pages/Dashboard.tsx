@@ -30,7 +30,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ padding: "32px 40px", maxWidth: 1080 }}>
+    <div className="page-container" style={{ maxWidth: 1080 }}>
       {/* UPI Header */}
       <div
         style={{

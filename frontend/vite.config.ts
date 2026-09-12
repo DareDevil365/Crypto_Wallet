@@ -13,6 +13,7 @@ export default defineConfig({
     global: "globalThis",
   },
   server: {
+    host: true,
     port: 3000,
     open: true,
   },

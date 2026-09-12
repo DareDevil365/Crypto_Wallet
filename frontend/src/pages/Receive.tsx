@@ -32,7 +32,7 @@ export default function Receive() {
   };
 
   return (
-    <div style={{ padding: "36px 40px", maxWidth: 520 }}>
+    <div className="page-container" style={{ maxWidth: 520 }}>
       <PageHeader
         title="Receive Money"
         subtitle="Share your personal UPI QR or UPI ID to get paid instantly"

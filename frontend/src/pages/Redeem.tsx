@@ -48,7 +48,7 @@ export default function Redeem() {
   const formattedInr = formatLRS(lrsBalance);
 
   return (
-    <div style={{ padding: "36px 40px", maxWidth: 580 }}>
+    <div className="page-container" style={{ maxWidth: 580 }}>
       <PageHeader
         title="Withdraw Money"
         subtitle="Cash out your Liquid Rupee (₹) back to USD or bank account"

@@ -30,7 +30,7 @@ export default function Faucet() {
   }, [usdtBalance]);
 
   return (
-    <div style={{ padding: "40px 48px", maxWidth: 640 }}>
+    <div className="page-container" style={{ maxWidth: 640 }}>
       <PageHeader
         title="Get Test Funds"
         subtitle="Claim mock USDT and USDC to use as collateral in the demo"

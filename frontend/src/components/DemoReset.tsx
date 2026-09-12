@@ -25,6 +25,7 @@ export default function DemoReset() {
     <>
       {/* Floating button */}
       <button
+        className="demo-reset-btn"
         onClick={() => setOpen(true)}
         style={{
           position: "fixed",

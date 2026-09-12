@@ -76,7 +76,7 @@ export default function Send() {
   const formattedInr = formatLRS(lrsBalance);
 
   return (
-    <div style={{ padding: "36px 40px", maxWidth: 640 }}>
+    <div className="page-container" style={{ maxWidth: 640 }}>
       <PageHeader
         title="Pay via UPI"
         subtitle="Instant ₹ transfers to any UPI ID, phone number, or merchant"

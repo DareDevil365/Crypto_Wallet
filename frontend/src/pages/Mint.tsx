@@ -52,7 +52,7 @@ export default function Mint() {
   };
 
   return (
-    <div style={{ padding: "36px 40px", maxWidth: 640 }}>
+    <div className="page-container" style={{ maxWidth: 640 }}>
       <PageHeader
         title="Add Money"
         subtitle="Top up your Liquid Rupee (₹) wallet backed 100% by digital reserves"

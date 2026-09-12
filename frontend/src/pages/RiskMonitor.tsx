@@ -293,8 +293,8 @@ export default function RiskMonitor() {
     : 150;
 
   return (
-    <div style={{ padding: "40px 48px" }}>
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 32 }}>
+    <div className="page-container">
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 32, flexWrap: "wrap", gap: 12 }}>
         <PageHeader
           title="Reserve & Security Shield"
           subtitle="150% Over-Collateralised Reserve Protection · Autonomous AI Stability Guard"
@@ -317,7 +317,7 @@ export default function RiskMonitor() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20 }}>
+      <div className="mobile-grid-1col" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20 }}>
         {/* LEFT COLUMN */}
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {/* Peg stability chart */}

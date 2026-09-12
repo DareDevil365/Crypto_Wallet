@@ -32,9 +32,71 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "var(--navy-900)" }}>
-      {/* Sidebar */}
+    <div className="app-layout" style={{ display: "flex", minHeight: "100vh", background: "var(--navy-900)" }}>
+      {/* Mobile Top Header (<=768px only) */}
+      <header
+        className="mobile-only"
+        style={{
+          padding: "12px 16px",
+          background: "linear-gradient(180deg, #060d1a 0%, #0B1F3A 100%)",
+          borderBottom: "1px solid rgba(201,168,76,0.15)",
+          alignItems: "center",
+          justifyContent: "space-between",
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div
+            style={{
+              width: 30,
+              height: 30,
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 16,
+              fontWeight: 900,
+              color: "#060d1a",
+            }}
+          >
+            ₹
+          </div>
+          <span
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontWeight: 800,
+              fontSize: 18,
+              color: "#C9A84C",
+            }}
+          >
+            LiquidRS
+          </span>
+        </div>
+
+        <div
+          onClick={handleCopyUpiId}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "4px 10px",
+            borderRadius: 20,
+            background: "rgba(201, 168, 76, 0.12)",
+            border: "1px solid rgba(201, 168, 76, 0.25)",
+            cursor: "pointer",
+          }}
+        >
+          <span style={{ fontSize: 11, fontWeight: 700, color: "#ffffff" }}>Yasharth</span>
+          <span style={{ fontSize: 10, color: "#C9A84C", fontFamily: "monospace" }}>@liquidrs 📋</span>
+        </div>
+      </header>
+
+      {/* Sidebar (Desktop only) */}
       <aside
+        className="app-sidebar"
         style={{
           width: 250,
           minWidth: 250,
@@ -306,6 +368,48 @@ export default function Layout({ children }: LayoutProps) {
           {children}
         </motion.div>
       </main>
+
+      {/* Mobile Bottom Navigation (<=768px only) */}
+      <nav
+        className="mobile-only"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: "rgba(6, 13, 26, 0.95)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderTop: "1px solid rgba(201, 168, 76, 0.2)",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          padding: "6px 2px",
+          zIndex: 1500,
+        }}
+      >
+        {NAV_ITEMS.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            style={({ isActive }) => ({
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 2,
+              textDecoration: "none",
+              color: isActive ? "#C9A84C" : "var(--text-secondary)",
+              fontSize: 10,
+              fontWeight: isActive ? 700 : 500,
+              minWidth: 42,
+              padding: "4px 2px",
+            })}
+          >
+            <span style={{ fontSize: 18 }}>{item.icon}</span>
+            <span>{item.label.split(" ")[0]}</span>
+          </NavLink>
+        ))}
+      </nav>
 
       {/* Floating demo reset button */}
       <DemoReset />

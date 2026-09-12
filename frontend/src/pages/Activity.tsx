@@ -95,7 +95,7 @@ export default function Activity() {
   });
 
   return (
-    <div style={{ padding: "36px 40px", maxWidth: 760 }}>
+    <div className="page-container" style={{ maxWidth: 760 }}>
       <PageHeader
         title="Passbook & Statements"
         subtitle="Complete record of your UPI transfers, payments, and deposits"
