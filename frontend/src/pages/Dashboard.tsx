@@ -19,13 +19,7 @@ export default function Dashboard() {
   const { collateralRatio, pegPrice, paused } = useVaultState();
   const { collateral, lrsMinted } = useUserPosition();
 
-  // Format LRS Balance in INR
-  const lrsAmountStr = formatLRS(lrsBalance);
-  const lrsNum = Number(lrsAmountStr.replace(/,/g, ""));
-  const formattedInr = lrsNum.toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const formattedInr = formatLRS(lrsBalance);
 
   const pegDisplay = pegPrice
     ? `₹${(Number(pegPrice) / 100).toFixed(2)}`

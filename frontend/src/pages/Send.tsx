@@ -73,12 +73,7 @@ export default function Send() {
     setNote("");
   };
 
-  const lrsAmountStr = formatLRS(lrsBalance);
-  const lrsNum = Number(lrsAmountStr.replace(/,/g, ""));
-  const formattedInr = lrsNum.toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const formattedInr = formatLRS(lrsBalance);
 
   return (
     <div style={{ padding: "36px 40px", maxWidth: 640 }}>
@@ -261,7 +256,7 @@ export default function Send() {
             ))}
             <button
               type="button"
-              onClick={() => setAmount(lrsNum > 0 ? lrsNum.toString() : "0")}
+              onClick={() => setAmount(lrsBalance ? (Number(lrsBalance / 10n ** 18n)).toString() : "0")}
               style={{
                 padding: "4px 12px",
                 borderRadius: 20,

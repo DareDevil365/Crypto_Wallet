@@ -45,12 +45,7 @@ export default function Redeem() {
     return hash;
   };
 
-  const lrsAmountStr = formatLRS(lrsBalance);
-  const lrsNum = Number(lrsAmountStr.replace(/,/g, ""));
-  const formattedInr = lrsNum.toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const formattedInr = formatLRS(lrsBalance);
 
   return (
     <div style={{ padding: "36px 40px", maxWidth: 580 }}>
@@ -210,10 +205,10 @@ export default function Redeem() {
                 />
               </div>
 
-              {lrsNum > 0 && (
+              {Boolean(lrsBalance && lrsBalance > 0n) && (
                 <button
                   type="button"
-                  onClick={() => setLrsInput(lrsNum.toString())}
+                  onClick={() => setLrsInput((Number(lrsBalance! / 10n ** 18n)).toString())}
                   style={{
                     marginTop: 8,
                     background: "none",

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import {
   useLRSBalance,
@@ -18,14 +16,12 @@ import TxButton from "../components/TxButton";
 const USD_PRESETS = ["50", "100", "250", "500"];
 
 export default function Mint() {
-  const navigate = useNavigate();
   const [collateralInput, setCollateralInput] = useState("");
-  const [txHash, setTxHash] = useState<string | null>(null);
   const [approvedAmount, setApprovedAmount] = useState<bigint>(0n);
 
   const { data: lrsBalance, refetch: refetchLRS } = useLRSBalance();
   const { data: usdtBalance, refetch: refetchUSDT } = useUSDTBalance();
-  const { collateralRatio, pegPrice } = useVaultState();
+  const { pegPrice } = useVaultState();
   const { data: previewAmount } = usePreviewMint(collateralInput);
   const { approve, lockAndMint } = useMint();
 
@@ -47,7 +43,6 @@ export default function Mint() {
   const handleMint = async () => {
     if (collateralBigInt === 0n) return;
     const hash = await lockAndMint(collateralBigInt);
-    setTxHash(hash ?? null);
     await refetchLRS();
     await refetchUSDT();
     setCollateralInput("");

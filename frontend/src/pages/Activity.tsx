@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDemoAccount } from "../hooks/useContracts";
-import { useDemoContext } from "../context/DemoContext";
 import { PageHeader } from "../components/TxButton";
 import { DEMO_RESET_EVENT } from "../components/DemoReset";
 

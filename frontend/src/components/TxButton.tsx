@@ -1,4 +1,4 @@
-import { useState, ReactNode } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 
@@ -85,67 +85,6 @@ export default function TxButton({
         )}
       </AnimatePresence>
     </button>
-  );
-}
-
-// ── Stat Card ──────────────────────────────────────────────────────────────
-
-interface StatCardProps {
-  label: string;
-  value: string;
-  subValue?: string;
-  icon?: string;
-  accent?: boolean;
-}
-
-export function StatCard({ label, value, subValue, icon, accent }: StatCardProps) {
-  return (
-    <div
-      className="glass-card"
-      style={{
-        padding: "20px 24px",
-        border: accent
-          ? "1px solid rgba(201,168,76,0.3)"
-          : "1px solid rgba(201,168,76,0.12)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          marginBottom: 12,
-          color: "var(--text-secondary)",
-          fontSize: 12,
-          fontWeight: 600,
-          letterSpacing: "0.5px",
-          textTransform: "uppercase",
-        }}
-      >
-        {icon && <span>{icon}</span>}
-        {label}
-      </div>
-      <div
-        style={{
-          fontSize: 28,
-          fontWeight: 800,
-          fontFamily: "'Space Grotesk', sans-serif",
-          background: accent
-            ? "linear-gradient(135deg, #C9A84C 0%, #e8d48e 100%)"
-            : undefined,
-          WebkitBackgroundClip: accent ? "text" : undefined,
-          WebkitTextFillColor: accent ? "transparent" : undefined,
-          color: accent ? undefined : "var(--text-primary)",
-        }}
-      >
-        {value}
-      </div>
-      {subValue && (
-        <div style={{ marginTop: 4, fontSize: 13, color: "var(--text-muted)" }}>
-          {subValue}
-        </div>
-      )}
-    </div>
   );
 }
 
