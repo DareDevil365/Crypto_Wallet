@@ -13,6 +13,7 @@ import {
   formatUSDT,
 } from "../hooks/useContracts";
 import TxButton from "../components/TxButton";
+import { IconBank, IconCheck, IconZap } from "../components/Icons";
 
 export default function Redeem() {
   const [lrsInput, setLrsInput] = useState("");
@@ -40,20 +41,36 @@ export default function Redeem() {
     await refetchUSDT();
     setRedeemedUSDT(previewBefore ? formatUSDT(previewBefore) : "–");
     setSuccess(true);
-    toast.success("Withdrawal processed successfully!", { icon: "🏦" });
+    toast.success("Liquid RS (L₹S) redemption processed successfully!");
     return hash;
   };
 
   const formattedInr = formatLRS(lrsBalance);
 
   return (
-    <div className="page-container" style={{ maxWidth: 580, margin: "0 auto" }}>
+    <div className="page-container" style={{ maxWidth: 560, margin: "0 auto" }}>
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.5px" }}>
-          Withdraw Money
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+          <span
+            style={{
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: "0.06em",
+              color: "var(--upi-green)",
+              background: "rgba(0, 229, 117, 0.1)",
+              border: "1px solid rgba(0, 229, 117, 0.25)",
+              padding: "2px 8px",
+              borderRadius: 20,
+            }}
+          >
+            SMART CONTRACT BURNING
+          </span>
+        </div>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em" }}>
+          Redeem Liquid RS (L₹S)
         </h1>
         <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
-          Instant zero-penalty redemption back to your USD reserves
+          Burn ₹-pegged crypto to unlock digital USD reserves at guaranteed parity
         </p>
       </div>
 
@@ -63,8 +80,8 @@ export default function Redeem() {
             key="success"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="fintech-card"
-            style={{ padding: 32, textAlign: "center" }}
+            className="apple-glass-card"
+            style={{ padding: 34, textAlign: "center", borderRadius: 24 }}
           >
             <div
               style={{
@@ -75,19 +92,17 @@ export default function Redeem() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 30,
-                color: "#05140A",
                 margin: "0 auto 16px",
-                boxShadow: "0 4px 20px var(--upi-green-glow)",
+                boxShadow: "0 0 30px rgba(0, 229, 117, 0.4)",
               }}
             >
-              ✓
+              <IconCheck size={32} color="#031408" strokeWidth={3} />
             </div>
-            <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: "#FFFFFF" }}>
-              Withdrawal Successful!
+            <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+              Redemption Successful!
             </h3>
             <p style={{ color: "var(--text-secondary)", fontSize: 14, marginBottom: 20 }}>
-              ${redeemedUSDT} USDT has been returned to your reserve account.
+              ${redeemedUSDT} USDT has been credited back to your USD reserves.
             </p>
             <button
               className="btn-primary"
@@ -97,18 +112,18 @@ export default function Redeem() {
               }}
               style={{ padding: "12px 28px", borderRadius: 14 }}
             >
-              Make Another Withdrawal
+              Make Another Redemption
             </button>
           </motion.div>
         ) : (
-          <div className="fintech-card" style={{ padding: "24px" }}>
+          <div className="apple-glass-card" style={{ padding: "26px 22px" }}>
             {/* Balance banner */}
             <div
               style={{
                 padding: "14px 18px",
                 borderRadius: 14,
-                background: "var(--surface-2)",
-                border: "1px solid var(--border-subtle)",
+                background: "rgba(255, 255, 255, 0.04)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
                 marginBottom: 20,
                 display: "flex",
                 justifyContent: "space-between",
@@ -116,52 +131,77 @@ export default function Redeem() {
               }}
             >
               <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>
-                Available to Withdraw:
+                Available Liquid RS (L₹S):
               </span>
-              <span style={{ fontSize: 18, fontWeight: 800, color: "#00E575" }}>
-                ₹{formattedInr}
+              <span style={{ fontSize: 18, fontWeight: 800, color: "#00E575", fontVariantNumeric: "tabular-nums" }}>
+                ₹{formattedInr} L₹S
               </span>
             </div>
 
             {/* Destination Selector */}
             <div style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>
                 Payout Destination
               </div>
               <div
                 style={{
                   padding: "12px 16px",
                   borderRadius: 14,
-                  background: "var(--surface-2)",
-                  border: "1px solid var(--border-subtle)",
+                  background: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: 22 }}>🏦</span>
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 10,
+                      background: "rgba(0, 229, 117, 0.12)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <IconBank size={18} color="var(--upi-green)" />
+                  </div>
                   <div>
-                    <div style={{ fontSize: 13, fontWeight: 800, color: "#FFFFFF" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF" }}>
                       USDT Reserve Vault
                     </div>
                     <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
-                      Instant Settlement · Zero Fee
+                      Instant Smart Contract Settlement · Zero Slippage
                     </div>
                   </div>
                 </div>
-                <span style={{ fontSize: 11, color: "#00E575", fontWeight: 800 }}>
-                  CONNECTED ✓
-                </span>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    fontSize: 11,
+                    color: "#00E575",
+                    fontWeight: 700,
+                    background: "rgba(0, 229, 117, 0.1)",
+                    padding: "3px 8px",
+                    borderRadius: 20,
+                  }}
+                >
+                  <IconCheck size={11} color="#00E575" strokeWidth={2.5} />
+                  <span>Connected</span>
+                </div>
               </div>
             </div>
 
             {/* Amount input */}
             <div style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-                Amount to Cash Out (₹)
+              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>
+                Amount to Burn in L₹S (₹)
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8 }}>
                 <span style={{ fontSize: 32, fontWeight: 800, color: "#00E575" }}>₹</span>
                 <input
                   type="number"
@@ -169,14 +209,16 @@ export default function Redeem() {
                   value={lrsInput}
                   onChange={(e) => setLrsInput(e.target.value)}
                   style={{
-                    fontSize: 36,
+                    fontSize: 44,
                     fontWeight: 800,
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+                    fontVariantNumeric: "tabular-nums",
                     background: "transparent",
                     border: "none",
                     color: "#FFFFFF",
                     outline: "none",
                     width: "100%",
+                    letterSpacing: "-0.03em",
                   }}
                 />
               </div>
@@ -194,7 +236,7 @@ export default function Redeem() {
                     cursor: "pointer",
                   }}
                 >
-                  Withdraw Maximum (₹{formattedInr})
+                  Withdraw Maximum (₹{formattedInr} L₹S)
                 </button>
               )}
             </div>
@@ -204,20 +246,22 @@ export default function Redeem() {
               style={{
                 padding: "16px 18px",
                 borderRadius: 14,
-                background: "var(--surface-2)",
-                border: "1px solid var(--border-subtle)",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
                 marginBottom: 20,
               }}
             >
-              <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
-                You will receive in USD:
+              <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>
+                You will receive in USD Reserves:
               </div>
               <div
                 style={{
-                  fontSize: 28,
-                  fontWeight: 900,
+                  fontSize: 30,
+                  fontWeight: 800,
                   color: "#FFFFFF",
-                  marginTop: 2,
+                  fontVariantNumeric: "tabular-nums",
+                  letterSpacing: "-0.02em",
+                  marginTop: 3,
                 }}
               >
                 ${previewUSDT ? formatUSDT(previewUSDT) : "0.00"} USDT
@@ -226,14 +270,14 @@ export default function Redeem() {
 
             {/* Confirm button */}
             <TxButton
-              label={lrsInput ? `Withdraw ₹${lrsInput}` : "Enter Amount to Withdraw"}
+              label={lrsInput ? `Redeem ₹${lrsInput} L₹S` : "Enter Amount to Redeem"}
               onClick={handleRedeem}
               disabled={!canRedeem}
               style={{
                 width: "100%",
                 padding: "15px",
                 fontSize: 15,
-                fontWeight: 800,
+                fontWeight: 700,
                 borderRadius: 14,
               }}
             />

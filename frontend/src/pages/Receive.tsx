@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import toast from "react-hot-toast";
 import { useDemoAccount } from "../hooks/useContracts";
+import { IconCopy, IconCheck, IconShare, IconZap, IconQrCode } from "../components/Icons";
 
 export default function Receive() {
   const { address } = useDemoAccount();
@@ -21,75 +22,96 @@ export default function Receive() {
   const handleCopyUpiId = () => {
     navigator.clipboard.writeText(upiId);
     setCopied(true);
-    toast.success("UPI ID copied: " + upiId, { icon: "📋" });
+    toast.success("UPI ID copied: " + upiId);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(effectiveAddress);
-    toast.success("EVM address copied!", { icon: "📋" });
+    toast.success("EVM address copied!");
   };
 
   return (
-    <div className="page-container" style={{ maxWidth: 480, margin: "0 auto" }}>
+    <div className="page-container" style={{ maxWidth: 460, margin: "0 auto" }}>
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF" }}>
-          Receive Money
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            marginBottom: 6,
+            padding: "3px 10px",
+            borderRadius: 20,
+            background: "rgba(0, 229, 117, 0.1)",
+            border: "1px solid rgba(0, 229, 117, 0.25)",
+          }}
+        >
+          <span style={{ fontSize: 10, fontWeight: 800, color: "var(--upi-green)", letterSpacing: "0.06em" }}>
+            LIQUID RS · L₹S CRYPTO QR
+          </span>
+        </div>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em" }}>
+          Receive Liquid RS (L₹S)
         </h1>
         <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
-          Scan to pay with any UPI app (GPay, PhonePe, Paytm, Navi)
+          Accept ₹-pegged crypto instantly via any UPI app or EVM wallet
         </p>
       </div>
 
-      {/* ── Standee Card (Paytm / PhonePe Style) ────────────────────────────── */}
+      {/* ── Standee Card (Apple Frosted Glass) ────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
+        initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="fintech-card"
+        className="apple-glass-card"
         style={{
           padding: "28px 24px",
           textAlign: "center",
           borderRadius: 24,
-          background: "linear-gradient(180deg, #131A2B 0%, #0F1424 100%)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          boxShadow: "0 20px 45px rgba(0, 0, 0, 0.5)",
         }}
       >
-        {/* UPI Header Pill */}
+        {/* UPI Protocol Badge */}
         <div
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            padding: "6px 14px",
+            padding: "5px 14px",
             borderRadius: 20,
             background: "rgba(0, 229, 117, 0.12)",
             border: "1px solid rgba(0, 229, 117, 0.3)",
             marginBottom: 20,
           }}
         >
-          <span style={{ fontSize: 14 }}>🇮🇳</span>
-          <span style={{ fontSize: 12, fontWeight: 800, color: "#00E575", letterSpacing: "0.5px" }}>
-            BHARAT UPI · LIQUIDRS
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "#00E575",
+              boxShadow: "0 0 8px #00E575",
+            }}
+          />
+          <span style={{ fontSize: 11, fontWeight: 800, color: "#00E575", letterSpacing: "0.06em" }}>
+            BHARAT UPI · 1 L₹S = ₹1.00
           </span>
         </div>
 
-        {/* QR Code */}
+        {/* QR Code Container */}
         <div
           style={{
             display: "inline-block",
-            padding: 18,
+            padding: 16,
             background: "#FFFFFF",
             borderRadius: 20,
             marginBottom: 16,
-            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.35)",
+            boxShadow: "0 14px 35px rgba(0, 0, 0, 0.45)",
           }}
         >
           <QRCodeSVG
             value={upiUri}
-            size={220}
+            size={210}
             bgColor="#FFFFFF"
-            fgColor="#0A0D15"
+            fgColor="#080A10"
             level="H"
             includeMargin={false}
           />
@@ -97,7 +119,7 @@ export default function Receive() {
 
         {/* Name & UPI ID badge */}
         <div style={{ marginBottom: 18 }}>
-          <div style={{ fontSize: 18, fontWeight: 800, color: "#FFFFFF" }}>
+          <div style={{ fontSize: 18, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.01em" }}>
             Yasharth
           </div>
           <div
@@ -106,20 +128,25 @@ export default function Receive() {
               display: "inline-flex",
               alignItems: "center",
               gap: 6,
-              marginTop: 4,
-              padding: "4px 12px",
+              marginTop: 5,
+              padding: "5px 12px",
               borderRadius: 20,
-              background: "var(--surface-2)",
-              border: "1px solid var(--border-subtle)",
+              background: "rgba(255, 255, 255, 0.05)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
               cursor: "pointer",
+              transition: "all 0.15s ease",
             }}
           >
-            <span style={{ fontSize: 12, color: "#00E575", fontFamily: "monospace", fontWeight: 700 }}>
+            <span style={{ fontSize: 12, color: "var(--upi-green)", fontFamily: "monospace", fontWeight: 700 }}>
               {upiId}
             </span>
-            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
-              {copied ? "Copied! ✓" : "📋"}
-            </span>
+            {copied ? (
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 3, fontSize: 11, color: "#00E575", fontWeight: 700 }}>
+                <IconCheck size={12} color="#00E575" strokeWidth={2.5} /> Copied
+              </span>
+            ) : (
+              <IconCopy size={12} color="var(--text-muted)" />
+            )}
           </div>
         </div>
 
@@ -127,7 +154,7 @@ export default function Receive() {
         {customAmount ? (
           <div
             style={{
-              padding: "8px 14px",
+              padding: "7px 14px",
               borderRadius: 12,
               background: "rgba(0, 229, 117, 0.1)",
               border: "1px solid rgba(0, 229, 117, 0.3)",
@@ -137,8 +164,8 @@ export default function Receive() {
               marginBottom: 16,
             }}
           >
-            <span style={{ fontSize: 14, fontWeight: 800, color: "#00E575" }}>
-              Requesting ₹{customAmount}
+            <span style={{ fontSize: 13, fontWeight: 800, color: "#00E575" }}>
+              Requesting ₹{customAmount} L₹S
             </span>
             <button
               onClick={() => {
@@ -150,21 +177,22 @@ export default function Receive() {
                 border: "none",
                 color: "var(--text-muted)",
                 cursor: "pointer",
-                fontSize: 12,
+                fontSize: 14,
+                lineHeight: 1,
               }}
             >
-              ✕
+              ×
             </button>
           </div>
         ) : showAmountInput ? (
           <div style={{ display: "flex", gap: 8, maxWidth: 300, margin: "0 auto 16px" }}>
             <input
               type="number"
-              placeholder="Amount to collect (₹)"
+              placeholder="Amount in L₹S (₹)"
               value={customAmount}
               onChange={(e) => setCustomAmount(e.target.value)}
               className="input-field"
-              style={{ padding: "8px 12px", fontSize: 14 }}
+              style={{ padding: "8px 12px", fontSize: 13 }}
               autoFocus
             />
             <button
@@ -199,9 +227,9 @@ export default function Receive() {
           <button
             className="btn-primary"
             onClick={handleCopyUpiId}
-            style={{ flex: 1, padding: "12px", fontSize: 13, borderRadius: 12 }}
+            style={{ flex: 1, padding: "12px", fontSize: 13, borderRadius: 14, gap: 6 }}
           >
-            <span>📋</span>
+            {copied ? <IconCheck size={14} strokeWidth={2.5} /> : <IconCopy size={14} />}
             <span>{copied ? "Copied!" : "Copy UPI ID"}</span>
           </button>
           <button
@@ -213,9 +241,9 @@ export default function Receive() {
                 handleCopyUpiId();
               }
             }}
-            style={{ flex: 1, padding: "12px", fontSize: 13, borderRadius: 12 }}
+            style={{ flex: 1, padding: "12px", fontSize: 13, borderRadius: 14, gap: 6 }}
           >
-            <span>📤</span>
+            <IconShare size={14} />
             <span>Share QR</span>
           </button>
         </div>
@@ -227,27 +255,33 @@ export default function Receive() {
             textAlign: "left",
             fontSize: 11,
             color: "var(--text-muted)",
-            background: "var(--surface-2)",
-            borderRadius: 10,
-            padding: "8px 12px",
-            border: "1px solid var(--border-subtle)",
+            background: "rgba(255, 255, 255, 0.03)",
+            borderRadius: 12,
+            padding: "10px 14px",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
-          <summary style={{ cursor: "pointer", color: "var(--text-secondary)", fontWeight: 600 }}>
-            ⚡ Underlying EVM Smart Contract Address
+          <summary style={{ cursor: "pointer", color: "var(--text-secondary)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <IconZap size={13} color="var(--upi-green)" />
+            <span>Underlying EVM Smart Contract Address</span>
           </summary>
           <div
             onClick={handleCopyAddress}
             style={{
-              marginTop: 6,
+              marginTop: 8,
               fontFamily: "monospace",
               fontSize: 10,
               wordBreak: "break-all",
               color: "#60A5FA",
               cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 8,
             }}
           >
-            {effectiveAddress} 📋
+            <span>{effectiveAddress}</span>
+            <IconCopy size={11} color="#60A5FA" />
           </div>
         </details>
       </motion.div>

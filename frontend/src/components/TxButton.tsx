@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
+import { IconCheck } from "./Icons";
 
 interface TxButtonProps {
   onClick: () => Promise<string | undefined>;
@@ -74,8 +75,10 @@ export default function TxButton({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
+            style={{ display: "flex", alignItems: "center", gap: 6 }}
           >
-            ✓ {successLabel}
+            <IconCheck size={14} strokeWidth={2.5} />
+            <span>{successLabel}</span>
           </motion.span>
         )}
         {status === "idle" && (
@@ -104,7 +107,8 @@ export function PageHeader({ title, subtitle, badge }: PageHeaderProps) {
           style={{
             fontSize: 28,
             fontWeight: 800,
-            fontFamily: "'Space Grotesk', sans-serif",
+            fontFamily: "inherit",
+            letterSpacing: "-0.03em",
             color: "var(--text-primary)",
           }}
         >

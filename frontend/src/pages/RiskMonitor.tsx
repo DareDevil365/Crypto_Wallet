@@ -33,6 +33,7 @@ import {
 import { useVaultState } from "../hooks/useContracts";
 import { PageHeader } from "../components/TxButton";
 import { DEMO_RESET_EVENT } from "../components/DemoReset";
+import { IconShield, IconZap, IconCheck } from "../components/Icons";
 
 // ── Simulated peg stability chart data ─────────────────────────────────────
 
@@ -63,44 +64,44 @@ function generatePegData(count = 60) {
 const BASE_AI_EVENTS = [
   {
     id: 1,
-    icon: "◉",
-    color: "#22c55e",
-    text: "De-peg risk: normal — USDT/USDC within 0.3% of parity",
+    type: "HEALTHY",
+    color: "#00E575",
+    text: "L₹S peg stability: normal — 1.00 INR parity maintained within 0.02%",
     time: "2 min ago",
   },
   {
     id: 2,
-    icon: "✦",
-    color: "#C9A84C",
-    text: "Liquidity route optimised across 3 DEXs — saved 0.4% slippage",
+    type: "ROUTING",
+    color: "#6366F1",
+    text: "Liquidity route optimized across 3 DEXs — saved 0.4% slippage",
     time: "7 min ago",
   },
   {
     id: 3,
-    icon: "⬡",
-    color: "#60a5fa",
-    text: "Collateral ratio adjusted 150% → 158% (elevated INR volatility detected)",
+    type: "RATIO",
+    color: "#38BDF8",
+    text: "Vault collateral ratio adjusted 150% → 158% (elevated FX volatility detected)",
     time: "22 min ago",
   },
   {
     id: 4,
-    icon: "◉",
-    color: "#22c55e",
-    text: "Vault health check passed — all 47 positions within safe bounds",
+    type: "HEALTHY",
+    color: "#00E575",
+    text: "Vault solvency audit passed — all L₹S mint positions fully backed",
     time: "31 min ago",
   },
   {
     id: 5,
-    icon: "✦",
-    color: "#f59e0b",
-    text: "FX model update: INR/USD momentum shifted +0.12σ — monitoring",
+    type: "ROUTING",
+    color: "#F59E0B",
+    text: "FX oracle update: INR/USD momentum shifted +0.12σ — monitoring",
     time: "48 min ago",
   },
   {
     id: 6,
-    icon: "⬡",
-    color: "#60a5fa",
-    text: "Slippage model retrained on 24h DEX volume — accuracy improved 2.1%",
+    type: "RATIO",
+    color: "#38BDF8",
+    text: "Slippage model retrained on 24h volume — execution efficiency improved 2.1%",
     time: "1h 4min ago",
   },
 ];
@@ -294,26 +295,30 @@ export default function RiskMonitor() {
 
   return (
     <div className="page-container">
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 32, flexWrap: "wrap", gap: 12 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
         <PageHeader
-          title="Reserve & Security Shield"
-          subtitle="150% Over-Collateralised Reserve Protection · Autonomous AI Stability Guard"
+          title="Reserve & Stability Shield"
+          subtitle="Liquid RS (L₹S) · 150% Over-Collateralized Reserve Protection & Algorithmic Guard"
         />
         {/* Honest disclosure badge */}
         <div
           style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
             padding: "6px 14px",
-            borderRadius: 8,
-            background: "rgba(245,158,11,0.08)",
-            border: "1px solid rgba(245,158,11,0.25)",
+            borderRadius: 20,
+            background: "rgba(245, 158, 11, 0.08)",
+            border: "1px solid rgba(245, 158, 11, 0.25)",
             fontSize: 11,
-            fontWeight: 600,
-            color: "#f59e0b",
-            letterSpacing: "0.3px",
+            fontWeight: 700,
+            color: "#F59E0B",
+            letterSpacing: "0.04em",
             whiteSpace: "nowrap",
           }}
         >
-          ⚠️ UI PROTOTYPE — Client-side simulated data
+          <IconShield size={13} color="#F59E0B" />
+          <span>SIMULATED RISK TELEMETRY</span>
         </div>
       </div>
 
@@ -321,7 +326,7 @@ export default function RiskMonitor() {
         {/* LEFT COLUMN */}
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {/* Peg stability chart */}
-          <div className="glass-card" style={{ padding: 24 }}>
+          <div className="apple-glass-card" style={{ padding: 24 }}>
             <div
               style={{
                 display: "flex",
@@ -431,7 +436,7 @@ export default function RiskMonitor() {
           </div>
 
           {/* Collateral ratio gauge */}
-          <div className="glass-card" style={{ padding: 24 }}>
+          <div className="apple-glass-card" style={{ padding: 24 }}>
             <div
               style={{
                 fontSize: 12,
@@ -480,7 +485,7 @@ export default function RiskMonitor() {
         </div>
 
         {/* RIGHT COLUMN — AI Events */}
-        <div className="glass-card" style={{ padding: 20 }}>
+        <div className="apple-glass-card" style={{ padding: 20 }}>
           <div
             style={{
               fontSize: 12,
@@ -494,15 +499,15 @@ export default function RiskMonitor() {
               alignItems: "center",
             }}
           >
-            AI Risk Events
+            Stability Engine Telemetry
             <span
               style={{
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "#22c55e",
+                background: "#00E575",
                 display: "inline-block",
-                boxShadow: "0 0 6px #22c55e",
+                boxShadow: "0 0 6px #00E575",
               }}
             />
           </div>
@@ -515,15 +520,23 @@ export default function RiskMonitor() {
                   animate={{ opacity: 1, x: 0 }}
                   style={{
                     padding: "12px 14px",
-                    borderRadius: 10,
+                    borderRadius: 12,
                     background: "rgba(255,255,255,0.02)",
-                    border: "1px solid rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.06)",
                   }}
                 >
-                  <div style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-                    <span style={{ color: event.color, fontSize: 14 }}>
-                      {event.icon}
-                    </span>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 5 }}>
+                    <span
+                      style={{
+                        width: 7,
+                        height: 7,
+                        borderRadius: "50%",
+                        background: event.color,
+                        boxShadow: `0 0 8px ${event.color}`,
+                        marginTop: 5,
+                        flexShrink: 0,
+                      }}
+                    />
                     <span
                       style={{
                         fontSize: 12,
@@ -539,7 +552,7 @@ export default function RiskMonitor() {
                     style={{
                       fontSize: 11,
                       color: "var(--text-muted)",
-                      paddingLeft: 22,
+                      paddingLeft: 17,
                     }}
                   >
                     {event.time}

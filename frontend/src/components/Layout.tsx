@@ -5,16 +5,30 @@ import toast from "react-hot-toast";
 import DemoReset from "./DemoReset";
 import { useDemoAccount } from "../hooks/useContracts";
 import { useDemoContext } from "../context/DemoContext";
+import {
+  IconHome,
+  IconSend,
+  IconReceive,
+  IconPlus,
+  IconBank,
+  IconPassbook,
+  IconShield,
+  IconWaterDrop,
+  IconScan,
+  IconQrCode,
+  IconCopy,
+  IconCheck,
+} from "./Icons";
 
 const NAV_ITEMS = [
-  { to: "/dashboard", label: "Home", icon: "🏠" },
-  { to: "/send", label: "Scan & Pay", icon: "⚡" },
-  { to: "/receive", label: "Receive QR", icon: "📥" },
-  { to: "/mint", label: "Add Money", icon: "➕" },
-  { to: "/redeem", label: "Withdraw", icon: "🏦" },
-  { to: "/activity", label: "Passbook", icon: "📖" },
-  { to: "/risk", label: "Reserve Shield", icon: "🛡️", highlight: "AI 150%" },
-  { to: "/faucet", label: "Reload Balance", icon: "💧" },
+  { to: "/dashboard", label: "Home", Icon: IconHome },
+  { to: "/send", label: "Scan & Pay", Icon: IconSend },
+  { to: "/receive", label: "Receive QR", Icon: IconReceive },
+  { to: "/mint", label: "Add Money", Icon: IconPlus },
+  { to: "/redeem", label: "Withdraw", Icon: IconBank },
+  { to: "/activity", label: "Passbook", Icon: IconPassbook },
+  { to: "/risk", label: "Reserve Shield", Icon: IconShield, highlight: "AI 150%" },
+  { to: "/faucet", label: "Reload Balance", Icon: IconWaterDrop },
 ];
 
 interface LayoutProps {
@@ -28,20 +42,21 @@ export default function Layout({ children }: LayoutProps) {
 
   const handleCopyUpiId = () => {
     navigator.clipboard.writeText("yasharth@liquidrs");
-    toast.success("UPI ID copied: yasharth@liquidrs", { icon: "📋" });
+    toast.success("UPI ID copied: yasharth@liquidrs");
   };
 
   return (
     <div className="app-layout" style={{ display: "flex", minHeight: "100vh", background: "var(--bg-main)" }}>
-      {/* ── Mobile Top Header (PhonePe / super.money style) ────────────────── */}
+      {/* ── Mobile Top Header (Apple iOS Style) ────────────────────────────── */}
       <header
         className="mobile-only"
         style={{
           padding: "12px 16px",
-          background: "rgba(9, 12, 21, 0.95)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          borderBottom: "1px solid var(--border-subtle)",
+          background: "rgba(12, 16, 26, 0.78)",
+          backdropFilter: "blur(28px) saturate(200%)",
+          WebkitBackdropFilter: "blur(28px) saturate(200%)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
           alignItems: "center",
           justifyContent: "space-between",
           position: "sticky",
@@ -54,17 +69,18 @@ export default function Layout({ children }: LayoutProps) {
           <div
             style={{
               position: "relative",
-              width: 38,
-              height: 38,
+              width: 36,
+              height: 36,
               borderRadius: "50%",
               background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: 800,
               color: "#FFFFFF",
-              boxShadow: "0 4px 12px rgba(16, 185, 129, 0.3)",
+              boxShadow: "0 2px 10px rgba(16, 185, 129, 0.35)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
             }}
           >
             YA
@@ -73,18 +89,22 @@ export default function Layout({ children }: LayoutProps) {
                 position: "absolute",
                 bottom: 0,
                 right: 0,
-                width: 10,
-                height: 10,
+                width: 9,
+                height: 9,
                 borderRadius: "50%",
                 background: "#00E575",
-                border: "2px solid #090C15",
+                border: "2px solid #080A10",
               }}
             />
           </div>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 14, fontWeight: 800, color: "#FFFFFF" }}>Yasharth</span>
-              <span style={{ fontSize: 10, color: "#00E575", fontWeight: 700 }}>✓ VERIFIED</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF", letterSpacing: "-0.01em" }}>
+                Yasharth
+              </span>
+              <span className="badge badge-success" style={{ fontSize: 9, padding: "1px 6px" }}>
+                <IconCheck size={10} strokeWidth={2.5} /> VERIFIED
+              </span>
             </div>
             <div
               onClick={handleCopyUpiId}
@@ -99,23 +119,21 @@ export default function Layout({ children }: LayoutProps) {
               }}
             >
               <span>yasharth@liquidrs</span>
-              <span style={{ fontSize: 9 }}>📋</span>
+              <IconCopy size={11} color="var(--text-muted)" />
             </div>
           </div>
         </div>
 
-        {/* Right: Quick action buttons */}
+        {/* Right: Quick action vector buttons */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <button
             onClick={() => navigate("/send")}
+            className="apple-glass-subtle"
             style={{
               width: 36,
               height: 36,
               borderRadius: "50%",
-              background: "var(--surface-2)",
-              border: "1px solid var(--border-subtle)",
               color: "#FFFFFF",
-              fontSize: 16,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -123,18 +141,16 @@ export default function Layout({ children }: LayoutProps) {
             }}
             title="Scan QR"
           >
-            📷
+            <IconScan size={17} />
           </button>
           <button
             onClick={() => navigate("/receive")}
+            className="apple-glass-subtle"
             style={{
               width: 36,
               height: 36,
               borderRadius: "50%",
-              background: "var(--surface-2)",
-              border: "1px solid var(--border-subtle)",
               color: "#FFFFFF",
-              fontSize: 16,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -142,19 +158,22 @@ export default function Layout({ children }: LayoutProps) {
             }}
             title="My QR"
           >
-            📥
+            <IconQrCode size={17} />
           </button>
         </div>
       </header>
 
-      {/* ── Desktop Sidebar (Modern Fintech) ────────────────────────────────── */}
+      {/* ── Desktop Sidebar (Apple Frosted Glass) ───────────────────────────── */}
       <aside
-        className="app-sidebar desktop-only"
+        className="app-sidebar desktop-only apple-glass-card"
         style={{
           width: 260,
           minWidth: 260,
-          background: "var(--surface-1)",
-          borderRight: "1px solid var(--border-subtle)",
+          borderRight: "1px solid var(--glass-border)",
+          borderTop: "none",
+          borderBottom: "none",
+          borderLeft: "none",
+          borderRadius: 0,
           flexDirection: "column",
           padding: "24px 0 16px",
           position: "sticky",
@@ -164,21 +183,22 @@ export default function Layout({ children }: LayoutProps) {
         }}
       >
         {/* Brand Header */}
-        <div style={{ padding: "0 24px 20px" }}>
+        <div style={{ padding: "0 24px 22px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
-                width: 38,
-                height: 38,
+                width: 36,
+                height: 36,
                 borderRadius: 12,
                 background: "linear-gradient(135deg, #00E575 0%, #00B359 100%)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 20,
+                fontSize: 19,
                 fontWeight: 900,
-                color: "#05140A",
-                boxShadow: "0 4px 18px var(--upi-green-glow)",
+                color: "#031408",
+                boxShadow: "0 4px 16px var(--upi-green-glow)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
               }}
             >
               ₹
@@ -187,8 +207,8 @@ export default function Layout({ children }: LayoutProps) {
               <div
                 style={{
                   fontWeight: 800,
-                  fontSize: 20,
-                  letterSpacing: "-0.5px",
+                  fontSize: 19,
+                  letterSpacing: "-0.03em",
                   color: "#FFFFFF",
                 }}
               >
@@ -199,11 +219,11 @@ export default function Layout({ children }: LayoutProps) {
                   fontSize: 10,
                   color: "#00E575",
                   fontWeight: 700,
-                  letterSpacing: "0.6px",
+                  letterSpacing: "0.06em",
                   textTransform: "uppercase",
                 }}
               >
-                ● UPI 2.0 PROTOCOL
+                L₹S CRYPTO · UPI 2.0
               </div>
             </div>
           </div>
@@ -212,12 +232,11 @@ export default function Layout({ children }: LayoutProps) {
         {/* User Profile Card */}
         <div
           onClick={handleCopyUpiId}
+          className="apple-glass-subtle"
           style={{
             margin: "0 16px 20px",
-            padding: "12px 14px",
+            padding: "10px 12px",
             borderRadius: 14,
-            background: "var(--surface-2)",
-            border: "1px solid var(--border-subtle)",
             cursor: "pointer",
             transition: "all 0.15s ease",
           }}
@@ -226,22 +245,23 @@ export default function Layout({ children }: LayoutProps) {
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
-                width: 36,
-                height: 36,
+                width: 34,
+                height: 34,
                 borderRadius: "50%",
                 background: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 13,
+                fontSize: 12,
                 color: "#ffffff",
                 fontWeight: 800,
+                boxShadow: "0 2px 8px rgba(16, 185, 129, 0.3)",
               }}
             >
               YA
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff" }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#ffffff", letterSpacing: "-0.01em" }}>
                 Yasharth
               </div>
               <div
@@ -255,7 +275,7 @@ export default function Layout({ children }: LayoutProps) {
                 }}
               >
                 <span>yasharth@liquidrs</span>
-                <span style={{ fontSize: 10 }}>📋</span>
+                <IconCopy size={11} color="var(--text-muted)" />
               </div>
             </div>
           </div>
@@ -263,71 +283,72 @@ export default function Layout({ children }: LayoutProps) {
 
         {/* Navigation Items */}
         <nav style={{ flex: 1, padding: "0 12px" }}>
-          {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              style={({ isActive }) => ({
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: "11px 14px",
-                borderRadius: 12,
-                marginBottom: 4,
-                textDecoration: "none",
-                fontSize: 14,
-                fontWeight: isActive ? 700 : 500,
-                color: isActive ? "#00E575" : "var(--text-secondary)",
-                background: isActive ? "rgba(0, 229, 117, 0.08)" : "transparent",
-                border: isActive ? "1px solid rgba(0, 229, 117, 0.2)" : "1px solid transparent",
-                transition: "all 0.15s ease",
-              })}
-            >
-              <span style={{ fontSize: 17, width: 22, textAlign: "center" }}>
-                {item.icon}
-              </span>
-              <span>{item.label}</span>
-              {item.highlight && (
-                <span
-                  style={{
-                    marginLeft: "auto",
-                    fontSize: 9,
-                    fontWeight: 800,
-                    background: "rgba(0, 229, 117, 0.15)",
-                    color: "#00E575",
-                    padding: "2px 7px",
-                    borderRadius: 6,
-                    letterSpacing: "0.5px",
-                  }}
-                >
-                  {item.highlight}
-                </span>
-              )}
-            </NavLink>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const Icon = item.Icon;
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                style={({ isActive }) => ({
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: "10px 14px",
+                  borderRadius: 12,
+                  marginBottom: 3,
+                  textDecoration: "none",
+                  fontSize: 13,
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? "#00E575" : "var(--text-secondary)",
+                  background: isActive ? "rgba(0, 229, 117, 0.08)" : "transparent",
+                  border: isActive ? "1px solid rgba(0, 229, 117, 0.22)" : "1px solid transparent",
+                  boxShadow: isActive ? "inset 0 1px 0 rgba(255, 255, 255, 0.1)" : "none",
+                  transition: "all 0.15s ease",
+                })}
+              >
+                <Icon size={18} strokeWidth={1.8} />
+                <span>{item.label}</span>
+                {item.highlight && (
+                  <span
+                    style={{
+                      marginLeft: "auto",
+                      fontSize: 9,
+                      fontWeight: 800,
+                      background: "rgba(0, 229, 117, 0.15)",
+                      color: "#00E575",
+                      padding: "2px 7px",
+                      borderRadius: 6,
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    {item.highlight}
+                  </span>
+                )}
+              </NavLink>
+            );
+          })}
         </nav>
 
         {/* Bottom Wallet / Demo State */}
         <div
           style={{
             padding: "16px",
-            borderTop: "1px solid var(--border-subtle)",
+            borderTop: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
           {isDemo ? (
             <div
+              className="apple-glass-subtle"
               style={{
                 padding: "10px 12px",
                 borderRadius: 12,
-                background: "var(--surface-2)",
-                border: "1px solid var(--border-subtle)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 13, color: "#00E575" }}>●</span>
+                <span style={{ fontSize: 10, color: "#00E575" }}>●</span>
                 <div>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "#FFFFFF" }}>
                     UPI Demo Active
@@ -342,15 +363,12 @@ export default function Layout({ children }: LayoutProps) {
                   disableDemo();
                   navigate("/");
                 }}
+                className="btn-secondary"
                 style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid var(--border-subtle)",
-                  color: "var(--text-secondary)",
-                  borderRadius: 6,
                   padding: "4px 8px",
                   fontSize: 10,
-                  cursor: "pointer",
                   fontWeight: 600,
+                  borderRadius: 6,
                 }}
               >
                 Exit
@@ -372,22 +390,22 @@ export default function Layout({ children }: LayoutProps) {
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 6 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.18 }}
           style={{ position: "relative", zIndex: 1, minHeight: "100%" }}
         >
           {children}
         </motion.div>
       </main>
 
-      {/* ── PhonePe / super.money Mobile Bottom Dock (<=768px) ─────────────── */}
+      {/* ── PhonePe / super.money Apple Frosted Bottom Dock (<=768px) ───────── */}
       <nav className="fintech-bottom-dock mobile-only">
         <NavLink
           to="/dashboard"
           className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
         >
-          <span style={{ fontSize: 20 }}>🏠</span>
+          <IconHome size={20} strokeWidth={1.8} />
           <span>Home</span>
         </NavLink>
 
@@ -395,24 +413,24 @@ export default function Layout({ children }: LayoutProps) {
           to="/activity"
           className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
         >
-          <span style={{ fontSize: 20 }}>📖</span>
+          <IconPassbook size={20} strokeWidth={1.8} />
           <span>Passbook</span>
         </NavLink>
 
-        {/* Center Prominent Glowing Scan & Pay Button */}
+        {/* Center Prominent Glowing Scan & Pay Button with Vector Icon */}
         <NavLink
           to="/send"
           className="dock-scan-btn"
           title="Scan & Pay UPI"
         >
-          ⚡
+          <IconScan size={24} color="#031408" strokeWidth={2.2} />
         </NavLink>
 
         <NavLink
           to="/mint"
           className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
         >
-          <span style={{ fontSize: 20 }}>➕</span>
+          <IconPlus size={20} strokeWidth={2} />
           <span>Add ₹</span>
         </NavLink>
 
@@ -420,7 +438,7 @@ export default function Layout({ children }: LayoutProps) {
           to="/risk"
           className={({ isActive }) => `dock-item ${isActive ? "active" : ""}`}
         >
-          <span style={{ fontSize: 20 }}>🛡️</span>
+          <IconShield size={20} strokeWidth={1.8} />
           <span>Shield</span>
         </NavLink>
       </nav>

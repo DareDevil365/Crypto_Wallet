@@ -21,7 +21,7 @@ export default function Faucet() {
       claimUSDT()
         .then(() => {
           refetchUSDT();
-          toast.success("Auto-topped up with 10,000 USDT!", { icon: "💧" });
+          toast.success("Auto-topped up with 10,000 USDT test reserves");
         })
         .catch(() => {
           // Silent — user may not have approved yet
@@ -30,50 +30,49 @@ export default function Faucet() {
   }, [usdtBalance]);
 
   return (
-    <div className="page-container" style={{ maxWidth: 640 }}>
+    <div className="page-container" style={{ maxWidth: 600, margin: "0 auto" }}>
       <PageHeader
-        title="Get Test Funds"
-        subtitle="Claim mock USDT and USDC to use as collateral in the demo"
+        title="Reload USD Reserves"
+        subtitle="Claim mock USDT & USDC collateral to mint Liquid RS (L₹S)"
       />
 
       {/* Current balances */}
       <div
-        className="glass-card"
+        className="apple-glass-card"
         style={{
           padding: "20px 24px",
-          marginBottom: 24,
-          border: "1px solid rgba(201,168,76,0.15)",
+          marginBottom: 20,
         }}
       >
         <div
           style={{
             fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: "0.5px",
+            fontWeight: 700,
+            letterSpacing: "0.06em",
             color: "var(--text-muted)",
             textTransform: "uppercase",
             marginBottom: 16,
           }}
         >
-          Current Balances
+          Available Collateral Balances
         </div>
         <div style={{ display: "flex", gap: 32 }}>
           <div>
-            <div style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 4 }}>
+            <div style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 4 }}>
               Mock USDT
             </div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "var(--text-primary)" }}>
+            <div style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", fontVariantNumeric: "tabular-nums" }}>
               ${formatUSDT(usdtBalance)}
             </div>
           </div>
           <div
-            style={{ width: 1, background: "rgba(201,168,76,0.1)" }}
+            style={{ width: 1, background: "rgba(255, 255, 255, 0.08)" }}
           />
           <div>
-            <div style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 4 }}>
+            <div style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 4 }}>
               Mock USDC
             </div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "var(--text-primary)" }}>
+            <div style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", fontVariantNumeric: "tabular-nums" }}>
               ${formatUSDT(usdcBalance)}
             </div>
           </div>
@@ -81,28 +80,28 @@ export default function Faucet() {
       </div>
 
       {/* Faucet cards */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <FaucetCard
           symbol="USDT"
-          name="Mock Tether"
+          name="Tether Reserve"
           amount="10,000"
           color="#26a17b"
           onClaim={async () => {
             const hash = await claimUSDT();
             await refetchUSDT();
-            toast.success("10,000 USDT claimed!", { icon: "💵" });
+            toast.success("10,000 USDT claimed to reserves");
             return hash;
           }}
         />
         <FaucetCard
           symbol="USDC"
-          name="Mock USD Coin"
+          name="USD Coin Reserve"
           amount="10,000"
           color="#2775ca"
           onClaim={async () => {
             const hash = await claimUSDC();
             await refetchUSDC();
-            toast.success("10,000 USDC claimed!", { icon: "🔵" });
+            toast.success("10,000 USDC claimed to reserves");
             return hash;
           }}
         />
@@ -110,20 +109,18 @@ export default function Faucet() {
 
       {/* Info note */}
       <div
+        className="apple-glass-subtle"
         style={{
-          marginTop: 28,
+          marginTop: 24,
           padding: "14px 18px",
-          borderRadius: 10,
-          background: "rgba(201,168,76,0.04)",
-          border: "1px solid rgba(201,168,76,0.1)",
-          fontSize: 13,
+          borderRadius: 14,
+          fontSize: 12,
           color: "var(--text-muted)",
           lineHeight: 1.6,
         }}
       >
-        💡 These are <strong style={{ color: "var(--text-secondary)" }}>testnet-only</strong> tokens
-        with no real value. Claim as many times as you like. The faucet is a
-        public contract function — no auth required.
+        These are <strong style={{ color: "var(--text-secondary)" }}>testnet-only</strong> tokens
+        with no real fiat value. Used to simulate 150% over-collateralized issuance of Liquid RS (L₹S).
       </div>
     </div>
   );
@@ -146,12 +143,12 @@ function FaucetCard({
     <motion.div
       initial={{ opacity: 0, x: -8 }}
       animate={{ opacity: 1, x: 0 }}
-      className="glass-card"
+      className="apple-glass-card"
       style={{
-        padding: "24px",
+        padding: "20px 22px",
         display: "flex",
         alignItems: "center",
-        gap: 20,
+        gap: 18,
       }}
     >
       {/* Token icon */}

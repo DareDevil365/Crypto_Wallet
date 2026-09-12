@@ -5,7 +5,6 @@ export interface UpiContact {
   name: string;
   upiId: string;
   address: `0x${string}`;
-  avatar: string;
   initials: string;
   color: string;
   recentAmount?: string;
@@ -18,9 +17,8 @@ export const UPI_CONTACTS: UpiContact[] = [
     name: "Priya Sharma",
     upiId: "priya@liquidrs",
     address: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-    avatar: "👩‍💼",
     initials: "PS",
-    color: "#ec4899",
+    color: "#6366F1",
     recentAmount: "₹500",
   },
   {
@@ -28,9 +26,8 @@ export const UPI_CONTACTS: UpiContact[] = [
     name: "Rahul Verma",
     upiId: "rahul@liquidrs",
     address: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
-    avatar: "👨‍💻",
     initials: "RV",
-    color: "#3b82f6",
+    color: "#00E575",
     recentAmount: "₹1,200",
   },
   {
@@ -38,9 +35,8 @@ export const UPI_CONTACTS: UpiContact[] = [
     name: "Chai Point",
     upiId: "chaipoint@liquidrs",
     address: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
-    avatar: "☕",
     initials: "CP",
-    color: "#f59e0b",
+    color: "#F59E0B",
     recentAmount: "₹80",
     isMerchant: true,
   },
@@ -49,9 +45,8 @@ export const UPI_CONTACTS: UpiContact[] = [
     name: "Ananya Sen",
     upiId: "ananya@liquidrs",
     address: "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-    avatar: "🎨",
     initials: "AS",
-    color: "#8b5cf6",
+    color: "#EC4899",
     recentAmount: "₹2,500",
   },
   {
@@ -59,9 +54,8 @@ export const UPI_CONTACTS: UpiContact[] = [
     name: "Rohit Mehra",
     upiId: "rohit@liquidrs",
     address: "0x9965507D1a55bcC2695C58ba16FB37d819B0A4df",
-    avatar: "🚀",
     initials: "RM",
-    color: "#10b981",
+    color: "#38BDF8",
     recentAmount: "₹350",
   },
 ];
@@ -94,9 +88,9 @@ export default function UpiQuickPay({
             textTransform: "uppercase",
           }}
         >
-          Recent People & Merchants
+          Recent Transfers
         </span>
-        <span style={{ fontSize: 11, color: "#C9A84C", fontWeight: 600 }}>
+        <span style={{ fontSize: 11, color: "var(--upi-green)", fontWeight: 600 }}>
           Tap to Pay
         </span>
       </div>
@@ -118,23 +112,24 @@ export default function UpiQuickPay({
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.96 }}
               onClick={() => onSelectContact(contact)}
+              className="apple-glass-card"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 background: isSelected
-                  ? "rgba(201, 168, 76, 0.15)"
+                  ? "rgba(0, 229, 117, 0.12)"
                   : "rgba(255, 255, 255, 0.03)",
                 border: isSelected
-                  ? "1px solid #C9A84C"
+                  ? "1px solid #00E575"
                   : "1px solid rgba(255, 255, 255, 0.08)",
-                borderRadius: 14,
+                borderRadius: 16,
                 padding: "12px 10px",
                 minWidth: 84,
                 cursor: "pointer",
                 textAlign: "center",
                 position: "relative",
-                transition: "border 0.2s",
+                transition: "all 0.2s",
               }}
             >
               {contact.isMerchant && (
@@ -144,33 +139,37 @@ export default function UpiQuickPay({
                     top: 4,
                     right: 4,
                     fontSize: 8,
-                    fontWeight: 700,
-                    background: "rgba(201, 168, 76, 0.2)",
-                    color: "#C9A84C",
+                    fontWeight: 800,
+                    background: "rgba(245, 158, 11, 0.2)",
+                    color: "#F59E0B",
                     padding: "1px 4px",
                     borderRadius: 4,
+                    letterSpacing: "0.5px",
                   }}
                 >
                   SHOP
                 </span>
               )}
 
-              {/* Avatar circle */}
+              {/* Monogram circle */}
               <div
                 style={{
                   width: 44,
                   height: 44,
                   borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${contact.color}33, ${contact.color}88)`,
-                  border: `2px solid ${contact.color}`,
+                  background: `linear-gradient(135deg, ${contact.color}22, ${contact.color}55)`,
+                  border: `1.5px solid ${contact.color}88`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: 20,
+                  fontSize: 14,
+                  fontWeight: 800,
+                  color: "#FFFFFF",
                   marginBottom: 6,
+                  boxShadow: `0 4px 12px ${contact.color}22`,
                 }}
               >
-                {contact.avatar}
+                {contact.initials}
               </div>
 
               <span

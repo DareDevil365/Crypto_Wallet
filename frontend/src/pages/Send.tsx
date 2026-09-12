@@ -10,6 +10,7 @@ import {
 } from "../hooks/useContracts";
 import UpiSuccessModal from "../components/UpiSuccessModal";
 import { UPI_CONTACTS, type UpiContact } from "../components/UpiQuickPay";
+import { IconQrCode, IconCheck, IconArrowUpRight, IconZap } from "../components/Icons";
 
 const AMOUNT_PRESETS = ["100", "250", "500", "1000", "2000"];
 
@@ -75,59 +76,76 @@ export default function Send() {
   const formattedInr = formatLRS(lrsBalance);
 
   return (
-    <div className="page-container" style={{ maxWidth: 620, margin: "0 auto" }}>
+    <div className="page-container" style={{ maxWidth: 580, margin: "0 auto" }}>
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <div style={{ marginBottom: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ marginBottom: 22, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.5px" }}>
-            Send Money via UPI
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+            <span
+              style={{
+                fontSize: 10,
+                fontWeight: 800,
+                letterSpacing: "0.06em",
+                color: "var(--upi-green)",
+                background: "rgba(0, 229, 117, 0.1)",
+                border: "1px solid rgba(0, 229, 117, 0.25)",
+                padding: "2px 8px",
+                borderRadius: 20,
+              }}
+            >
+              LIQUID RS · L₹S CRYPTO
+            </span>
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em" }}>
+            Send Liquid RS (L₹S)
           </h1>
           <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
-            Instant zero-fee transfer to any bank account or UPI ID
+            Instant ₹-pegged crypto settlement to any UPI handle or EVM address
           </p>
         </div>
         <button
           onClick={() => navigate("/receive")}
+          className="btn-secondary"
           style={{
-            background: "var(--surface-2)",
-            border: "1px solid var(--border-subtle)",
-            color: "var(--text-secondary)",
-            borderRadius: 12,
-            padding: "8px 12px",
+            borderRadius: 14,
+            padding: "8px 14px",
             fontSize: 12,
             fontWeight: 700,
             cursor: "pointer",
+            gap: 6,
           }}
         >
-          My QR 📥
+          <IconQrCode size={15} color="var(--upi-green)" />
+          <span>My QR</span>
         </button>
       </div>
 
-      {/* ── Recipient Card (PhonePe Style) ──────────────────────────────────── */}
+      {/* ── Recipient Card (Apple Glass Style) ──────────────────────────────────── */}
       <div
-        className="fintech-card"
+        className="apple-glass-card"
         style={{
-          padding: "16px 20px",
-          marginBottom: 20,
+          padding: "16px 18px",
+          marginBottom: 18,
           display: "flex",
           alignItems: "center",
           gap: 14,
-          background: "var(--surface-1)",
         }}
       >
         <div
           style={{
-            width: 48,
-            height: 48,
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #7C3AED 0%, #6366F1 100%)",
+            width: 46,
+            height: 46,
+            borderRadius: 14,
+            background: "linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0.1) 100%)",
+            border: "1px solid rgba(99, 102, 241, 0.4)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: 800,
-            color: "#FFFFFF",
-            boxShadow: "0 4px 14px rgba(124, 58, 237, 0.3)",
+            color: "#A5B4FC",
+            boxShadow: "0 4px 14px rgba(99, 102, 241, 0.15)",
+            letterSpacing: "0.5px",
           }}
         >
           {recipientName ? recipientName.slice(0, 2).toUpperCase() : "UPI"}
@@ -135,10 +153,22 @@ export default function Send() {
 
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ fontSize: 15, fontWeight: 800, color: "#FFFFFF" }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: "#FFFFFF", letterSpacing: "-0.01em" }}>
               {recipientName || "UPI Recipient"}
             </span>
-            <span style={{ color: "#00E575", fontSize: 12 }}>✓</span>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 16,
+                height: 16,
+                borderRadius: "50%",
+                background: "rgba(0, 229, 117, 0.18)",
+              }}
+            >
+              <IconCheck size={11} color="#00E575" strokeWidth={2.5} />
+            </div>
           </div>
           <input
             type="text"
@@ -156,22 +186,22 @@ export default function Send() {
               fontFamily: "monospace",
               width: "100%",
               outline: "none",
-              marginTop: 2,
+              marginTop: 3,
             }}
           />
         </div>
 
-        <span className="badge badge-success" style={{ fontSize: 10 }}>
+        <span className="badge badge-success" style={{ fontSize: 10, padding: "3px 8px" }}>
           VERIFIED
         </span>
       </div>
 
-      {/* ── Recent Contacts Row ─────────────────────────────────────────────── */}
-      <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 11, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>
+      {/* ── Beneficiary Row (Initials Monograms, Zero Emojis) ─────────────────────────────── */}
+      <div style={{ marginBottom: 18 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 9 }}>
           Quick Select Beneficiary
         </div>
-        <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none" }}>
+        <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none" }}>
           {UPI_CONTACTS.map((c) => {
             const isSelected = recipientInput === c.upiId;
             return (
@@ -182,19 +212,37 @@ export default function Send() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 8,
+                  gap: 7,
                   padding: "6px 12px",
-                  borderRadius: 20,
-                  background: isSelected ? "rgba(0, 229, 117, 0.15)" : "var(--surface-2)",
-                  border: isSelected ? "1px solid #00E575" : "1px solid var(--border-subtle)",
+                  borderRadius: 14,
+                  background: isSelected ? "rgba(0, 229, 117, 0.12)" : "rgba(255, 255, 255, 0.04)",
+                  border: isSelected ? "1px solid #00E575" : "1px solid rgba(255, 255, 255, 0.08)",
                   color: isSelected ? "#00E575" : "var(--text-secondary)",
                   fontSize: 12,
-                  fontWeight: 700,
+                  fontWeight: 600,
                   cursor: "pointer",
                   whiteSpace: "nowrap",
+                  transition: "all 0.18s ease",
+                  backdropFilter: "blur(12px)",
                 }}
               >
-                <span>{c.avatar}</span>
+                <div
+                  style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 6,
+                    background: `${c.color}25`,
+                    border: `1px solid ${c.color}60`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 9,
+                    fontWeight: 800,
+                    color: "#FFFFFF",
+                  }}
+                >
+                  {c.initials}
+                </div>
                 <span>{c.name.split(" ")[0]}</span>
               </button>
             );
@@ -202,14 +250,21 @@ export default function Send() {
         </div>
       </div>
 
-      {/* ── Amount Input Card (super.money Hero Style) ───────────────────────── */}
-      <div className="fintech-card" style={{ padding: "28px 24px", marginBottom: 20, textAlign: "center" }}>
-        <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 12 }}>
-          Enter Transfer Amount
+      {/* ── Amount Input Card (Apple Frosted Glass) ───────────────────────── */}
+      <div
+        className="apple-glass-card"
+        style={{
+          padding: "26px 22px",
+          marginBottom: 18,
+          textAlign: "center",
+        }}
+      >
+        <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>
+          Transfer Amount · Liquid RS (L₹S)
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 16 }}>
-          <span style={{ fontSize: 40, fontWeight: 800, color: "#00E575" }}>₹</span>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: 6, marginBottom: 14 }}>
+          <span style={{ fontSize: 32, fontWeight: 800, color: "var(--upi-green)", fontVariantNumeric: "tabular-nums" }}>₹</span>
           <input
             type="number"
             placeholder="0"
@@ -217,35 +272,38 @@ export default function Send() {
             onChange={(e) => setAmount(e.target.value)}
             autoFocus
             style={{
-              fontSize: 48,
+              fontSize: 52,
               fontWeight: 800,
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Plus Jakarta Sans', sans-serif",
+              fontVariantNumeric: "tabular-nums",
               background: "transparent",
               border: "none",
               color: "#FFFFFF",
               outline: "none",
-              maxWidth: 260,
+              maxWidth: 240,
               textAlign: "left",
+              letterSpacing: "-0.04em",
             }}
           />
+          <span style={{ fontSize: 14, fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.05em" }}>
+            L₹S
+          </span>
         </div>
 
         {/* Quick Amount Preset Chips */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
           {AMOUNT_PRESETS.map((p) => (
             <button
               key={p}
               type="button"
               onClick={() => setAmount(p)}
+              className="btn-pill"
               style={{
-                padding: "6px 14px",
-                borderRadius: 20,
-                background: amount === p ? "rgba(0, 229, 117, 0.2)" : "var(--surface-2)",
-                border: amount === p ? "1px solid #00E575" : "1px solid var(--border-subtle)",
+                background: amount === p ? "rgba(0, 229, 117, 0.16)" : "rgba(255, 255, 255, 0.04)",
+                borderColor: amount === p ? "#00E575" : "rgba(255, 255, 255, 0.08)",
                 color: amount === p ? "#00E575" : "var(--text-secondary)",
-                fontSize: 12,
                 fontWeight: 700,
-                cursor: "pointer",
+                fontSize: 12,
               }}
             >
               +₹{p}
@@ -254,15 +312,12 @@ export default function Send() {
           <button
             type="button"
             onClick={() => setAmount(lrsBalance ? (Number(lrsBalance / 10n ** 18n)).toString() : "0")}
+            className="btn-pill"
             style={{
-              padding: "6px 14px",
-              borderRadius: 20,
-              background: "rgba(255, 255, 255, 0.06)",
-              border: "1px solid var(--border-subtle)",
+              background: "rgba(255, 255, 255, 0.05)",
               color: "var(--text-secondary)",
+              fontWeight: 600,
               fontSize: 12,
-              fontWeight: 700,
-              cursor: "pointer",
             }}
           >
             Max (₹{formattedInr})
@@ -272,24 +327,23 @@ export default function Send() {
         {/* Optional Note */}
         <input
           type="text"
-          placeholder="Add a message / note (e.g. Dinner, Coffee, Rent)"
+          placeholder="Add a payment note (e.g. Dinner, Coffee, Rent)"
           value={note}
           onChange={(e) => setNote(e.target.value)}
           className="input-field"
-          style={{ maxWidth: 420, margin: "0 auto", textAlign: "center", fontSize: 13 }}
+          style={{ maxWidth: 400, margin: "0 auto", textAlign: "center", fontSize: 13, padding: "10px 14px" }}
         />
       </div>
 
-      {/* ── Debited From Account Selector ────────────────────────────────────── */}
+      {/* ── Debited From Account Selector (Apple Glass) ───────────────────────── */}
       <div
-        className="fintech-card"
+        className="apple-glass-card"
         style={{
-          padding: "16px 20px",
-          marginBottom: 24,
+          padding: "14px 18px",
+          marginBottom: 20,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          background: "var(--surface-2)",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -297,55 +351,74 @@ export default function Send() {
             style={{
               width: 36,
               height: 36,
-              borderRadius: 10,
+              borderRadius: 11,
               background: "linear-gradient(135deg, #00E575 0%, #00B359 100%)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: 900,
-              color: "#05140A",
+              color: "#031408",
+              boxShadow: "0 2px 10px rgba(0, 229, 117, 0.3)",
             }}
           >
             ₹
           </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF" }}>
-              Paying from Liquid Rupee Wallet
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF", display: "flex", alignItems: "center", gap: 6 }}>
+              <span>Liquid RS (L₹S) Crypto Balance</span>
             </div>
-            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
-              Available: ₹{formattedInr} · 100% Backed
+            <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 1 }}>
+              Available: ₹{formattedInr} L₹S · 1:1 INR Pegged
             </div>
           </div>
         </div>
 
-        <span style={{ fontSize: 11, color: "#00E575", fontWeight: 700 }}>
-          SELECTED ✓
-        </span>
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 4,
+            fontSize: 11,
+            color: "#00E575",
+            fontWeight: 700,
+            background: "rgba(0, 229, 117, 0.1)",
+            padding: "3px 8px",
+            borderRadius: 20,
+            border: "1px solid rgba(0, 229, 117, 0.25)",
+          }}
+        >
+          <IconCheck size={11} color="#00E575" strokeWidth={2.5} />
+          <span>Active</span>
+        </div>
       </div>
 
       {/* ── Primary Action Button ────────────────────────────────────────────── */}
       <motion.button
-        whileHover={{ scale: canSend ? 1.02 : 1 }}
-        whileTap={{ scale: canSend ? 0.98 : 1 }}
+        whileHover={{ scale: canSend ? 1.015 : 1 }}
+        whileTap={{ scale: canSend ? 0.985 : 1 }}
         onClick={handlePayNow}
         disabled={!canSend || loading}
         className="btn-primary"
         style={{
           width: "100%",
           padding: "16px",
-          fontSize: 16,
-          fontWeight: 800,
+          fontSize: 15,
+          fontWeight: 700,
           borderRadius: 16,
+          letterSpacing: "-0.01em",
         }}
       >
         {loading ? (
           <>
             <span className="spinner" />
-            <span>Processing Instant UPI Transfer…</span>
+            <span>Settling Instant L₹S Transfer on EVM…</span>
           </>
         ) : amount ? (
-          <span>Pay ₹{amount} to {recipientName.split(" ")[0]} ⚡</span>
+          <>
+            <span>Pay ₹{amount} L₹S to {recipientName.split(" ")[0]}</span>
+            <IconArrowUpRight size={17} strokeWidth={2.5} />
+          </>
         ) : (
           <span>Enter Amount to Pay</span>
         )}

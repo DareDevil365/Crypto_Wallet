@@ -3,29 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   useLRSBalance,
-  useUSDTBalance,
   useVaultState,
   useUserPosition,
-  useDemoAccount,
   formatLRS,
   formatUSDT,
 } from "../hooks/useContracts";
 import { UPI_CONTACTS, type UpiContact } from "../components/UpiQuickPay";
+import {
+  IconSearch,
+  IconScan,
+  IconPlus,
+  IconSend,
+  IconBank,
+  IconPassbook,
+  IconPhone,
+  IconZap,
+  IconQrCode,
+  IconShield,
+  IconChevronRight,
+  IconArrowUpRight,
+  IconArrowDownLeft,
+  IconCheck,
+} from "../components/Icons";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { address } = useDemoAccount();
   const { data: lrsBalance } = useLRSBalance();
-  const { data: usdtBalance } = useUSDTBalance();
-  const { collateralRatio, pegPrice, paused } = useVaultState();
-  const { collateral, lrsMinted } = useUserPosition();
+  const { pegPrice } = useVaultState();
+  const { collateral } = useUserPosition();
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const formattedInr = formatLRS(lrsBalance);
-  const pegDisplay = pegPrice
-    ? `₹${(Number(pegPrice) / 100).toFixed(2)}`
-    : "₹83.00";
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,21 +49,19 @@ export default function Dashboard() {
 
   return (
     <div className="page-container" style={{ maxWidth: 880, margin: "0 auto" }}>
-      {/* ── Search Bar (PhonePe / super.money style) ────────────────────────── */}
+      {/* ── Search Bar (Apple iOS / super.money style) ───────────────────────── */}
       <form onSubmit={handleSearchSubmit} style={{ marginBottom: 20 }}>
         <div
+          className="apple-glass-card"
           style={{
             display: "flex",
             alignItems: "center",
-            background: "var(--surface-1)",
-            border: "1px solid var(--border-subtle)",
-            borderRadius: 16,
             padding: "10px 16px",
             gap: 12,
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+            borderRadius: 16,
           }}
         >
-          <span style={{ fontSize: 18, color: "var(--text-muted)" }}>🔍</span>
+          <IconSearch size={18} color="var(--text-muted)" strokeWidth={2} />
           <input
             type="text"
             value={searchQuery}
@@ -73,15 +80,11 @@ export default function Dashboard() {
           {searchQuery ? (
             <button
               type="submit"
+              className="btn-primary"
               style={{
-                background: "var(--upi-green)",
-                color: "#05140A",
-                border: "none",
-                borderRadius: 8,
                 padding: "6px 14px",
                 fontSize: 12,
-                fontWeight: 800,
-                cursor: "pointer",
+                borderRadius: 8,
               }}
             >
               Pay
@@ -90,78 +93,86 @@ export default function Dashboard() {
             <button
               type="button"
               onClick={() => navigate("/send")}
+              className="apple-glass-subtle"
               style={{
-                background: "var(--surface-2)",
-                border: "1px solid var(--border-subtle)",
                 borderRadius: 8,
-                padding: "4px 8px",
+                padding: "4px 10px",
                 fontSize: 11,
                 fontWeight: 700,
                 color: "var(--text-secondary)",
                 cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
               }}
             >
-              SCAN 📷
+              <IconScan size={14} />
+              <span>SCAN</span>
             </button>
           )}
         </div>
       </form>
 
-      {/* ── Hero Balance Card (super.money / Navi style) ────────────────────── */}
+      {/* ── Apple Frosted Hero Balance Card ─────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="fintech-hero-card"
-        style={{ padding: "26px 28px", marginBottom: 24 }}
+        className="apple-glass-hero"
+        style={{ padding: "28px 30px", marginBottom: 24 }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: "var(--text-secondary)", letterSpacing: "1px", textTransform: "uppercase" }}>
-                Liquid Rupee Account
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "var(--text-secondary)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                Liquid RS (L₹S) Balance
               </span>
               <span className="badge badge-success" style={{ fontSize: 10, padding: "2px 8px" }}>
-                ● 100% BACKED
+                <IconCheck size={11} strokeWidth={2.5} /> 1:1 INR PEGGED
               </span>
             </div>
             <div
               style={{
-                fontSize: 42,
+                fontSize: 46,
                 fontWeight: 800,
                 color: "#FFFFFF",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                letterSpacing: "-1px",
+                letterSpacing: "-0.03em",
                 lineHeight: 1.1,
+                fontVariantNumeric: "tabular-nums",
+                display: "flex",
+                alignItems: "baseline",
+                gap: 8,
               }}
             >
-              ₹{formattedInr}
+              <span>₹{formattedInr}</span>
+              <span style={{ fontSize: 18, color: "var(--upi-green)", fontWeight: 700, letterSpacing: "0.02em" }}>
+                L₹S
+              </span>
             </div>
           </div>
 
           <div
             onClick={() => navigate("/risk")}
+            className="apple-glass-subtle"
             style={{
               textAlign: "right",
-              background: "rgba(0, 229, 117, 0.08)",
-              border: "1px solid rgba(0, 229, 117, 0.2)",
-              borderRadius: 12,
-              padding: "6px 12px",
+              borderRadius: 14,
+              padding: "8px 14px",
               cursor: "pointer",
             }}
           >
-            <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
+            <div style={{ fontSize: 10, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.04em" }}>
               Peg Stability
             </div>
-            <div style={{ fontSize: 13, fontWeight: 800, color: "#00E575" }}>
-              1 LRS = ₹1.00
+            <div style={{ fontSize: 13, fontWeight: 800, color: "#00E575", marginTop: 2 }}>
+              1 L₹S = ₹1.00
             </div>
           </div>
         </div>
 
-        <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 20, display: "flex", alignItems: "center", gap: 6 }}>
-          <span>Reserve: <strong>${formatUSDT(collateral)} USDT</strong> locked</span>
+        <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 22, display: "flex", alignItems: "center", gap: 6 }}>
+          <span>Reserve: <strong style={{ color: "var(--text-secondary)" }}>${formatUSDT(collateral)} USDT</strong> locked</span>
           <span>·</span>
-          <span style={{ color: "#00E575" }}>150% Collateral Protection</span>
+          <span style={{ color: "#00E575", fontWeight: 600 }}>150% Collateral Protection</span>
         </div>
 
         {/* Action pills inside Hero Card */}
@@ -169,56 +180,55 @@ export default function Dashboard() {
           <button
             className="btn-primary"
             onClick={() => navigate("/mint")}
-            style={{ padding: "10px 20px", fontSize: 13, borderRadius: 12 }}
+            style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
           >
-            <span>➕</span>
+            <IconPlus size={16} strokeWidth={2.2} />
             <span>Add Money</span>
           </button>
 
           <button
             className="btn-secondary"
             onClick={() => navigate("/send")}
-            style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
+            style={{ padding: "10px 16px", fontSize: 13, borderRadius: 12 }}
           >
-            <span>⚡</span>
+            <IconSend size={15} strokeWidth={2} />
             <span>Send Money</span>
           </button>
 
           <button
             className="btn-secondary"
             onClick={() => navigate("/redeem")}
-            style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
+            style={{ padding: "10px 16px", fontSize: 13, borderRadius: 12 }}
           >
-            <span>🏦</span>
+            <IconBank size={15} strokeWidth={2} />
             <span>Withdraw</span>
           </button>
 
           <button
             className="btn-secondary"
             onClick={() => navigate("/activity")}
-            style={{ padding: "10px 18px", fontSize: 13, borderRadius: 12 }}
+            style={{ padding: "10px 16px", fontSize: 13, borderRadius: 12 }}
           >
-            <span>📖</span>
+            <IconPassbook size={15} strokeWidth={2} />
             <span>Passbook</span>
           </button>
         </div>
       </motion.div>
 
-      {/* ── Transfer Money 4-Way Quick Actions (PhonePe / Paytm Style) ─────── */}
+      {/* ── Transfer Money 4-Way Actions (Apple iOS Squircles) ───────────────── */}
       <div
-        className="fintech-card"
+        className="apple-glass-card"
         style={{
           padding: "20px 24px",
           marginBottom: 24,
-          background: "var(--surface-1)",
         }}
       >
         <div
           style={{
-            fontSize: 12,
-            fontWeight: 800,
+            fontSize: 11,
+            fontWeight: 700,
             color: "var(--text-muted)",
-            letterSpacing: "0.8px",
+            letterSpacing: "0.06em",
             textTransform: "uppercase",
             marginBottom: 16,
           }}
@@ -241,12 +251,11 @@ export default function Dashboard() {
             <div
               className="upi-action-icon"
               style={{
-                background: "linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(99, 102, 241, 0.2) 100%)",
-                border: "1px solid rgba(124, 58, 237, 0.4)",
-                color: "#A78BFA",
+                background: "linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(79, 70, 229, 0.12) 100%)",
+                color: "#818CF8",
               }}
             >
-              📱
+              <IconPhone size={22} strokeWidth={1.9} />
             </div>
             <span className="upi-action-label">To Mobile / Contact</span>
           </button>
@@ -259,12 +268,11 @@ export default function Dashboard() {
             <div
               className="upi-action-icon"
               style={{
-                background: "linear-gradient(135deg, rgba(0, 229, 117, 0.22) 0%, rgba(16, 185, 129, 0.18) 100%)",
-                border: "1px solid rgba(0, 229, 117, 0.4)",
+                background: "linear-gradient(135deg, rgba(0, 229, 117, 0.2) 0%, rgba(16, 185, 129, 0.12) 100%)",
                 color: "#00E575",
               }}
             >
-              ⚡
+              <IconZap size={22} strokeWidth={2} />
             </div>
             <span className="upi-action-label">To UPI ID / Bank</span>
           </button>
@@ -277,12 +285,11 @@ export default function Dashboard() {
             <div
               className="upi-action-icon"
               style={{
-                background: "linear-gradient(135deg, rgba(6, 182, 212, 0.22) 0%, rgba(59, 130, 246, 0.18) 100%)",
-                border: "1px solid rgba(6, 182, 212, 0.4)",
+                background: "linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(37, 99, 235, 0.12) 100%)",
                 color: "#38BDF8",
               }}
             >
-              📷
+              <IconScan size={22} strokeWidth={1.9} />
             </div>
             <span className="upi-action-label">Scan Any QR</span>
           </button>
@@ -295,12 +302,11 @@ export default function Dashboard() {
             <div
               className="upi-action-icon"
               style={{
-                background: "linear-gradient(135deg, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.18) 100%)",
-                border: "1px solid rgba(245, 158, 11, 0.4)",
+                background: "linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.12) 100%)",
                 color: "#FBBF24",
               }}
             >
-              📥
+              <IconQrCode size={22} strokeWidth={1.9} />
             </div>
             <span className="upi-action-label">Receive / My QR</span>
           </button>
@@ -308,12 +314,12 @@ export default function Dashboard() {
       </div>
 
       {/* ── People & Recent UPI Contacts Carousel ──────────────────────────── */}
-      <div className="fintech-card" style={{ padding: "20px 24px", marginBottom: 24 }}>
+      <div className="apple-glass-card" style={{ padding: "20px 24px", marginBottom: 24 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-          <span style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", letterSpacing: "0.8px", textTransform: "uppercase" }}>
-            Recent People & Merchants
+          <span style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            Recent Beneficiaries
           </span>
-          <span style={{ fontSize: 11, color: "#00E575", fontWeight: 700 }}>
+          <span style={{ fontSize: 11, color: "var(--upi-green)", fontWeight: 600 }}>
             Tap to Pay
           </span>
         </div>
@@ -334,20 +340,18 @@ export default function Dashboard() {
             }}
           >
             <div
+              className="apple-glass-subtle"
               style={{
                 width: 48,
                 height: 48,
                 borderRadius: "50%",
-                background: "var(--surface-2)",
-                border: "1px dashed rgba(255, 255, 255, 0.2)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: 18,
                 color: "var(--text-secondary)",
               }}
             >
-              ➕
+              <IconPlus size={18} strokeWidth={2} />
             </div>
             <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-secondary)" }}>
               New Pay
@@ -376,21 +380,23 @@ export default function Dashboard() {
                   width: 48,
                   height: 48,
                   borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${contact.color}33, ${contact.color}99)`,
-                  border: `2px solid ${contact.color}`,
+                  background: `linear-gradient(135deg, ${contact.color}22, ${contact.color}55)`,
+                  border: `1.5px solid ${contact.color}88`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: 18,
-                  boxShadow: `0 4px 12px ${contact.color}33`,
+                  fontSize: 14,
+                  fontWeight: 800,
+                  color: "#FFFFFF",
+                  boxShadow: `0 4px 12px ${contact.color}25`,
                 }}
               >
-                {contact.avatar}
+                {contact.initials}
               </div>
               <span
                 style={{
                   fontSize: 11,
-                  fontWeight: 700,
+                  fontWeight: 600,
                   color: "#FFFFFF",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
@@ -410,7 +416,7 @@ export default function Dashboard() {
 
       {/* ── Security & Reserve Shield Banner ────────────────────────────────── */}
       <div
-        className="fintech-card fintech-card-interactive"
+        className="apple-glass-card fintech-card-interactive"
         onClick={() => navigate("/risk")}
         style={{
           padding: "18px 22px",
@@ -419,32 +425,30 @@ export default function Dashboard() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          background: "linear-gradient(135deg, #101626 0%, #151D33 100%)",
-          border: "1px solid rgba(0, 229, 117, 0.2)",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div
             style={{
-              width: 44,
-              height: 44,
+              width: 42,
+              height: 42,
               borderRadius: 14,
               background: "rgba(0, 229, 117, 0.12)",
-              border: "1px solid rgba(0, 229, 117, 0.3)",
+              border: "1px solid rgba(0, 229, 117, 0.25)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 22,
+              color: "#00E575",
             }}
           >
-            🛡️
+            <IconShield size={22} strokeWidth={1.8} />
           </div>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 14, fontWeight: 800, color: "#FFFFFF" }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF", letterSpacing: "-0.01em" }}>
                 Reserve Shield & AI Peg Guard
               </span>
-              <span className="badge badge-success" style={{ fontSize: 10, padding: "1px 6px" }}>
+              <span className="badge badge-success" style={{ fontSize: 9, padding: "1px 6px" }}>
                 ACTIVE
               </span>
             </div>
@@ -454,74 +458,85 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <span style={{ color: "#00E575", fontSize: 18, fontWeight: 700 }}>›</span>
+        <IconChevronRight size={18} color="var(--upi-green)" />
       </div>
 
       {/* ── Recent UPI Transactions Preview ─────────────────────────────────── */}
-      <div className="fintech-card" style={{ padding: "20px 24px" }}>
+      <div className="apple-glass-card" style={{ padding: "20px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <span style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", letterSpacing: "0.8px", textTransform: "uppercase" }}>
-            Recent Passbook Activity
+          <span style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            Recent Statements
           </span>
           <button
             onClick={() => navigate("/activity")}
             style={{
               background: "transparent",
               border: "none",
-              color: "#00E575",
+              color: "var(--upi-green)",
               fontSize: 12,
-              fontWeight: 700,
+              fontWeight: 600,
               cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
             }}
           >
-            View All Statements ›
+            <span>View All</span>
+            <IconChevronRight size={14} />
           </button>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {[
-            { name: "Priya Sharma", upi: "priya@liquidrs", amount: "₹500.00", type: "DEBIT", time: "Today, 2:14 PM", icon: "👩‍💼", color: "#EC4899" },
-            { name: "Added Money (USD Reserve)", upi: "vault@liquidrs", amount: "+₹5,533.33", type: "CREDIT", time: "Today, 1:45 PM", icon: "➕", color: "#00E575" },
-            { name: "Chai Point", upi: "chaipoint@liquidrs", amount: "₹80.00", type: "DEBIT", time: "11 Sep 2026", icon: "☕", color: "#F59E0B" },
+            { name: "Priya Sharma", amount: "₹500.00", type: "DEBIT", time: "Today, 2:14 PM", initials: "PS", color: "#6366F1" },
+            { name: "Minted L₹S (USD Reserve)", amount: "+₹5,533.33", type: "CREDIT", time: "Today, 1:45 PM", initials: "L₹", color: "#00E575" },
+            { name: "Chai Point", amount: "₹80.00", type: "DEBIT", time: "11 Sep 2026", initials: "CP", color: "#F59E0B" },
           ].map((tx, idx) => (
             <div
               key={idx}
               onClick={() => navigate("/activity")}
+              className="apple-glass-subtle"
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                padding: "10px 12px",
+                padding: "11px 14px",
                 borderRadius: 14,
-                background: "var(--surface-2)",
                 cursor: "pointer",
               }}
             >
               <div
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 38,
+                  height: 38,
                   borderRadius: "50%",
                   background: `${tx.color}22`,
                   border: `1px solid ${tx.color}55`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: 16,
+                  fontSize: 12,
+                  fontWeight: 800,
+                  color: "#FFFFFF",
                 }}
               >
-                {tx.icon}
+                {tx.type === "DEBIT" ? (
+                  <IconArrowUpRight size={16} color={tx.color} />
+                ) : (
+                  <IconArrowDownLeft size={16} color={tx.color} />
+                )}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF" }}>{tx.name}</div>
-                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{tx.time} · <span style={{ color: "#00E575" }}>● Successful</span></div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#FFFFFF", letterSpacing: "-0.01em" }}>{tx.name}</div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{tx.time} · <span style={{ color: "#00E575" }}>Settled</span></div>
               </div>
               <div style={{ textAlign: "right" }}>
                 <div
                   style={{
-                    fontSize: 15,
-                    fontWeight: 800,
+                    fontSize: 14,
+                    fontWeight: 700,
                     color: tx.type === "CREDIT" ? "#00E575" : "#FFFFFF",
+                    fontVariantNumeric: "tabular-nums",
                   }}
                 >
                   {tx.amount}

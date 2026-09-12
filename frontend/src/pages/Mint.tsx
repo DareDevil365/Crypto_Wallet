@@ -11,6 +11,7 @@ import {
   formatUSDT,
 } from "../hooks/useContracts";
 import TxButton from "../components/TxButton";
+import { IconPlus, IconCheck, IconShield } from "../components/Icons";
 
 const USD_PRESETS = ["50", "100", "250", "500"];
 
@@ -35,7 +36,7 @@ export default function Mint() {
     if (collateralBigInt === 0n) return;
     const hash = await approve(collateralBigInt);
     setApprovedAmount(collateralBigInt);
-    toast.success("Deposit authorized!", { icon: "✓" });
+    toast.success("USD collateral deposit authorized");
     return hash;
   };
 
@@ -46,59 +47,74 @@ export default function Mint() {
     await refetchUSDT();
     setCollateralInput("");
     setApprovedAmount(0n);
-    toast.success(`₹${formatLRS(previewAmount)} added to your wallet!`, { icon: "✦" });
+    toast.success(`₹${formatLRS(previewAmount)} L₹S minted to your wallet!`);
     return hash;
   };
 
   return (
-    <div className="page-container" style={{ maxWidth: 580, margin: "0 auto" }}>
+    <div className="page-container" style={{ maxWidth: 560, margin: "0 auto" }}>
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.5px" }}>
-          Add Money to Wallet
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+          <span
+            style={{
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: "0.06em",
+              color: "var(--upi-green)",
+              background: "rgba(0, 229, 117, 0.1)",
+              border: "1px solid rgba(0, 229, 117, 0.25)",
+              padding: "2px 8px",
+              borderRadius: 20,
+            }}
+          >
+            SMART CONTRACT ISSUANCE
+          </span>
+        </div>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", letterSpacing: "-0.03em" }}>
+          Mint Liquid RS (L₹S)
         </h1>
         <p style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 2 }}>
-          100% reserve-backed Liquid Rupee issuance
+          Lock digital USD reserves to mint 100% backed INR-pegged cryptocurrency
         </p>
       </div>
 
-      {/* ── Available Balance Banner ────────────────────────────────────────── */}
+      {/* ── Available Balance Banner (Apple Glass) ────────────────────────────────────────── */}
       <div
-        className="fintech-card"
+        className="apple-glass-card"
         style={{
           padding: "16px 20px",
-          marginBottom: 20,
+          marginBottom: 18,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          background: "var(--surface-1)",
         }}
       >
         <div>
-          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>
             Available USD Reserves
           </div>
-          <div style={{ fontSize: 16, fontWeight: 800, color: "#FFFFFF", marginTop: 2 }}>
+          <div style={{ fontSize: 17, fontWeight: 800, color: "#FFFFFF", marginTop: 2, fontVariantNumeric: "tabular-nums" }}>
             ${formatUSDT(usdtBalance)} USDT
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>
             Guaranteed FX Peg
           </div>
-          <div style={{ fontSize: 16, fontWeight: 800, color: "#00E575", marginTop: 2 }}>
+          <div style={{ fontSize: 17, fontWeight: 800, color: "#00E575", marginTop: 2, fontVariantNumeric: "tabular-nums" }}>
             1 USD = {pegDisplay}
           </div>
         </div>
       </div>
 
-      {/* ── Deposit Amount Input Card ───────────────────────────────────────── */}
-      <div className="fintech-card" style={{ padding: "24px", marginBottom: 20 }}>
-        <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 12 }}>
-          Deposit Amount (USDT)
+      {/* ── Deposit Amount Input Card (Apple Glass) ───────────────────────────────────────── */}
+      <div className="apple-glass-card" style={{ padding: "26px 22px", marginBottom: 20 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>
+          Collateral Deposit (USDT)
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 16 }}>
           <span style={{ fontSize: 32, fontWeight: 800, color: "#00E575" }}>$</span>
           <input
             type="number"
@@ -106,14 +122,16 @@ export default function Mint() {
             value={collateralInput}
             onChange={(e) => setCollateralInput(e.target.value)}
             style={{
-              fontSize: 36,
+              fontSize: 44,
               fontWeight: 800,
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+              fontVariantNumeric: "tabular-nums",
               background: "transparent",
               border: "none",
               color: "#FFFFFF",
               outline: "none",
               width: "100%",
+              letterSpacing: "-0.03em",
             }}
           />
         </div>
@@ -125,15 +143,13 @@ export default function Mint() {
               key={preset}
               type="button"
               onClick={() => setCollateralInput(preset)}
+              className="btn-pill"
               style={{
-                padding: "6px 14px",
-                borderRadius: 20,
-                background: collateralInput === preset ? "rgba(0, 229, 117, 0.2)" : "var(--surface-2)",
-                border: collateralInput === preset ? "1px solid #00E575" : "1px solid var(--border-subtle)",
+                background: collateralInput === preset ? "rgba(0, 229, 117, 0.16)" : "rgba(255, 255, 255, 0.04)",
+                borderColor: collateralInput === preset ? "#00E575" : "rgba(255, 255, 255, 0.08)",
                 color: collateralInput === preset ? "#00E575" : "var(--text-secondary)",
-                fontSize: 12,
                 fontWeight: 700,
-                cursor: "pointer",
+                fontSize: 12,
               }}
             >
               ${preset}
@@ -145,28 +161,31 @@ export default function Mint() {
         <div
           style={{
             padding: "16px 18px",
-            background: "var(--surface-2)",
+            background: "rgba(255, 255, 255, 0.03)",
             borderRadius: 16,
-            border: "1px solid var(--border-subtle)",
+            border: "1px solid rgba(255, 255, 255, 0.08)",
             marginBottom: 20,
           }}
         >
-          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700 }}>
-            You will receive in Liquid Rupee wallet:
+          <div style={{ fontSize: 11, color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.05em" }}>
+            You will mint in Liquid RS (L₹S) cryptocurrency:
           </div>
           <div
             style={{
-              fontSize: 32,
-              fontWeight: 900,
+              fontSize: 34,
+              fontWeight: 800,
               color: "#00E575",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+              fontVariantNumeric: "tabular-nums",
+              letterSpacing: "-0.03em",
               marginTop: 4,
             }}
           >
-            ₹{formatLRS(previewAmount)}
+            ₹{formatLRS(previewAmount)}{" "}
+            <span style={{ fontSize: 16, fontWeight: 700, color: "#FFFFFF" }}>L₹S</span>
           </div>
           <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
-            Backed at 150% reserve ratio · 1 LRS = ₹1.00
+            Backed at 150% reserve ratio · 1 L₹S = ₹1.00 Pegged
           </div>
         </div>
 
@@ -174,14 +193,14 @@ export default function Mint() {
         <div style={{ display: "flex", gap: 12 }}>
           {!hasApproval ? (
             <TxButton
-              label="Authorize Deposit"
+              label="Authorize USDT Collateral"
               onClick={handleApprove}
               disabled={collateralBigInt === 0n}
               style={{ width: "100%", padding: "14px", borderRadius: 14 }}
             />
           ) : (
             <TxButton
-              label="Add ₹ to Wallet"
+              label="Mint Liquid RS (L₹S)"
               onClick={handleMint}
               disabled={collateralBigInt === 0n}
               style={{ width: "100%", padding: "14px", borderRadius: 14 }}

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { IconCheck, IconZap } from "./Icons";
 
 interface UpiSuccessModalProps {
   isOpen: boolean;
@@ -76,8 +77,8 @@ export default function UpiSuccessModal({
         style={{
           position: "fixed",
           inset: 0,
-          background: "rgba(2, 8, 16, 0.85)",
-          backdropFilter: "blur(8px)",
+          background: "rgba(4, 6, 12, 0.8)",
+          backdropFilter: "blur(20px)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -87,20 +88,19 @@ export default function UpiSuccessModal({
         onClick={onClose}
       >
         <motion.div
-          initial={{ scale: 0.85, opacity: 0, y: 20 }}
+          initial={{ scale: 0.88, opacity: 0, y: 16 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.85, opacity: 0, y: 20 }}
+          exit={{ scale: 0.88, opacity: 0, y: 16 }}
           transition={{ type: "spring", stiffness: 350, damping: 25 }}
           onClick={(e) => e.stopPropagation()}
+          className="apple-glass-card"
           style={{
-            background: "linear-gradient(180deg, #0B1F3A 0%, #060D1A 100%)",
-            border: "1px solid rgba(16, 185, 129, 0.3)",
-            borderRadius: 24,
-            padding: "36px 32px",
+            padding: "36px 30px",
             maxWidth: 420,
             width: "100%",
             textAlign: "center",
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.15)",
+            borderRadius: 26,
+            boxShadow: "inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 30px 60px rgba(0, 0, 0, 0.75)",
           }}
         >
           {/* Animated Green Tick */}
@@ -109,36 +109,26 @@ export default function UpiSuccessModal({
             animate={{ scale: [0, 1.2, 1] }}
             transition={{ duration: 0.45, ease: "easeOut" }}
             style={{
-              width: 72,
-              height: 72,
+              width: 68,
+              height: 68,
               borderRadius: "50%",
-              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+              background: "linear-gradient(135deg, #00E575 0%, #00B359 100%)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              margin: "0 auto 20px",
-              boxShadow: "0 0 30px rgba(16, 185, 129, 0.4)",
+              margin: "0 auto 18px",
+              boxShadow: "0 0 32px rgba(0, 229, 117, 0.45)",
             }}
           >
-            <svg
-              width="36"
-              height="36"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+            <IconCheck size={32} color="#031408" strokeWidth={3} />
           </motion.div>
 
           <h2
             style={{
               fontSize: 22,
               fontWeight: 800,
-              color: "#ffffff",
+              color: "#FFFFFF",
+              letterSpacing: "-0.02em",
               marginBottom: 4,
             }}
           >
@@ -147,13 +137,13 @@ export default function UpiSuccessModal({
           <p
             style={{
               fontSize: 13,
-              color: "#10b981",
+              color: "var(--upi-green)",
               fontWeight: 600,
               marginBottom: 20,
-              letterSpacing: "0.3px",
+              letterSpacing: "0.2px",
             }}
           >
-            Instant UPI Settlement Confirmed
+            Liquid RS (L₹S) Settled on EVM
           </p>
 
           {/* Amount Paid */}
@@ -161,21 +151,26 @@ export default function UpiSuccessModal({
             style={{
               background: "rgba(255, 255, 255, 0.04)",
               border: "1px solid rgba(255, 255, 255, 0.08)",
-              borderRadius: 16,
+              borderRadius: 18,
               padding: "20px 16px",
               marginBottom: 20,
             }}
           >
             <div
               style={{
-                fontSize: 36,
-                fontWeight: 900,
-                color: "#f0f4ff",
-                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: 38,
+                fontWeight: 800,
+                color: "#FFFFFF",
+                fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
                 lineHeight: 1.1,
+                fontVariantNumeric: "tabular-nums",
+                letterSpacing: "-0.03em",
               }}
             >
-              ₹{amount}
+              ₹{amount}{" "}
+              <span style={{ fontSize: 18, color: "var(--upi-green)", fontWeight: 700 }}>
+                L₹S
+              </span>
             </div>
             <div
               style={{
@@ -185,7 +180,7 @@ export default function UpiSuccessModal({
                 fontWeight: 500,
               }}
             >
-              Paid to <strong style={{ color: "#ffffff" }}>{recipientName}</strong>
+              Transferred to <strong style={{ color: "#FFFFFF" }}>{recipientName}</strong>
             </div>
             <div
               style={{
@@ -201,10 +196,10 @@ export default function UpiSuccessModal({
               <div
                 style={{
                   fontSize: 12,
-                  color: "#C9A84C",
+                  color: "#00E575",
                   marginTop: 8,
                   padding: "4px 10px",
-                  background: "rgba(201, 168, 76, 0.08)",
+                  background: "rgba(0, 229, 117, 0.08)",
                   borderRadius: 6,
                   display: "inline-block",
                 }}
@@ -219,10 +214,10 @@ export default function UpiSuccessModal({
             style={{
               fontSize: 12,
               color: "var(--text-muted)",
-              lineHeight: 1.8,
+              lineHeight: 1.9,
               textAlign: "left",
-              padding: "0 8px 16px",
-              borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+              padding: "0 6px 14px",
+              borderBottom: "1px solid rgba(255, 255, 255, 0.07)",
               marginBottom: 16,
             }}
           >
@@ -238,51 +233,52 @@ export default function UpiSuccessModal({
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span>Debit from</span>
-              <span style={{ color: "var(--text-secondary)" }}>Liquid Rupee Wallet</span>
+              <span style={{ color: "#FFFFFF", fontWeight: 600 }}>Liquid RS (L₹S) Crypto Vault</span>
             </div>
           </div>
 
           {/* Under-the-hood On-Chain Details (For Judges) */}
           <details
             style={{
-              marginBottom: 24,
+              marginBottom: 22,
               textAlign: "left",
-              background: "rgba(6, 13, 26, 0.6)",
-              borderRadius: 10,
-              padding: "8px 12px",
-              border: "1px solid rgba(201, 168, 76, 0.15)",
+              background: "rgba(255, 255, 255, 0.03)",
+              borderRadius: 12,
+              padding: "10px 14px",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
               cursor: "pointer",
             }}
           >
             <summary
               style={{
                 fontSize: 11,
-                fontWeight: 600,
-                color: "#C9A84C",
+                fontWeight: 700,
+                color: "var(--upi-green)",
                 display: "flex",
                 alignItems: "center",
                 gap: 6,
                 userSelect: "none",
               }}
             >
-              <span>⚡ View On-Chain Blockchain Receipt (For Judges)</span>
+              <IconZap size={13} color="var(--upi-green)" />
+              <span>View On-Chain Blockchain Receipt (For Judges)</span>
             </summary>
             <div style={{ marginTop: 10, fontSize: 11, color: "var(--text-secondary)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={{ color: "var(--text-muted)" }}>Network:</span>
-                <span>EVM Layer 2 / Local</span>
+                <span style={{ color: "var(--text-muted)" }}>Token Contract:</span>
+                <span style={{ color: "#FFFFFF" }}>LiquidRS (L₹S) ERC-20</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
                 <span style={{ color: "var(--text-muted)" }}>Settlement:</span>
-                <span style={{ color: "#10b981" }}>0.8s Finality</span>
+                <span style={{ color: "#00E575" }}>0.8s EVM Finality</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
                 <span style={{ color: "var(--text-muted)" }}>Gas Fee:</span>
-                <span>₹0.00 (Gasless Meta-Tx)</span>
+                <span>₹0.00 (Zero Gas Protocol)</span>
               </div>
               {txHash && (
-                <div style={{ wordBreak: "break-all", marginTop: 4, fontFamily: "monospace", fontSize: 10 }}>
-                  <span style={{ color: "var(--text-muted)" }}>Hash: </span>
+                <div style={{ wordBreak: "break-all", marginTop: 6, fontFamily: "monospace", fontSize: 10, background: "rgba(0,0,0,0.2)", padding: "6px 8px", borderRadius: 6 }}>
+                  <span style={{ color: "var(--text-muted)" }}>Tx Hash: </span>
                   <span style={{ color: "#60a5fa" }}>{txHash}</span>
                 </div>
               )}
@@ -298,11 +294,7 @@ export default function UpiSuccessModal({
               padding: "14px",
               fontSize: 15,
               fontWeight: 700,
-              borderRadius: 12,
-              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-              border: "none",
-              color: "#ffffff",
-              boxShadow: "0 0 20px rgba(16, 185, 129, 0.3)",
+              borderRadius: 14,
             }}
           >
             Done

@@ -1,21 +1,27 @@
-/* ── LiquidRS Modern Fintech Design System ──────────────────────────────
- * Inspired by super.money, PhonePe, Navi, and Jupiter UPI apps.
+/* ── Apple Glassmorphism & High-End Fintech Design System ───────────────
+ * Inspired by Apple Pay, iOS HIG, Revolut, and Linear.
  */
 
 :root {
-  --bg-main: #090C15;
-  --surface-1: #111625;
-  --surface-2: #171E32;
-  --surface-elevated: #1F2942;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-focus: #00E575;
+  --bg-main: #080A10;
+  --bg-ambient-1: rgba(99, 102, 241, 0.08);
+  --bg-ambient-2: rgba(0, 229, 117, 0.06);
 
-  /* Fintech Accents */
+  /* Apple Frosted Glass Tokens */
+  --glass-bg: rgba(22, 28, 44, 0.65);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.04);
+  --glass-bg-elevated: rgba(30, 38, 58, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-subtle: rgba(255, 255, 255, 0.08);
+  --glass-specular: inset 0 1px 1px 0 rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.65);
+  --glass-blur: blur(28px) saturate(190%);
+
+  /* Accent Tokens */
   --upi-green: #00E575;
-  --upi-green-glow: rgba(0, 229, 117, 0.25);
-  --brand-purple: #7C3AED;
-  --brand-purple-glow: rgba(124, 58, 237, 0.3);
-  --brand-blue: #3B82F6;
+  --upi-green-glow: rgba(0, 229, 117, 0.28);
+  --brand-indigo: #6366F1;
+  --brand-cyan: #38BDF8;
   --brand-amber: #F59E0B;
   --brand-rose: #F43F5E;
 
@@ -25,9 +31,9 @@
   --text-muted: #64748B;
 
   /* Radii */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
   --radius-xl: 28px;
   --radius-full: 9999px;
 }
@@ -42,88 +48,90 @@ html, body, #root {
   min-height: 100%;
   background: var(--bg-main);
   color: var(--text-primary);
-  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Plus Jakarta Sans", "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Fintech Cards & Surfaces ────────────────────────────────────────────── */
-
-.fintech-card {
-  background: var(--surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.fintech-card-interactive:hover {
-  border-color: rgba(255, 255, 255, 0.16);
-  transform: translateY(-2px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-}
-
-.fintech-hero-card {
-  background: linear-gradient(135deg, #13192B 0%, #19223A 60%, #151A2E 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.fintech-hero-card::before {
+/* Ambient mesh backdrop behind frosted glass */
+body::before {
   content: "";
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, rgba(0, 229, 117, 0.12) 0%, transparent 70%);
+  position: fixed;
+  top: -20%;
+  left: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--bg-ambient-1) 0%, transparent 65%);
   pointer-events: none;
+  z-index: 0;
 }
 
-/* Glass card backward compatibility */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 0%;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--bg-ambient-2) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Apple Frosted Glass Cards ───────────────────────────────────────────── */
+
+.apple-glass-card,
+.fintech-card,
 .glass-card {
-  background: var(--surface-1);
-  border: 1px solid var(--border-subtle);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-specular), var(--glass-shadow);
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Typography & Gradients ──────────────────────────────────────────────── */
-
-.gradient-text-green {
-  background: linear-gradient(135deg, #00E575 0%, #34D399 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.apple-glass-card:hover,
+.fintech-card-interactive:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 24px 50px -10px rgba(0, 0, 0, 0.75);
 }
 
-.gradient-text-purple {
-  background: linear-gradient(135deg, #A78BFA 0%, #818CF8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.apple-glass-hero,
+.fintech-hero-card {
+  background: linear-gradient(135deg, rgba(28, 36, 56, 0.75) 0%, rgba(18, 24, 38, 0.65) 100%);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 0.25), 0 28px 60px -15px rgba(0, 0, 0, 0.7);
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
 }
 
-.gradient-text-gold {
-  background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.apple-glass-subtle {
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border-subtle);
+  border-radius: var(--radius-md);
 }
 
-/* ── Fintech Buttons ─────────────────────────────────────────────────────── */
+/* ── Apple Style Buttons ─────────────────────────────────────────────────── */
 
 .btn-primary {
   background: linear-gradient(135deg, #00E575 0%, #00C864 100%);
-  color: #05140A;
-  font-weight: 800;
+  color: #031408;
+  font-weight: 700;
   border: none;
   border-radius: var(--radius-md);
-  padding: 14px 24px;
-  font-size: 15px;
+  padding: 13px 24px;
+  font-size: 14px;
+  letter-spacing: -0.01em;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: inherit;
@@ -131,53 +139,60 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 4px 20px var(--upi-green-glow);
+  box-shadow: 0 4px 18px var(--upi-green-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0, 229, 117, 0.4);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 24px rgba(0, 229, 117, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .btn-primary:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
 .btn-secondary {
-  background: var(--surface-2);
+  background: rgba(255, 255, 255, 0.06);
   color: #FFFFFF;
-  font-weight: 700;
-  border: 1px solid var(--border-subtle);
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-md);
-  padding: 12px 20px;
-  font-size: 14px;
+  padding: 11px 18px;
+  font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--surface-elevated);
-  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .btn-pill {
   border-radius: var(--radius-full);
   padding: 6px 14px;
   font-size: 12px;
-  font-weight: 700;
-  border: 1px solid var(--border-subtle);
-  background: rgba(255, 255, 255, 0.05);
+  font-weight: 600;
+  border: 1px solid var(--glass-border-subtle);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .btn-pill:hover, .btn-pill.active {
-  background: var(--surface-elevated);
+  background: rgba(255, 255, 255, 0.1);
   color: #FFFFFF;
   border-color: rgba(255, 255, 255, 0.2);
 }
@@ -186,33 +201,36 @@ html, body, #root {
 
 .input-field {
   width: 100%;
-  background: var(--surface-2);
-  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
+  padding: 13px 16px;
   color: var(--text-primary);
   font-size: 15px;
   font-family: inherit;
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .input-field:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px var(--upi-green-glow);
-  background: var(--surface-elevated);
+  border-color: var(--upi-green);
+  box-shadow: 0 0 0 3px var(--upi-green-glow), inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .input-field::placeholder {
   color: var(--text-muted);
 }
 
+/* Hide HTML number arrows */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 input[type=number] {
   -moz-appearance: textfield;
 }
@@ -222,12 +240,12 @@ input[type=number] {
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 5px;
+  padding: 3px 9px;
   border-radius: var(--radius-full);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.03em;
 }
 
 .badge-success {
@@ -242,13 +260,7 @@ input[type=number] {
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
-.badge-error {
-  background: rgba(244, 63, 94, 0.12);
-  color: #F43F5E;
-  border: 1px solid rgba(244, 63, 94, 0.3);
-}
-
-/* ── UPI Action Squircle ──────────────────────────────────────────────────── */
+/* ── Action Squircle Buttons ─────────────────────────────────────────────── */
 
 .upi-action-btn {
   display: flex;
@@ -262,15 +274,15 @@ input[type=number] {
 }
 
 .upi-action-icon {
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .upi-action-btn:hover .upi-action-icon {
@@ -279,23 +291,25 @@ input[type=number] {
 
 .upi-action-label {
   font-size: 12px;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-weight: 600;
+  color: var(--text-primary);
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
-/* ── PhonePe / super.money Bottom Navigation ─────────────────────────────── */
+/* ── Bottom Dock (Apple iOS / super.money Style) ─────────────────────────── */
 
 .fintech-bottom-dock {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(10, 14, 23, 0.94);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(12, 16, 26, 0.78);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 -10px 30px rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -307,11 +321,12 @@ input[type=number] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   text-decoration: none;
   color: var(--text-muted);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   transition: all 0.15s ease;
   min-width: 48px;
 }
@@ -322,53 +337,28 @@ input[type=number] {
 
 .dock-scan-btn {
   position: relative;
-  top: -16px;
-  width: 58px;
-  height: 58px;
+  top: -14px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00E575 0%, #00B359 100%);
+  background: linear-gradient(135deg, #00E575 0%, #00C864 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(0, 229, 117, 0.45);
+  box-shadow: 0 8px 24px var(--upi-green-glow), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   border: 3px solid var(--bg-main);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
-  color: #05140A;
-  font-size: 24px;
+  color: #031408;
 }
 
 .dock-scan-btn:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(0, 229, 117, 0.6);
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 12px 30px rgba(0, 229, 117, 0.55);
 }
 
-/* ── Scrollbars & Spinner ────────────────────────────────────────────────── */
-
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 2px;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(0, 229, 117, 0.3);
-  border-top-color: #00E575;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ── Responsive Mobile Classes ───────────────────────────────────────────── */
+/* ── Utility & Spinner ───────────────────────────────────────────────────── */
 
 .page-container {
   padding: 32px 40px;
@@ -388,6 +378,21 @@ input[type=number] {
   right: 24px;
 }
 
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 229, 117, 0.3);
+  border-top-color: #00E575;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 @media (max-width: 768px) {
   .desktop-only {
     display: none !important;
@@ -402,16 +407,15 @@ input[type=number] {
     display: none !important;
   }
   .page-container {
-    padding: 14px 14px 96px 14px !important;
+    padding: 14px 14px 92px 14px !important;
   }
   .mobile-grid-1col {
     grid-template-columns: 1fr !important;
   }
   .demo-reset-btn {
-    bottom: 84px !important;
+    bottom: 80px !important;
     right: 14px !important;
-    width: 38px !important;
-    height: 38px !important;
-    font-size: 14px !important;
+    width: 36px !important;
+    height: 36px !important;
   }
 }
